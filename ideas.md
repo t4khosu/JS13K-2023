@@ -15,6 +15,10 @@ It is important to note that the following events did not happen (or were not si
 * Could be any battle, see wiki list
 * tower defense or a mini strategy game
 
+## Medieval Bitlife
+* Similar to the original [Bitlife](https://bitlifeonline.com/) but in Medieval times
+* Would be a highly frustrating game but an interesting learning experience
+
 ## Catharian
 * You play a catharian
 * The catholic church wants to kill you
