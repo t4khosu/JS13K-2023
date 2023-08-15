@@ -30,6 +30,8 @@ Challenges
   * ...
 * Deciding on all the attributes and behaviours people of the town can have
 
+![Latin Translation](LatinTranslation.png)
+
 ## Brewery/Tavern/Inn Management
 The player has the role of an owner of a brewery, tavern (and inn). Every day the player gets N action points with which they can brew beer, sell beer, manage their private life, etc. Brewing beer in this era of time can be dangerous, since you don't want to give your customers something with too little alcohol. Otherwise, bacteria could kill your customers. 
 The goal is to generate a lot of revenue and improve your buildings.
