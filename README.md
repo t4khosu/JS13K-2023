@@ -12,10 +12,10 @@ The powershell script [compress.ps1](scripts/compress.ps1) iterates over differe
 It is a brute force approach which works fine when the source directory/files are small.
 
 ## Ideas
-General and unrefined game concepts can be found [here](ideas/ideas.md).
+General and unrefined game concepts can be found [here](ideas/README.md).
 
 ## Post Mortem
 [POST MORTEM](post-mortem.md)
 
 ## License
-[LICENSE](LICENSE.md)
+[LICENSE](LICENSE)
