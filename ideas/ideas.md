@@ -69,6 +69,9 @@ Pro
 
 Contra
 * Not extremely creative
+* depending on sprites could become too big
+
+![Genghis Khan](Genghis Khan.png)
 
 ## Battles of the time
 * Could be any battle, see wiki list
