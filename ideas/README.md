@@ -30,7 +30,7 @@ Challenges
   * ...
 * Deciding on all the attributes and behaviours people of the town can have
 
-![Latin Translation](LatinTranslation.png)
+![Latin Translation](img/LatinTranslation.png)
 
 ## Genghis Khan
 A mini real time strategy game in whichg Ghengis Kan takes over the world. The game is level based and each mission represents a simple historic event.
@@ -43,7 +43,7 @@ Contra
 * Not extremely creative
 * depending on sprites could become too big
 
-![Genghis Khan](GenghisKhan.png)
+![Genghis Khan](img/GenghisKhan.png)
 
 ## Brewery/Tavern/Inn Management
 The player has the role of an owner of a brewery, tavern (and inn). Every day the player gets N action points with which they can brew beer, sell beer, manage their private life, etc. Brewing beer in this era of time can be dangerous, since you don't want to give your customers something with too little alcohol. Otherwise, bacteria could kill your customers. 
@@ -55,7 +55,7 @@ Pro
 Contra
 * Not limited to the 13. century
 
-![Brewery](brewery.png)
+![Brewery](img/brewery.png)
 
 ## The Catharian
 "The Catharian" is a Rogue Like Game inspired by Hades in which the player steps into the shoes of a Catharian.
@@ -112,7 +112,7 @@ Killing enemies also grants the player money (holy coins?). They can use it to i
 
 The following gif demonstrates how the gameplay could look like.
 
-![The Catharian Gameplay](TheCatharian.gif)
+![The Catharian Gameplay](img/TheCatharian.gif)
 
 ## Church in a Mafia Simulation
 * Increase the number of followers
