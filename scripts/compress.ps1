@@ -1,5 +1,4 @@
-$sourceDir = "../dist"
-$targetDir = "../js13k-game-zip"
+param($Source,$Target)
 
 $levels = @(0, 1, 3, 5, 7, 9)
 $methods = @("Deflate", "Deflate64", "BZip2", "LZMA", "PPMd")
@@ -13,11 +12,11 @@ $bestSize = [long]::MaxValue
 foreach ($level in $levels) {
     foreach ($method in $methods) {
         # Define the archive filename based on the compression level
-        $archiveName = "game.$method.$level.zip"
-        $archivePath = Join-Path -Path $targetDir -ChildPath $archiveName
+        $archiveName = "src.$method.$level.zip"
+        $archivePath = Join-Path -Path $Target -ChildPath $archiveName
 
         # Create the archive with the specified compression level
-        7z a -tzip -mx="$level" -mm="$method" "$archivePath" "$sourceDir"
+        7z a -tzip -mx="$level" -mm="$method" "$archivePath" "$Source"
 
         # Get the size of the created archive
         $archiveSize = (Get-Item $archivePath).Length

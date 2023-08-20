@@ -1,0 +1,16 @@
+import {init, GameLoop, initKeys} from 'kontra'
+import Player from "./Player";
+
+init()
+initKeys()
+
+const player = new Player();
+
+GameLoop({
+    update: () => {
+        player.update();
+    },
+    render: () => {
+        player.render();
+    }
+}).start()
