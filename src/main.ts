@@ -1,16 +1,16 @@
 import {init, GameLoop, initKeys} from 'kontra'
-import Player from "./Player";
+import {Player} from "./entities/player";
 
-init()
+init() // Kontra init
 initKeys()
 
-const player = new Player();
+const player = new Player()
 
 GameLoop({
     update: () => {
-        player.update();
+        player.update()
     },
     render: () => {
-        player.render();
+        player.render()
     }
 }).start()

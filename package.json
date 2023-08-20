@@ -6,7 +6,6 @@
     "build": "rollup -c && powershell ./scripts/build.ps1"
   },
   "dependencies": {
-    "google-closure-compiler": "^20230802.0.0",
     "kontra": "^9.0.0"
   },
   "devDependencies": {
@@ -26,6 +25,7 @@
     "rollup-plugin-kontra": "^1.0.1",
     "rollup-plugin-shell": "^1.0.9",
     "tslib": "^2.6.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "google-closure-compiler": "^20230802.0.0"
   }
 }
