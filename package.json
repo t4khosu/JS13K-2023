@@ -1,9 +1,15 @@
 {
+  "name": "catharian",
+  "private": true,
+  "version": "0.0.0",
   "author": "Tim and Christian",
   "type": "module",
   "scripts": {
     "serve": "rollup -c -w",
-    "build": "rollup -c && powershell ./scripts/build.ps1"
+    "build": "rollup -c && powershell ./scripts/build.ps1",
+    "dev": "vite",
+    "build2": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "kontra": "^9.0.0"
@@ -26,6 +32,10 @@
     "rollup-plugin-shell": "^1.0.9",
     "tslib": "^2.6.1",
     "typescript": "^5.1.6",
-    "google-closure-compiler": "^20230802.0.0"
+    "google-closure-compiler": "^20230802.0.0",
+    "eslint": "^8.47.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "vite": "^4.4.5"
   }
 }
