@@ -23,6 +23,7 @@ export default {
                 scale: true,
                 group: true,
                 anchor: true,
+                rotation: true,
             },
             sprite: {
                 animation: true,

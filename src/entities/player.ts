@@ -6,7 +6,9 @@ import {
 import {getSpriteById} from "../utils";
 
 export class Player extends GameObjectClass {
-    sprite: Sprite;
+    characterSprite: Sprite;
+    rightHandWeaponSprite: Sprite;
+    leftHandWeaponWprite: Sprite;
     dir: number = 1;
     speed: number = 3;
 
@@ -16,10 +18,16 @@ export class Player extends GameObjectClass {
     zDir: number = 1;
 
     constructor() {
-        super({x: 5, y: 5, anchor: {x: 0.5, y: 0.5}, scaleX: 4, scaleY: 4});
+        super({x: 5, y: 5, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
 
-        this.sprite = getSpriteById(4);
-        this.addChild(this.sprite);
+        this.characterSprite = getSpriteById(4);
+        this.rightHandWeaponSprite = getSpriteById(6);
+        this.leftHandWeaponWprite = getSpriteById(7);
+        this.rightHandWeaponSprite.x += 4;
+        this.leftHandWeaponWprite.x -= 3;
+        this.addChild(this.characterSprite);
+        this.addChild(this.rightHandWeaponSprite);
+        this.addChild(this.leftHandWeaponWprite);
     }
 
     update() {
@@ -42,7 +50,7 @@ export class Player extends GameObjectClass {
             if(this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
         }
 
-        this.sprite.y = -this.z;
+        this.characterSprite.y = -this.z;
 
         let vec = Vector(vx, vy);
         vec = vec.normalize();
