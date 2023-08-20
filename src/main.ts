@@ -1,16 +1,20 @@
-import {init, GameLoop, initKeys} from 'kontra'
+import {init, GameLoop, initKeys, load, setImagePath, loadImage, imageAssets, Sprite} from 'kontra'
 import {Player} from "./entities/player";
 
-init() // Kontra init
+init()
 initKeys()
 
-const player = new Player()
+load(
+    'assets/characters.png',
+).then(function () {
+    const player = new Player()
 
-GameLoop({
-    update: () => {
-        player.update()
-    },
-    render: () => {
-        player.render()
-    }
-}).start()
+    GameLoop({
+        update: () => {
+            player.update()
+        },
+        render: () => {
+            player.render()
+        }
+    }).start()
+});
