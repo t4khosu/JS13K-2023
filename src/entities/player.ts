@@ -17,6 +17,14 @@ export class Player extends GameObjectClass {
     zSpeed: number = 0.45;
     zDir: number = 1;
 
+    dashing: boolean = false;
+    dashingMaxTimer: number = 70;
+    dashingTimeout: number = 80;
+    dashingTimeoutTimer: number = 0;
+    dashingTimer: number = 0;
+    dashingSpeed: number = 10;
+    dashingDirection: Vector = Vector(0, 0);
+
     constructor() {
         super({x: 5, y: 5, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
 
@@ -35,14 +43,17 @@ export class Player extends GameObjectClass {
 
         let vx = 0;
         let vy = 0;
+        let dash = false;
+
         if (keyPressed('w')) vy = -1;
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
+        if (keyPressed('space')) dash = !this.dashing && this.dashingTimeoutTimer === 0;
 
         this.moving = vx != 0 || vy != 0;
 
-        if(!this.moving){
+        if(!this.moving || this.dashing){
             this.z = 0;
             this.zDir = 1;
         }else{
@@ -60,8 +71,29 @@ export class Player extends GameObjectClass {
             this.scaleX *= -1;
         }
 
-        this.x += vec.x * this.speed
-        this.y += vec.y * this.speed
+        if(dash){
+            this.dashing = true;
+            this.dashingDirection = vec;
+            this.dashingTimer = this.dashingMaxTimer;
+            this.dashingTimeoutTimer = this.dashingTimeout;
+        }
+
+        if(!this.dashing){
+            this.move(vec, this.speed);
+        }else{
+            this.move(this.dashingDirection, this.dashingSpeed);
+            this.dashingTimer = Math.max(this.dashingTimer - 5, 0);
+            if(this.dashingTimer === 0){
+                this.dashing = false;
+            }
+        }
+
+        this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
+    }
+
+    move(vec: Vector, speed: number){
+        this.x += vec.x * speed
+        this.y += vec.y * speed
     }
 
     /**
