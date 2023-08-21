@@ -22,3 +22,9 @@
 ## 2023-08-20
 
 * Project Setup
+
+## 2023-08-23
+* Build setup struggle: Decide on using the js13k-vite-plugins package
+* Create a player that can walk around
+* Player can dash
+* Player can use a dagger to attack
