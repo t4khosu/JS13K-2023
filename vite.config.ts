@@ -29,11 +29,6 @@ const viteOptions: BuildOptions = {
 export default defineConfig({
     build: viteOptions,
     plugins: [
-        copy({
-            targets: [
-                {src: 'assets/', dest: 'public'},
-            ]
-        }),
         svg({
             multipass: true,
         }),
@@ -60,6 +55,5 @@ export default defineConfig({
             },
             debug: false
         }),
-
     ],
 });
