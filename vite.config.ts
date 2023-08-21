@@ -12,21 +12,10 @@ import {
 } from 'js13k-vite-plugins';
 // @ts-ignore
 import kontra from 'rollup-plugin-kontra';
-import {BuildOptions, defineConfig} from 'vite';
-
-const viteOptions: BuildOptions = {
-    ...defaultViteBuildOptions,
-    // rollupOptions: {
-    //     ...defaultRollupOptions,
-    //     output: {
-    //         dir: 'bundle',
-    //         format: 'iife',
-    //     },
-    // }
-}
+import {defineConfig} from 'vite';
 
 export default defineConfig({
-    build: viteOptions,
+    build: defaultViteBuildOptions,
     plugins: [
         svg({
             multipass: true,
@@ -35,7 +24,6 @@ export default defineConfig({
             minify: true,
             mangle: true,
         }),
-        // googleClosurePlugin(),
         roadrollerPlugin(),
         ectPlugin(),
         kontra({
