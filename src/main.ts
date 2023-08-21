@@ -1,4 +1,4 @@
-import {init, GameLoop, initKeys, load, setImagePath, loadImage, imageAssets, Sprite} from 'kontra'
+import {init, GameLoop, initKeys, load} from 'kontra'
 import {Player} from "./entities/player";
 
 init()
