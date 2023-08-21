@@ -4,21 +4,22 @@ import {
     Sprite, Vector,
 } from "kontra";
 import {getSpriteById} from "../utils";
+import {Dagger, Weapon} from "./weapon";
 
 
 export class Player extends GameObjectClass {
     characterSprite: Sprite;
-    rightHandWeaponSprite: Sprite;
-    leftHandWeaponWprite: Sprite;
+    weapon: Weapon;
     dir: number = 1;
     speed: number = 3;
 
     z: number = 0;
-    zMax: number = 2;
-    zSpeed: number = 0.45;
+    zMax: number = 1.5;
+    zSpeed: number = 0.30;
     zDir: number = 1;
 
     dashing: boolean = false;
+    attacking: boolean = false;
     dashingMaxTimer: number = 70;
     dashingTimeout: number = 80;
     dashingTimeoutTimer: number = 0;
@@ -30,13 +31,9 @@ export class Player extends GameObjectClass {
         super({x: 5, y: 5, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
 
         this.characterSprite = getSpriteById(4);
-        this.rightHandWeaponSprite = getSpriteById(6);
-        this.leftHandWeaponWprite = getSpriteById(7);
-        this.rightHandWeaponSprite.x += 4;
-        this.leftHandWeaponWprite.x -= 3;
+        this.weapon = new Dagger(this, 1, 0, getSpriteById(6));
         this.addChild(this.characterSprite);
-        this.addChild(this.rightHandWeaponSprite);
-        this.addChild(this.leftHandWeaponWprite);
+        this.addChild(this.weapon);
     }
 
     update() {
@@ -45,12 +42,14 @@ export class Player extends GameObjectClass {
         let vx = 0;
         let vy = 0;
         let dash = false;
+        let attack = false;
 
         if (keyPressed('w')) vy = -1;
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
         if (keyPressed(keyMap.space)) dash = !this.dashing && this.dashingTimeoutTimer === 0;
+        if(keyPressed('j')) attack = !this.weapon.attacking;
 
         this.moving = vx != 0 || vy != 0;
 
@@ -79,7 +78,11 @@ export class Player extends GameObjectClass {
             this.dashingTimeoutTimer = this.dashingTimeout;
         }
 
-        if (!this.dashing) {
+        if(attack){
+            this.weapon.attack();
+        }
+
+        if(!this.dashing){
             this.move(vec, this.speed);
         } else {
             this.move(this.dashingDirection, this.dashingSpeed);
@@ -95,6 +98,10 @@ export class Player extends GameObjectClass {
     move(vec: Vector, speed: number) {
         this.x += vec.x * speed
         this.y += vec.y * speed
+    }
+
+    attack(): void {
+
     }
 
     /**
