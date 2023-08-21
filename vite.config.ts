@@ -1,6 +1,5 @@
 import svg from 'vite-plugin-svgo';
 import {rollupPluginSpglsl} from 'spglsl';
-import copy from "rollup-plugin-copy";
 
 // @ts-ignore
 import {
@@ -39,7 +38,6 @@ export default defineConfig({
         // googleClosurePlugin(),
         roadrollerPlugin(),
         ectPlugin(),
-        advzipPlugin(),
         kontra({
             gameObject: {
                 scale: true,
