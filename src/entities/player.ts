@@ -1,9 +1,10 @@
 import {
-    GameObjectClass,
+    GameObjectClass, keyMap,
     keyPressed,
     Sprite, Vector,
 } from "kontra";
 import {getSpriteById} from "../utils";
+
 
 export class Player extends GameObjectClass {
     characterSprite: Sprite;
@@ -49,16 +50,16 @@ export class Player extends GameObjectClass {
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
-        if (keyPressed('space')) dash = !this.dashing && this.dashingTimeoutTimer === 0;
+        if (keyPressed(keyMap.space)) dash = !this.dashing && this.dashingTimeoutTimer === 0;
 
         this.moving = vx != 0 || vy != 0;
 
-        if(!this.moving || this.dashing){
+        if (!this.moving || this.dashing) {
             this.z = 0;
             this.zDir = 1;
-        }else{
+        } else {
             this.z += this.zSpeed * this.zDir;
-            if(this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
+            if (this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
         }
 
         this.characterSprite.y = -this.z;
@@ -66,24 +67,24 @@ export class Player extends GameObjectClass {
         let vec = Vector(vx, vy);
         vec = vec.normalize();
 
-        if(vx != 0 && vx !== this.dir){
+        if (vx != 0 && vx !== this.dir) {
             this.dir = vx
             this.scaleX *= -1;
         }
 
-        if(dash){
+        if (dash) {
             this.dashing = true;
             this.dashingDirection = vec;
             this.dashingTimer = this.dashingMaxTimer;
             this.dashingTimeoutTimer = this.dashingTimeout;
         }
 
-        if(!this.dashing){
+        if (!this.dashing) {
             this.move(vec, this.speed);
-        }else{
+        } else {
             this.move(this.dashingDirection, this.dashingSpeed);
             this.dashingTimer = Math.max(this.dashingTimer - 5, 0);
-            if(this.dashingTimer === 0){
+            if (this.dashingTimer === 0) {
                 this.dashing = false;
             }
         }
@@ -91,7 +92,7 @@ export class Player extends GameObjectClass {
         this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
     }
 
-    move(vec: Vector, speed: number){
+    move(vec: Vector, speed: number) {
         this.x += vec.x * speed
         this.y += vec.y * speed
     }

@@ -1,14 +1,39 @@
 import svg from 'vite-plugin-svgo';
 import {rollupPluginSpglsl} from 'spglsl';
+import copy from "rollup-plugin-copy";
+
 // @ts-ignore
-import {advzipPlugin, defaultViteBuildOptions, ectPlugin, roadrollerPlugin} from 'js13k-vite-plugins';
+import {
+    advzipPlugin,
+    defaultViteBuildOptions,
+    defaultRollupOptions,
+    ectPlugin,
+    roadrollerPlugin,
+    googleClosurePlugin
+} from 'js13k-vite-plugins';
 // @ts-ignore
 import kontra from 'rollup-plugin-kontra';
-import {defineConfig} from 'vite';
+import {BuildOptions, defineConfig} from 'vite';
+
+const viteOptions: BuildOptions = {
+    ...defaultViteBuildOptions,
+    // rollupOptions: {
+    //     ...defaultRollupOptions,
+    //     output: {
+    //         dir: 'bundle',
+    //         format: 'iife',
+    //     },
+    // }
+}
 
 export default defineConfig({
-    build: defaultViteBuildOptions,
+    build: viteOptions,
     plugins: [
+        copy({
+            targets: [
+                {src: 'assets/', dest: 'public'},
+            ]
+        }),
         svg({
             multipass: true,
         }),
@@ -16,6 +41,7 @@ export default defineConfig({
             minify: true,
             mangle: true,
         }),
+        // googleClosurePlugin(),
         roadrollerPlugin(),
         ectPlugin(),
         advzipPlugin(),
