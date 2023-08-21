@@ -5,7 +5,7 @@ init()
 initKeys()
 
 load(
-    'assets/characters.png',
+    'characters.png',
 ).then(function () {
     const player = new Player()
 

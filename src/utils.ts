@@ -6,7 +6,7 @@ function getSpriteById(id: number): Sprite {
         animations: SpriteSheet({
             frameHeight: 8,
             frameWidth: 8,
-            image: imageAssets['assets/characters'],
+            image: imageAssets['characters'],
             animations: {
                 i: {
                     frames: id
