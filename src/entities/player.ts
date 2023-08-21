@@ -48,7 +48,7 @@ export class Player extends GameObjectClass {
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
-        if (keyPressed(keyMap.space)) dash = !this.dashing && this.dashingTimeoutTimer === 0;
+        if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
         if(keyPressed('j')) attack = !this.weapon.attacking;
 
         this.moving = vx != 0 || vy != 0;
