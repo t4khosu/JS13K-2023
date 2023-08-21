@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build && powershell scripts/check-size.ps1"
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^5.0.2",
