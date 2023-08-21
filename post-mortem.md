@@ -15,7 +15,7 @@
 ## 2023-08-17
 
 * Final discussion of ideas
-* Decide on the idea "The Catharian", but without the time delays but rather real time action as in Hades
+* Decide on the idea "The Cathar", but without the time delays but rather real time action as in Hades
 * The next meeting will be on 24. August
 * Decide on the framework (kontra) and Typescript
 
