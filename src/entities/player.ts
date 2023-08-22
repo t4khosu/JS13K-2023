@@ -1,7 +1,6 @@
 import {
-    getPointer,
     keyMap,
-    keyPressed, pointerPressed, setDataPath,
+    keyPressed,
     Vector,
 } from "kontra";
 import {getSpriteById, mousePosition, mousePressed} from "../utils";

@@ -47,10 +47,10 @@ function initMouse(canvas: HTMLCanvasElement){
         buttonPressed = e.button;
     }, false);
 
-    canvas.addEventListener("mouseup", (e) => {
+    canvas.addEventListener("mouseup", () => {
         buttonPressed = -1;
     }, false);
-};
+}
 
 function mousePosition(){
     return {x: mouseX, y: mouseY}

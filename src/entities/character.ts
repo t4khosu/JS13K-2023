@@ -26,7 +26,7 @@ export class Character extends GameObjectClass {
     }
 
     getHitBy(weapon: Weapon){
-        console.log("hit");
+        // TODO
     }
 
     checkDir = (xx: number): number => xx >= 0 ? 1 : -1;
