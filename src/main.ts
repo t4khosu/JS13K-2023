@@ -13,6 +13,7 @@ load(
     player.setWeapon(new BigDagger());
     const villager = new Villager(250, 150);
     villager.setWeapon(new SmallDagger())
+    villager.moveTo(400, 300);
 
     GameLoop({
         update: () => {

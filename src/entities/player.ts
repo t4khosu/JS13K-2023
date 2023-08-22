@@ -37,7 +37,7 @@ export class Player extends Character {
 
         this.moving = vx != 0 || vy != 0;
 
-        this.hop();
+        this.hopOnCondition();
 
         let vec = Vector(vx, vy);
         vec = vec.normalize();

@@ -41,7 +41,7 @@ export class Character extends GameObjectClass {
 
     doHop = () => this.moving;
 
-    hop(){
+    hopOnCondition(){
         if(this.doHop()){
             this.z += this.zSpeed * this.zDir;
             if (this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
