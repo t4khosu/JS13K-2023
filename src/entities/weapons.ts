@@ -28,8 +28,10 @@ export class Dagger extends Weapons{
     attackSpeed: number = 0.5;
 
     update(){
+        console.log(this.canAttack)
         super.update();
         if(this.canAttack) return;
+        console.log("update")
 
         this.attackTime += this.attackSpeed;
         let relX;

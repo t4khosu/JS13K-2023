@@ -20,6 +20,7 @@ export class Enemy extends Character {
     }
 
     update(){
+        super.update();
         this.hopOnCondition();
         if(this.moveToDestination){
             if(this.moveToDestination.distance(Vector(this.x, this.y)) > this.speed){
