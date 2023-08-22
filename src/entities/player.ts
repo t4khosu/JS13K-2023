@@ -1,10 +1,10 @@
 import {
     getPointer,
     keyMap,
-    keyPressed, pointerPressed,
+    keyPressed, pointerPressed, setDataPath,
     Vector,
 } from "kontra";
-import {getSpriteById} from "../utils";
+import {getSpriteById, mousePosition, mousePressed} from "../utils";
 import {Character} from "./character";
 
 
@@ -33,7 +33,7 @@ export class Player extends Character {
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
         if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
-        if(pointerPressed('left')) {
+        if(mousePressed(0)) {
             this.attack();
         }
 
@@ -64,7 +64,7 @@ export class Player extends Character {
         this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
     }
 
-    checkDir = () => this.x - getPointer().x < 0 ? 1 : -1;
+    checkDir = () => this.x - mousePosition().x < 0 ? 1 : -1;
 
     doHop = () => this.moving && !this.dashing;
 

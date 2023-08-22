@@ -17,14 +17,16 @@ export class Character extends GameObjectClass {
     zSpeed: number = 0.25;
     zDir: number = 1;
 
-    // attacking
-    attackDir: number = 1;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super({x: x, y: y, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
 
         this.addChild(this.sprite);
+    }
+
+    getHitBy(weapon: Weapon){
+        console.log("hit");
     }
 
     checkDir = (xx: number): number => xx >= 0 ? 1 : -1;
@@ -42,7 +44,6 @@ export class Character extends GameObjectClass {
 
     attack(){
         this.weapon?.attack();
-        this.attackDir = this.dir;
     }
 
     attacking = () => this.weapon ? !this.weapon.canAttack : false;

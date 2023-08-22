@@ -1,5 +1,6 @@
-import {GameObjectClass, Sprite} from "kontra";
+import {collides, GameObjectClass, Sprite} from "kontra";
 import {getSpriteById} from "../utils";
+import {Character} from "./character";
 
 export class Weapon extends GameObjectClass{
     originX: number;
@@ -20,6 +21,12 @@ export class Weapon extends GameObjectClass{
     attack(){
         if(this.canAttack) this.canAttack = false;
     }
+
+    hit(character: Character){
+        if(!this.canAttack && collides(this, character)){
+            character.getHitBy(this);
+        }
+    }
 }
 
 export class Dagger extends Weapon{
@@ -28,10 +35,8 @@ export class Dagger extends Weapon{
     attackSpeed: number = 0.5;
 
     update(){
-        console.log(this.canAttack)
         super.update();
         if(this.canAttack) return;
-        console.log("update")
 
         this.attackTime += this.attackSpeed;
         let relX;
