@@ -5,12 +5,10 @@ export class Weapon extends GameObjectClass{
     originX: number;
     originY: number;
     sprite: Sprite;
-    player: Player;
-    attacking: boolean = false;
+    canAttack: boolean = true;
 
-    constructor(player: Player, originX: number, originY: number, sprite: Sprite) {
+    constructor(originX: number, originY: number, sprite: Sprite) {
         super({x: originX, y: originY});
-        this.player = player;
         this.originX = originX;
         this.originY = originY;
         this.sprite = sprite;
@@ -19,9 +17,7 @@ export class Weapon extends GameObjectClass{
     }
 
     attack(){
-        if(!this.attacking){
-            this.attacking = true;
-        }
+        if(this.canAttack) this.canAttack = false;
     }
 }
 
@@ -32,7 +28,7 @@ export class Dagger extends Weapon{
 
     update(){
         super.update();
-        if(!this.attacking) return;
+        if(this.canAttack) return;
 
         this.attackTime += this.attackSpeed;
         let relX = 0;
@@ -48,7 +44,7 @@ export class Dagger extends Weapon{
 
         if(relX === 0){
             this.attackTime =  0;
-            this.attacking = false;
+            this.canAttack = true;
         }
     }
 }

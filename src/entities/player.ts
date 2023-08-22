@@ -1,23 +1,14 @@
 import {
-    GameObjectClass, keyMap,
+    keyMap,
     keyPressed,
-    Sprite, Vector,
+    Vector,
 } from "kontra";
 import {getSpriteById} from "../utils";
-import {Dagger, Weapon} from "./weapon";
+import {Dagger} from "./weapon";
+import {Character} from "./character";
 
 
-export class Player extends GameObjectClass {
-    characterSprite: Sprite;
-    weapon: Weapon;
-    dir: number = 1;
-    speed: number = 3;
-
-    z: number = 0;
-    zMax: number = 1.5;
-    zSpeed: number = 0.30;
-    zDir: number = 1;
-
+export class Player extends Character {
     dashing: boolean = false;
     attacking: boolean = false;
     dashingMaxTimer: number = 70;
@@ -28,12 +19,7 @@ export class Player extends GameObjectClass {
     dashingDirection: Vector = Vector(0, 0);
 
     constructor() {
-        super({x: 5, y: 5, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
-
-        this.characterSprite = getSpriteById(4);
-        this.weapon = new Dagger(this, 1, 0, getSpriteById(6));
-        this.addChild(this.characterSprite);
-        this.addChild(this.weapon);
+        super(60, 60, getSpriteById(4), new Dagger(1, 0, getSpriteById(6)));
     }
 
     update() {
@@ -42,26 +28,17 @@ export class Player extends GameObjectClass {
         let vx = 0;
         let vy = 0;
         let dash = false;
-        let attack = false;
 
         if (keyPressed('w')) vy = -1;
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
         if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
-        if(keyPressed('j')) attack = !this.weapon.attacking;
+        if(keyPressed('j')) this.attack();
 
         this.moving = vx != 0 || vy != 0;
 
-        if (!this.moving || this.dashing) {
-            this.z = 0;
-            this.zDir = 1;
-        } else {
-            this.z += this.zSpeed * this.zDir;
-            if (this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
-        }
-
-        this.characterSprite.y = -this.z;
+        this.hop();
 
         let vec = Vector(vx, vy);
         vec = vec.normalize();
@@ -78,10 +55,6 @@ export class Player extends GameObjectClass {
             this.dashingTimeoutTimer = this.dashingTimeout;
         }
 
-        if(attack){
-            this.weapon.attack();
-        }
-
         if(!this.dashing){
             this.move(vec, this.speed);
         } else {
@@ -95,14 +68,7 @@ export class Player extends GameObjectClass {
         this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
     }
 
-    move(vec: Vector, speed: number) {
-        this.x += vec.x * speed
-        this.y += vec.y * speed
-    }
-
-    attack(): void {
-
-    }
+    doHop = () => this.moving && !this.dashing;
 
     /**
      * Reset initial player state
@@ -110,12 +76,5 @@ export class Player extends GameObjectClass {
     reset() {
         this.invincibleTime = 0
         this.health = this.maxHealth
-    }
-
-    /**
-     * Call on enemy or bullet collision
-     */
-    hit() {
-        //TODO
     }
 }
