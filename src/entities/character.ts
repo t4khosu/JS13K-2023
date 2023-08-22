@@ -14,7 +14,7 @@ export class Character extends GameObjectClass {
     // hopping
     z: number = 0;
     zMax: number = 1.5;
-    zSpeed: number = 0.30;
+    zSpeed: number = 0.25;
     zDir: number = 1;
 
     constructor(x: number, y: number, sprite: Sprite, weapon: Weapon) {
