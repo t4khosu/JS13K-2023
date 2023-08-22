@@ -29,7 +29,7 @@ export class Character extends GameObjectClass {
         this.y += vec.y * speed
 
         let newDir = vec.x >= 0 ? 1 : -1;
-        if(newDir != this.dir){
+        if(vec.x != 0 && newDir != this.dir){
             this.dir *= -1;
             this.scaleX *= -1;
         }

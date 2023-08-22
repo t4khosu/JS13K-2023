@@ -16,7 +16,8 @@ export class Enemy extends Character {
     }
 
     moveToPlayer(){
-        this.moveTo(this.player!.x, this.player!.y)
+        let relToPlayer = Math.sign(this.player!.x - this.x);
+        this.moveTo(this.player!.x + this.player!.dir * 45, this.player!.y)
     }
 
     update(){
