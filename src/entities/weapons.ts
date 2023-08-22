@@ -60,6 +60,6 @@ export class BigDagger extends Dagger{
 
 export class SmallDagger extends Dagger {
     constructor() {
-        super(1, 1, getSpriteById(8));
+        super(1, 0, getSpriteById(8));
     }
 }
