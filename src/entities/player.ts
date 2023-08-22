@@ -1,7 +1,7 @@
 import {
     getPointer,
     keyMap,
-    keyPressed, onPointer, pointerPressed,
+    keyPressed, pointerPressed,
     Vector,
 } from "kontra";
 import {getSpriteById} from "../utils";
@@ -19,7 +19,6 @@ export class Player extends Character {
 
     constructor() {
         super(60, 60, getSpriteById(4));
-        let player = this;
     }
 
     update() {
