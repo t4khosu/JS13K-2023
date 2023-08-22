@@ -1,7 +1,7 @@
 import {GameObjectClass, Sprite} from "kontra";
 import {getSpriteById} from "../utils";
 
-export class Weapons extends GameObjectClass{
+export class Weapon extends GameObjectClass{
     originX: number;
     originY: number;
     sprite: Sprite;
@@ -22,7 +22,7 @@ export class Weapons extends GameObjectClass{
     }
 }
 
-export class Dagger extends Weapons{
+export class Dagger extends Weapon{
     attackMaxTime: number = 4;
     attackTime: number = 0;
     attackSpeed: number = 0.5;

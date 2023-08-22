@@ -1,6 +1,6 @@
 import {init, GameLoop, initKeys, load, initPointer} from 'kontra'
 import {Player} from "./entities/player";
-import {BigDagger, SmallDagger} from "./entities/weapons";
+import {BigDagger, SmallDagger} from "./entities/weapon";
 import {Villager} from "./entities/enemies";
 
 init()

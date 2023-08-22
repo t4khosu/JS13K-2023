@@ -1,9 +1,9 @@
 import {GameObjectClass, Sprite, Vector} from "kontra";
-import {Weapons} from "./weapons";
+import {Weapon} from "./weapon";
 
 export class Character extends GameObjectClass {
     sprite: Sprite;
-    weapon: Weapons | undefined = undefined;
+    weapon: Weapon | undefined = undefined;
 
     dir: number = 1;
     speed: number = 2;
@@ -47,7 +47,7 @@ export class Character extends GameObjectClass {
 
     attacking = () => this.weapon ? !this.weapon.canAttack : false;
 
-    setWeapon(weapon: Weapons){
+    setWeapon(weapon: Weapon){
         this.weapon && this.removeChild();
         this.weapon = weapon;
         this.addChild(this.weapon);
