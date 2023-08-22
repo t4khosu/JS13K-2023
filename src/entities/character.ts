@@ -24,11 +24,13 @@ export class Character extends GameObjectClass {
         this.addChild(this.sprite);
     }
 
+    checkDir = (xx: number): number => xx >= 0 ? 1 : -1;
+
     move(vec: Vector, speed: number) {
         this.x += vec.x * speed
         this.y += vec.y * speed
 
-        let newDir = vec.x >= 0 ? 1 : -1;
+        let newDir = this.checkDir(vec.x);
         if(vec.x != 0 && newDir != this.dir){
             this.dir *= -1;
             this.scaleX *= -1;
@@ -58,4 +60,6 @@ export class Character extends GameObjectClass {
 
         this.sprite.y = -this.z;
     }
+
+    distanceTo = (character: Character) => Vector(this.x, this.y).distance(Vector(character.x, character.y));
 }

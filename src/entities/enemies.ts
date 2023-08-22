@@ -16,9 +16,15 @@ export class Enemy extends Character {
     }
 
     moveToPlayer(){
-        let relToPlayer = Math.sign(this.player!.x - this.x);
-        this.moveTo(this.player!.x + this.player!.dir * 45, this.player!.y)
+        let followX = this.player?.dashing ? this.player!.x : this.player!.x + this.posToPlayer() * 40
+        this.moveTo(followX, this.player!.y)
     }
+
+    posToPlayer(){
+        return this.x - this.player!.x >= 0 ? 1 : -1;
+    }
+
+    checkDir = (xx: number) => Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
 
     update(){
         super.update();
@@ -45,5 +51,9 @@ export class Villager extends Enemy {
     update(){
         super.update();
         this.moveToPlayer();
+
+        if(this.distanceTo(this.player!) <= 60){
+            this.attack();
+        }
     }
 }
