@@ -2,13 +2,17 @@ import {init, GameLoop, initKeys, load} from 'kontra'
 import {Player} from "./entities/player";
 import {BigDagger, SmallDagger} from "./entities/weapons";
 import {Villager} from "./entities/enemies";
+import Room from "./entities/room";
 
 init()
 initKeys()
 
 load(
-    'characters.png',
+    'characters.png', 'grass.png',
 ).then(function () {
+    const room = new Room()
+
+
     const player = new Player()
     player.setWeapon(new BigDagger());
     const villager = new Villager(250, 150);
@@ -21,6 +25,7 @@ load(
             player.update()
         },
         render: () => {
+            room.render()
             villager.render()
             player.render()
         }
