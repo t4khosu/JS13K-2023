@@ -1,5 +1,4 @@
 import {GameObjectClass, Sprite} from "kontra";
-import {Player} from "./player";
 
 export class Weapon extends GameObjectClass{
     originX: number;
@@ -31,7 +30,7 @@ export class Dagger extends Weapon{
         if(this.canAttack) return;
 
         this.attackTime += this.attackSpeed;
-        let relX = 0;
+        let relX;
 
         if(this.attackTime < this.attackMaxTime){
             relX = this.attackTime;
