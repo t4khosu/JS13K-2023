@@ -1,9 +1,9 @@
 import {GameObjectClass, Sprite, Vector} from "kontra";
-import {Weapon} from "./weapon";
+import {Weapons} from "./weapons";
 
 export class Character extends GameObjectClass {
     sprite: Sprite;
-    weapon: Weapon | undefined = undefined;
+    weapon: Weapons | undefined = undefined;
 
     dir: number = 1;
     speed: number = 2;
@@ -17,13 +17,11 @@ export class Character extends GameObjectClass {
     zSpeed: number = 0.25;
     zDir: number = 1;
 
-    constructor(x: number, y: number, sprite: Sprite, weapon: Weapon) {
+    constructor(x: number, y: number, sprite: Sprite) {
         super({x: x, y: y, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
-        this.weapon = weapon;
 
         this.addChild(this.sprite);
-        this.addChild(this.weapon);
     }
 
     move(vec: Vector, speed: number) {
@@ -33,6 +31,12 @@ export class Character extends GameObjectClass {
 
     attack(){
         this.weapon?.attack();
+    }
+
+    setWeapon(weapon: Weapons){
+        this.weapon && this.removeChild();
+        this.weapon = weapon;
+        this.addChild(this.weapon);
     }
 
     doHop = () => this.moving;

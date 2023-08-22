@@ -1,10 +1,12 @@
 import {GameObjectClass, Sprite} from "kontra";
+import {getSpriteById} from "../utils";
 
-export class Weapon extends GameObjectClass{
+export class Weapons extends GameObjectClass{
     originX: number;
     originY: number;
     sprite: Sprite;
     canAttack: boolean = true;
+    damageOnContact: boolean = true;
 
     constructor(originX: number, originY: number, sprite: Sprite) {
         super({x: originX, y: originY});
@@ -20,7 +22,7 @@ export class Weapon extends GameObjectClass{
     }
 }
 
-export class Dagger extends Weapon{
+export class Dagger extends Weapons{
     attackMaxTime: number = 4;
     attackTime: number = 0;
     attackSpeed: number = 0.5;
@@ -45,5 +47,17 @@ export class Dagger extends Weapon{
             this.attackTime =  0;
             this.canAttack = true;
         }
+    }
+}
+
+export class BigDagger extends Dagger{
+    constructor() {
+        super(3, 0, getSpriteById(6));
+    }
+}
+
+export class SmallDagger extends Dagger {
+    constructor() {
+        super(1, 1, getSpriteById(8));
     }
 }

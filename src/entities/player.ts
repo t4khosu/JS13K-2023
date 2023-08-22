@@ -4,13 +4,12 @@ import {
     Vector,
 } from "kontra";
 import {getSpriteById} from "../utils";
-import {Dagger} from "./weapon";
+import {Dagger} from "./weapons";
 import {Character} from "./character";
 
 
 export class Player extends Character {
     dashing: boolean = false;
-    attacking: boolean = false;
     dashingMaxTimer: number = 70;
     dashingTimeout: number = 80;
     dashingTimeoutTimer: number = 0;
@@ -19,7 +18,7 @@ export class Player extends Character {
     dashingDirection: Vector = Vector(0, 0);
 
     constructor() {
-        super(60, 60, getSpriteById(4), new Dagger(1, 0, getSpriteById(6)));
+        super(60, 60, getSpriteById(4));
     }
 
     update() {
