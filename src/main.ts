@@ -1,10 +1,11 @@
-import {init, GameLoop, initKeys, load} from 'kontra'
+import {init, GameLoop, initKeys, load, initPointer, getPointer} from 'kontra'
 import {Player} from "./entities/player";
 import {BigDagger, SmallDagger} from "./entities/weapons";
 import {Villager} from "./entities/enemies";
 
 init()
 initKeys()
+initPointer()
 
 load(
     'characters.png',

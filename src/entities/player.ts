@@ -1,6 +1,7 @@
 import {
+    getPointer,
     keyMap,
-    keyPressed,
+    keyPressed, onPointer, pointerPressed,
     Vector,
 } from "kontra";
 import {getSpriteById} from "../utils";
@@ -18,6 +19,7 @@ export class Player extends Character {
 
     constructor() {
         super(60, 60, getSpriteById(4));
+        let player = this;
     }
 
     update() {
@@ -32,7 +34,9 @@ export class Player extends Character {
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
         if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
-        if(keyPressed('j')) this.attack();
+        if(pointerPressed('left')) {
+            this.attack();
+        }
 
         this.moving = vx != 0 || vy != 0;
 
@@ -60,6 +64,8 @@ export class Player extends Character {
 
         this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
     }
+
+    checkDir = () => this.x - getPointer().x < 0 ? 1 : -1;
 
     doHop = () => this.moving && !this.dashing;
 
