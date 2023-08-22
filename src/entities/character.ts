@@ -27,6 +27,12 @@ export class Character extends GameObjectClass {
     move(vec: Vector, speed: number) {
         this.x += vec.x * speed
         this.y += vec.y * speed
+
+        let newDir = vec.x >= 0 ? 1 : -1;
+        if(newDir != this.dir){
+            this.dir *= -1;
+            this.scaleX *= -1;
+        }
     }
 
     attack(){

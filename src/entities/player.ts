@@ -42,11 +42,6 @@ export class Player extends Character {
         let vec = Vector(vx, vy);
         vec = vec.normalize();
 
-        if (vx != 0 && vx !== this.dir) {
-            this.dir = vx
-            this.scaleX *= -1;
-        }
-
         if (dash) {
             this.dashing = true;
             this.dashingDirection = vec;
@@ -55,7 +50,7 @@ export class Player extends Character {
         }
 
         if(!this.dashing){
-            this.move(vec, this.speed);
+            this.moving && this.move(vec, this.speed);
         } else {
             this.move(this.dashingDirection, this.dashingSpeed);
             this.dashingTimer = Math.max(this.dashingTimer - 5, 0);
