@@ -1,8 +1,6 @@
 import {collides, GameObjectClass, Sprite} from "kontra";
 import {getSpriteById} from "../utils";
 import {Character} from "./character";
-import {Enemy} from "./enemies";
-import {Player} from "./player";
 
 export class Weapon extends GameObjectClass{
     originX: number;

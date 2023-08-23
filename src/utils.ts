@@ -1,8 +1,4 @@
 import {imageAssets, Sprite, SpriteSheet} from "kontra";
-import {Weapon} from "./entities/weapon";
-import {Character} from "./entities/character";
-import {Enemy} from "./entities/enemies";
-import {Player} from "./entities/player";
 
 function getSpriteById(id: number): Sprite {
     return Sprite({
