@@ -9,8 +9,8 @@ export class Weapon extends GameObjectClass{
     originY: number;
     sprite: Sprite;
     isIdle: boolean = true;
-    targetClass: any;
     owner: Character | undefined;
+    damage: number = 0;
     damageOnContact: boolean = true;
 
     constructor(originX: number, originY: number, sprite: Sprite) {
@@ -28,12 +28,11 @@ export class Weapon extends GameObjectClass{
 
     setOwner(owner: Character) {
         this.owner = owner;
-        this.targetClass = owner instanceof Enemy ? Player : Enemy;
     }
 
     checkForHit(){
         if(this.isIdle) return;
-        this.owner?.targets().forEach(target => {
+        this.owner?.getTargets().forEach(target => {
             collides(this, target) && target.hitBy(this);
         });
     }
@@ -78,11 +77,13 @@ export class BigDagger extends Dagger{
         super(3, 0, getSpriteById(6));
         this.width = 4;
         this.height = 2;
+        this.damage = 5;
     }
 }
 
 export class SmallDagger extends Dagger {
     constructor() {
         super(1, 0, getSpriteById(8));
+        this.damage = 4;
     }
 }

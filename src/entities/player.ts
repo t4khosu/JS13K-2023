@@ -36,8 +36,6 @@ export class Player extends Character {
 
         this.moving = vx != 0 || vy != 0;
 
-        this.hopOnCondition();
-
         let vec = Vector(vx, vy);
         vec = vec.normalize();
 
@@ -61,7 +59,7 @@ export class Player extends Character {
         this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
     }
 
-    checkDir = () => this.x - mousePosition().x < 0 ? 1 : -1;
+    dirRelativeTo = () => this.x - mousePosition().x < 0 ? 1 : -1;
 
     doHop = () => this.moving && !this.dashing;
 

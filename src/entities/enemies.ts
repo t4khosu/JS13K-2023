@@ -1,11 +1,20 @@
 import {Character} from "./character";
 import {getSpriteById} from "../utils";
-import {Vector} from "kontra";
+import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
+import {Weapon} from "./weapon";
 
 export class Enemy extends Character {
     moveToDestination: Vector | undefined;
     player: Player | undefined;
+    healthBar: Sprite;
+    healthBarWidth: number = 6;
+
+    constructor(x: number, y: number, sprite: Sprite) {
+        super(x, y, sprite);
+        this.healthBar = Sprite({anchor: {x: 0.5, y: 0.5}, x: 0, y: -6, width: 0, height: 1, color: "#ff000099"})
+        this.addChild(this.healthBar)
+    }
 
     setPlayer(player: Player){
         this.player = player;
@@ -24,11 +33,10 @@ export class Enemy extends Character {
         return this.x - this.player!.x >= 0 ? 1 : -1;
     }
 
-    checkDir = (xx: number) => Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
+    dirRelativeTo = (xx: number) => Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
 
     update(){
         super.update();
-        this.hopOnCondition();
         if(this.moveToDestination){
             if(this.moveToDestination.distance(Vector(this.x, this.y)) > this.speed){
                 this.moving = true;
@@ -41,6 +49,11 @@ export class Enemy extends Character {
             }
         }
     }
+
+    hitBy(weapon: Weapon){
+        super.hitBy(weapon);
+        this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth
+    }
 }
 export class Villager extends Enemy {
     speed: number = 1.6;
@@ -52,7 +65,7 @@ export class Villager extends Enemy {
         super.update();
         this.moveToPlayer();
 
-        if(this.distanceTo(this.player!) <= 60){
+        if(this.getDistanceTo(this.player!) <= 60){
             this.attack();
         }
     }

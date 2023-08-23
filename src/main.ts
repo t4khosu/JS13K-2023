@@ -2,7 +2,7 @@ import {init, GameLoop, initKeys, load} from 'kontra'
 import {Player} from "./entities/player";
 import {BigDagger, SmallDagger} from "./entities/weapon";
 import {Villager} from "./entities/enemies";
-import {giveWeaponTo, initMouse, mousePressed} from "./utils";
+import {initMouse} from "./utils";
 
 let { canvas } = init();
 initKeys()
@@ -12,10 +12,10 @@ load(
     'characters.png',
 ).then(function () {
     const player = new Player()
-    giveWeaponTo(new BigDagger(), player);
+    player.giveWeapon(new BigDagger());
 
     const villager = new Villager(250, 150);
-    giveWeaponTo(new SmallDagger(), villager);
+    villager.giveWeapon(new SmallDagger())
     villager.setPlayer(player);
 
     player.dummyTargets = [villager]

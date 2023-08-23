@@ -64,10 +64,7 @@ function mousePressed(button: number){
     return buttonPressed === button;
 }
 
-function giveWeaponTo(weapon: Weapon, character: Character){
-    character.setWeapon(weapon);
-    weapon.setOwner(character);
-}
+const centeredAnchor = {x: 0.5, y: 0.5}
 
 
-export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, giveWeaponTo}
+export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor}
