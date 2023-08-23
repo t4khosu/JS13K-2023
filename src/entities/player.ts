@@ -5,23 +5,26 @@ import {
 } from "kontra";
 import {getSpriteById, mousePosition, mousePressed} from "../utils";
 import {Character} from "./character";
+import {Timer} from "./timer";
 
 
 export class Player extends Character {
+    dashingTimeoutTimer: Timer;
+
     dashing: boolean = false;
     dashingMaxTimer: number = 70;
-    dashingTimeout: number = 80;
-    dashingTimeoutTimer: number = 0;
     dashingTimer: number = 0;
     dashingSpeed: number = 10;
     dashingDirection: Vector = Vector(0, 0);
 
     constructor() {
         super(60, 60, getSpriteById(4));
+        this.dashingTimeoutTimer = new Timer(60);
     }
 
     update() {
         super.update();
+        this.dashingTimeoutTimer.update();
 
         let vx = 0;
         let vy = 0;
@@ -31,7 +34,7 @@ export class Player extends Character {
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
-        if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
+        if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && !this.dashingTimeoutTimer.running;
         if(mousePressed(0)) this.attack();
 
         this.moving = vx != 0 || vy != 0;
@@ -43,7 +46,7 @@ export class Player extends Character {
             this.dashing = true;
             this.dashingDirection = vec;
             this.dashingTimer = this.dashingMaxTimer;
-            this.dashingTimeoutTimer = this.dashingTimeout;
+            this.dashingTimeoutTimer.restart();
         }
 
         if(!this.dashing){
@@ -55,19 +58,9 @@ export class Player extends Character {
                 this.dashing = false;
             }
         }
-
-        this.dashingTimeoutTimer = Math.max(0, this.dashingTimeoutTimer - 2)
     }
 
-    dirRelativeTo = () => this.x - mousePosition().x < 0 ? 1 : -1;
+    dirRelativeTo = (xx: number) => this.x - mousePosition().x < 0 ? 1 : -1;
 
     doHop = () => this.moving && !this.dashing;
-
-    /**
-     * Reset initial player state
-     */
-    reset() {
-        this.invincibleTime = 0
-        this.health = this.maxHealth
-    }
 }
