@@ -17,16 +17,17 @@ export class Character extends GameObjectClass {
     zSpeed: number = 0.25;
     zDir: number = 1;
 
+    dummyTargets: Character[] = [];
 
     constructor(x: number, y: number, sprite: Sprite) {
-        super({x: x, y: y, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
+        super({width: 8, height: 8, x: x, y: y, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
 
         this.addChild(this.sprite);
     }
 
     hitBy(weapon: Weapon){
-        // TODO
+        console.log("hit")
     }
 
     checkDir = (xx: number): number => xx >= 0 ? 1 : -1;
@@ -69,4 +70,10 @@ export class Character extends GameObjectClass {
     }
 
     distanceTo = (character: Character) => Vector(this.x, this.y).distance(Vector(character.x, character.y));
+
+
+
+    targets(): Character[] {
+        return this.dummyTargets;
+    }
 }

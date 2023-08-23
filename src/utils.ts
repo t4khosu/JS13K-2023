@@ -1,4 +1,8 @@
 import {imageAssets, Sprite, SpriteSheet} from "kontra";
+import {Weapon} from "./entities/weapon";
+import {Character} from "./entities/character";
+import {Enemy} from "./entities/enemies";
+import {Player} from "./entities/player";
 
 function getSpriteById(id: number): Sprite {
     return Sprite({
@@ -60,5 +64,10 @@ function mousePressed(button: number){
     return buttonPressed === button;
 }
 
+function giveWeaponTo(weapon: Weapon, character: Character){
+    character.setWeapon(weapon);
+    weapon.setOwner(character);
+}
 
-export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed}
+
+export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, giveWeaponTo}

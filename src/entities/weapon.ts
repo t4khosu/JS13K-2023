@@ -1,12 +1,16 @@
 import {collides, GameObjectClass, Sprite} from "kontra";
 import {getSpriteById} from "../utils";
 import {Character} from "./character";
+import {Enemy} from "./enemies";
+import {Player} from "./player";
 
 export class Weapon extends GameObjectClass{
     originX: number;
     originY: number;
     sprite: Sprite;
     isIdle: boolean = true;
+    targetClass: any;
+    owner: Character | undefined;
     damageOnContact: boolean = true;
 
     constructor(originX: number, originY: number, sprite: Sprite) {
@@ -22,10 +26,21 @@ export class Weapon extends GameObjectClass{
         if(this.isIdle) this.isIdle = false;
     }
 
-    checkForHit(character: Character){
-        if(!this.isIdle && collides(this, character)){
-            character.hitBy(this);
-        }
+    setOwner(owner: Character) {
+        this.owner = owner;
+        this.targetClass = owner instanceof Enemy ? Player : Enemy;
+    }
+
+    checkForHit(){
+        if(this.isIdle) return;
+        this.owner?.targets().forEach(target => {
+            collides(this, target) && target.hitBy(this);
+        });
+    }
+
+    update(){
+        super.update();
+        this.checkForHit();
     }
 }
 
@@ -61,6 +76,8 @@ export class Dagger extends Weapon{
 export class BigDagger extends Dagger{
     constructor() {
         super(3, 0, getSpriteById(6));
+        this.width = 4;
+        this.height = 2;
     }
 }
 
