@@ -13,7 +13,7 @@ export class Enemy extends Character {
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
-        this.healthBar = Sprite({anchor: {x: 0.5, y: 0.5}, x: 0, y: -6, width: 0, height: 1, color: "#ff000099"})
+        this.healthBar = Sprite({anchor: {x: 0.5, y: 0.5}, x: 0, y: -5, width: 0, height: 1, color: "#ff000099"})
         this.addChild(this.healthBar)
     }
 
