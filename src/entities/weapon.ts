@@ -6,7 +6,7 @@ export class Weapon extends GameObjectClass{
     originX: number;
     originY: number;
     sprite: Sprite;
-    canAttack: boolean = true;
+    isIdle: boolean = true;
     damageOnContact: boolean = true;
 
     constructor(originX: number, originY: number, sprite: Sprite) {
@@ -19,11 +19,11 @@ export class Weapon extends GameObjectClass{
     }
 
     tryToAttack(){
-        if(this.canAttack) this.canAttack = false;
+        if(this.isIdle) this.isIdle = false;
     }
 
     hit(character: Character){
-        if(!this.canAttack && collides(this, character)){
+        if(!this.isIdle && collides(this, character)){
             character.getHitBy(this);
         }
     }
@@ -37,7 +37,7 @@ export class Dagger extends Weapon{
 
     update(){
         super.update();
-        if(this.canAttack) return;
+        if(this.isIdle) return;
 
         this.attackTime += this.attackSpeed;
         let relX;
@@ -53,7 +53,7 @@ export class Dagger extends Weapon{
 
         if(relX === 0){
             this.attackTime =  0;
-            this.canAttack = true;
+            this.isIdle = true;
         }
     }
 }

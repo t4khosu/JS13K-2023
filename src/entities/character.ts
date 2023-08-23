@@ -46,7 +46,7 @@ export class Character extends GameObjectClass {
         this.weapon?.tryToAttack();
     }
 
-    attacking = () => this.weapon ? !this.weapon.canAttack : false;
+    attacking = () => this.weapon ? !this.weapon.isIdle : false;
 
     setWeapon(weapon: Weapon){
         this.weapon && this.removeChild();
