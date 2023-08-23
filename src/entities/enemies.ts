@@ -60,13 +60,18 @@ export class Villager extends Enemy {
     speed: number = 1.6;
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(0));
+        this.seeDistance = 150;
     }
 
     update(){
         super.update();
-        this.moveToPlayer();
+        let distanceToPlayer = this.getDistanceTo(this.player!);
+        console.log(distanceToPlayer)
 
-        if(this.getDistanceTo(this.player!) <= 60){
+        if(distanceToPlayer < this.seeDistance){
+            this.moveToPlayer();
+        }
+        if(distanceToPlayer <= 60){
             this.attack();
         }
     }
