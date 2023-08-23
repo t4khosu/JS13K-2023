@@ -60,7 +60,9 @@ export class Player extends Character {
         }
     }
 
-    dirRelativeTo = (xx: number) => this.x - mousePosition().x < 0 ? 1 : -1;
+    getNewDir = () => {
+        return this.x - mousePosition().x < 0 ? 1 : -1;
+    };
 
     doHop = () => this.moving && !this.dashing;
 }

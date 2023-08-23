@@ -60,6 +60,7 @@ export class Character extends GameObjectClass {
         super.update();
         this.invicibleTimer.update();
         this.hopOnCondition();
+        this.tryToChangeDir();
     }
 
     hopOnCondition(){
@@ -78,14 +79,16 @@ export class Character extends GameObjectClass {
     move(vec: Vector, speed: number) {
         this.x += vec.x * speed
         this.y += vec.y * speed
+    }
 
-        if(this.doChangeDir(vec.x)){
+    tryToChangeDir(){
+        if(!this.isAttacking() && this.getNewDir() != this.dir){
             this.dir *= -1;
             this.scaleX *= -1;
         }
     }
 
-    doChangeDir = (xx: number) => !this.isAttacking() && xx != 0 && this.dirRelativeTo(xx) != this.dir
+    getNewDir = () => 1;
 
     attack(){
         this.weapon?.tryToAttack();

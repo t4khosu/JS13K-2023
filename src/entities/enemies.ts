@@ -9,6 +9,7 @@ export class Enemy extends Character {
     player: Player | undefined;
     healthBar: Sprite;
     healthBarWidth: number = 6;
+    seeDistance: number = 100;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
@@ -33,7 +34,7 @@ export class Enemy extends Character {
         return this.x - this.player!.x >= 0 ? 1 : -1;
     }
 
-    dirRelativeTo = (xx: number) => Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
+    getNewDir = () => Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
 
     update(){
         super.update();
