@@ -18,7 +18,7 @@ export class Weapon extends GameObjectClass{
         this.addChild(this.sprite);
     }
 
-    attack(){
+    tryToAttack(){
         if(this.canAttack) this.canAttack = false;
     }
 
@@ -33,6 +33,7 @@ export class Dagger extends Weapon{
     attackMaxTime: number = 4;
     attackTime: number = 0;
     attackSpeed: number = 0.5;
+    damageOnContact: boolean = false;
 
     update(){
         super.update();

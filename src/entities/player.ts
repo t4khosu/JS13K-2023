@@ -32,9 +32,7 @@ export class Player extends Character {
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
         if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
-        if(mousePressed(0)) {
-            this.attack();
-        }
+        if(mousePressed(0)) this.attack();
 
         this.moving = vx != 0 || vy != 0;
 

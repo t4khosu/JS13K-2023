@@ -43,7 +43,7 @@ export class Character extends GameObjectClass {
     }
 
     attack(){
-        this.weapon?.attack();
+        this.weapon?.tryToAttack();
     }
 
     attacking = () => this.weapon ? !this.weapon.canAttack : false;
