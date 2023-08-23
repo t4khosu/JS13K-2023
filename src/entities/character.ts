@@ -25,7 +25,7 @@ export class Character extends GameObjectClass {
         this.addChild(this.sprite);
     }
 
-    getHitBy(weapon: Weapon){
+    hitBy(weapon: Weapon){
         // TODO
     }
 

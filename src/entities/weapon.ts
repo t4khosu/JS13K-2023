@@ -22,9 +22,9 @@ export class Weapon extends GameObjectClass{
         if(this.isIdle) this.isIdle = false;
     }
 
-    hit(character: Character){
+    checkForHit(character: Character){
         if(!this.isIdle && collides(this, character)){
-            character.getHitBy(this);
+            character.hitBy(this);
         }
     }
 }
