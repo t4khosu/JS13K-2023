@@ -26,6 +26,8 @@ export class Player extends Character {
         super.update();
         this.dashingTimeoutTimer.update();
 
+        console.log(this.health)
+
         let vx = 0;
         let vy = 0;
         let dash = false;
