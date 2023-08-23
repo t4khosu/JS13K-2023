@@ -11,7 +11,6 @@ export class Weapon extends GameObjectClass{
     isIdle: boolean = true;
     owner: Character | undefined;
     damage: number = 0;
-    damageOnContact: boolean = true;
 
     constructor(originX: number, originY: number, sprite: Sprite) {
         super({x: originX, y: originY});
@@ -47,7 +46,6 @@ export class Dagger extends Weapon{
     attackMaxTime: number = 4;
     attackTime: number = 0;
     attackSpeed: number = 0.5;
-    damageOnContact: boolean = false;
 
     update(){
         super.update();
