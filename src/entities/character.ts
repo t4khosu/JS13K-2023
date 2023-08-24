@@ -55,7 +55,7 @@ export class Character extends GameObjectClass {
 
     isInvincible = () => this.invicibleTimer.isActive;
 
-    hitBy(weapon: Weapon){
+    getHitBy(weapon: Weapon){
         if(this.isInvincible()) return;
 
         this.takeDamage(weapon.damage);

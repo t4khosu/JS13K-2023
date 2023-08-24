@@ -67,8 +67,8 @@ export class Enemy extends Character {
         }
     }
 
-    hitBy(weapon: Weapon){
-        super.hitBy(weapon);
+    getHitBy(weapon: Weapon){
+        super.getHitBy(weapon);
         this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth
     }
 }

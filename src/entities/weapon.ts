@@ -30,7 +30,7 @@ export class Weapon extends GameObjectClass{
     checkForHit(){
         if(this.isIdle) return;
         this.owner?.getTargets().forEach(target => {
-            collides(this, target) && target.hitBy(this);
+            collides(this, target) && target.getHitBy(this);
         });
     }
 
