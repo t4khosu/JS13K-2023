@@ -4,7 +4,7 @@ import {BigDagger, SmallDagger} from "./entities/weapon";
 import {Villager} from "./entities/enemies";
 import {initMouse} from "./utils";
 
-let { canvas, context } = init();
+let { canvas} = init();
 
 
 

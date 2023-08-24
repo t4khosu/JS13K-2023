@@ -1,6 +1,6 @@
 import {Character} from "./character";
 import {centeredAnchor, getRandomVecDir, getSpriteById} from "../utils";
-import {Sprite, Vector} from "kontra";
+import {Sprite} from "kontra";
 import {Player} from "./player";
 import {Weapon} from "./weapon";
 import {Timer} from "./timer";
