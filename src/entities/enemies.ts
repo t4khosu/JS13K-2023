@@ -13,7 +13,7 @@ export class Enemy extends Character {
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
-        this.healthBar = Sprite({anchor: {x: 0.5, y: 0.5}, x: 0, y: -5, width: 0, height: 1, color: "#ff000099"})
+        this.healthBar = Sprite({anchor: centeredAnchor, x: 0, y: -5, width: 0, height: 1, color: "#ff000099"})
         this.addChild(this.healthBar)
     }
 
@@ -59,7 +59,7 @@ export class Enemy extends Character {
 export class Villager extends Enemy {
     speed: number = 1.6;
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(0, centeredAnchor));
+        super(x, y, getSpriteById(0));
         this.seeDistance = 150;
     }
 
