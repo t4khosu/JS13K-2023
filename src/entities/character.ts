@@ -30,11 +30,13 @@ export class Character extends GameObjectClass {
     dummyTargets: Character[] = [];
 
     constructor(x: number, y: number, sprite: Sprite) {
-        super({width: 8, height: 8, x: x, y: y, anchor: centeredAnchor, scaleX: 5, scaleY: 5});
+        super({width: 6, height: 8, x: x, y: y, anchor: centeredAnchor, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
         this.health = this.maxHealth;
         this.invicibleTimer = new Timer(60);
         this.addChild(this.sprite);
+
+        this.addChild(Sprite({width: 6, height: 8, color: "#ff000088", anchor: centeredAnchor}))
     }
 
     giveWeapon(weapon: Weapon){

@@ -1,5 +1,5 @@
 import {collides, GameObjectClass, Sprite} from "kontra";
-import {getSpriteById} from "../utils";
+import {centeredAnchor, getSpriteById} from "../utils";
 import {Character} from "./character";
 
 export class Weapon extends GameObjectClass{
@@ -11,7 +11,7 @@ export class Weapon extends GameObjectClass{
     damage: number = 0;
 
     constructor(originX: number, originY: number, sprite: Sprite) {
-        super({x: originX, y: originY});
+        super({x: originX, y: originY, anchor: centeredAnchor});
         this.originX = originX;
         this.originY = originY;
         this.sprite = sprite;
@@ -41,6 +41,7 @@ export class Weapon extends GameObjectClass{
 }
 
 export class Dagger extends Weapon{
+
     attackMaxTime: number = 4;
     attackTime: number = 0;
     attackSpeed: number = 0.5;
@@ -59,7 +60,7 @@ export class Dagger extends Weapon{
         }
 
         relX = Math.max(0, relX);
-        this.sprite.x = relX;
+        this.x = this.originX + relX;
 
         if(relX === 0){
             this.attackTime =  0;
@@ -70,18 +71,21 @@ export class Dagger extends Weapon{
 
 export class BigDagger extends Dagger{
     constructor() {
-        super(3, 0, getSpriteById(6));
+        super(1, 2, getSpriteById(6));
         this.width = 4;
         this.height = 2;
         this.damage = 5;
+        this.addChild(Sprite({width: 5, height: 2, color: "#00ff0088", anchor: centeredAnchor}))
+
     }
 }
 
 export class SmallDagger extends Dagger {
     constructor() {
-        super(2, 1, getSpriteById(8));
+        super(1, 2, getSpriteById(8, {y: -0.5}));
         this.width = 4;
         this.height = 1;
         this.damage = 4;
+        this.addChild(Sprite({width: 4, height: 1, color: "#00ff0088", anchor: centeredAnchor}))
     }
 }

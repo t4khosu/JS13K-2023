@@ -1,5 +1,5 @@
 import {Character} from "./character";
-import {getSpriteById} from "../utils";
+import {centeredAnchor, getSpriteById} from "../utils";
 import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
 import {Weapon} from "./weapon";
@@ -59,7 +59,7 @@ export class Enemy extends Character {
 export class Villager extends Enemy {
     speed: number = 1.6;
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(0));
+        super(x, y, getSpriteById(0, centeredAnchor));
         this.seeDistance = 150;
     }
 
@@ -68,7 +68,7 @@ export class Villager extends Enemy {
         let distanceToPlayer = this.getDistanceTo(this.player!);
 
         if(distanceToPlayer < this.seeDistance){
-            this.moveToPlayer();
+            // this.moveToPlayer();
         }
         if(distanceToPlayer <= 60){
             this.attack();

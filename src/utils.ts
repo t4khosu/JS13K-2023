@@ -1,8 +1,9 @@
 import {imageAssets, Sprite, SpriteSheet} from "kontra";
 
-function getSpriteById(id: number): Sprite {
+function getSpriteById(id: number, additional: object = {}): Sprite {
     return Sprite({
-        anchor: {x: 0.5, y: 0.5},
+        anchor: centeredAnchor,
+        ...additional,
         animations: SpriteSheet({
             frameHeight: 8,
             frameWidth: 8,
