@@ -6,8 +6,6 @@ import {initMouse} from "./utils";
 
 let { canvas} = init();
 
-
-
 initKeys()
 initMouse(canvas);
 
@@ -29,13 +27,13 @@ load(
 
     GameLoop({
         update: () => {
-            villager.update()
-            villager2.update();
+            !villager.remove && villager.update()
+            !villager2.remove && villager2.update();
             player.update()
         },
         render: () => {
-            villager.render()
-            villager2.render();
+            !villager.remove && villager.render()
+            !villager2.remove && villager2.render();
             player.render()
         }
     }).start()

@@ -71,7 +71,7 @@ export class Dagger extends Weapon{
 
 export class BigDagger extends Dagger{
     constructor() {
-        super(1, 2, getSpriteById(6));
+        super(3, 2, getSpriteById(6));
         this.width = 4;
         this.height = 2;
         this.damage = 5;
@@ -80,7 +80,7 @@ export class BigDagger extends Dagger{
 
 export class SmallDagger extends Dagger {
     constructor() {
-        super(1, 2, getSpriteById(8, {y: -0.5}));
+        super(2, 1, getSpriteById(8, {y: -0.5}));
         this.width = 4;
         this.height = 1;
         this.damage = 4;

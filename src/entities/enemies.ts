@@ -60,7 +60,7 @@ export class Enemy extends Character {
     }
 
     getNewDir(){
-        if(this.aggro){
+        if(this.isAggro()){
             return Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
         }else{
             return this.moveToDir;

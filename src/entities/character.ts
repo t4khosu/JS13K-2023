@@ -11,6 +11,7 @@ export class Character extends GameObjectClass {
     health: number = 0;
     dir: number = 1;
     speed: number = 2;
+    remove: boolean = false;
 
     moving: boolean = false;
     moveToDestination: Vector | undefined;
@@ -24,8 +25,10 @@ export class Character extends GameObjectClass {
 
     // timers
     invicibleTimer: Timer = new Timer(60);
+    deathTimer: Timer = new Timer(60, () => {this.remove = true;});
 
     weapon: Weapon | undefined = undefined;
+
 
     // TODO replace
     dummyTargets: Character[] = [];
@@ -68,7 +71,10 @@ export class Character extends GameObjectClass {
         this.sprite.rotation = -0.5 * Math.PI;
         this.weapon && this.removeChild(this.weapon)
         this.weapon = undefined;
-        this.update = () => {};
+        this.deathTimer.start();
+        this.update = () => {
+            this.deathTimer.update();
+        };
     }
 
     update(){
