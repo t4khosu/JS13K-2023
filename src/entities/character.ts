@@ -36,8 +36,6 @@ export class Character extends GameObjectClass {
         this.health = this.maxHealth;
         this.invicibleTimer = new Timer(60);
         this.addChild(this.sprite);
-
-        this.addChild(Sprite({width: 5, height: 8, color: "#ff000088", anchor: centeredAnchor}))
     }
 
     giveWeapon(weapon: Weapon){
@@ -47,12 +45,18 @@ export class Character extends GameObjectClass {
         this.addChild(weapon);
     }
 
-    hitBy(weapon: Weapon){
-        if(this.invicibleTimer.running) return;
+    isInvincible = () => this.invicibleTimer.running;
 
-        this.health = Math.max(0, this.health - weapon.damage);
+    hitBy(weapon: Weapon){
+        if(this.isInvincible()) return;
+
+        this.removeHealth(weapon.damage);
         if(this.health <= 0) this.die();
         this.invicibleTimer.restart();
+    }
+
+    removeHealth(damage: number){
+        this.health = Math.max(0, this.health - damage);
     }
 
     die(){

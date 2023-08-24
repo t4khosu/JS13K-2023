@@ -68,7 +68,7 @@ export class Villager extends Enemy {
         let distanceToPlayer = this.getDistanceTo(this.player!);
 
         if(distanceToPlayer < this.seeDistance){
-            // this.moveToPlayer();
+            this.moveToPlayer();
         }
         if(distanceToPlayer <= 60){
             this.attack();

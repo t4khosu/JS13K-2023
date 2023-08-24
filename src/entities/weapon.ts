@@ -75,7 +75,6 @@ export class BigDagger extends Dagger{
         this.width = 4;
         this.height = 2;
         this.damage = 5;
-        this.addChild(Sprite({width: 5, height: 2, color: "#00ff0088", anchor: centeredAnchor}))
 
     }
 }
@@ -86,6 +85,5 @@ export class SmallDagger extends Dagger {
         this.width = 4;
         this.height = 1;
         this.damage = 4;
-        this.addChild(Sprite({width: 4, height: 1, color: "#00ff0088", anchor: centeredAnchor}))
     }
 }

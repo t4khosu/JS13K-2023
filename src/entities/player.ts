@@ -26,8 +26,6 @@ export class Player extends Character {
         super.update();
         this.dashingTimeoutTimer.update();
 
-        console.log(this.health)
-
         let vx = 0;
         let vy = 0;
         let dash = false;
@@ -61,6 +59,12 @@ export class Player extends Character {
             }
         }
     }
+
+    removeHealth(damage: number){
+        super.removeHealth(damage);
+    }
+
+    isInvincible = () => this.invicibleTimer.running || this.dashing;
 
     getNewDir = () => {
         return this.x - mousePosition().x < 0 ? 1 : -1;
