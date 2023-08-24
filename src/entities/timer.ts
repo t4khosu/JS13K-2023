@@ -1,20 +1,28 @@
 export class Timer{
     maxTime: number;
     time: number = 0;
-    running: boolean = false;
+    isActive: boolean = false;
+    repeat: boolean = false;
+    onEnd: () => void;
 
-    constructor(maxTime: number) {
+    constructor(maxTime: number, onEnd = () => {}, repeat: boolean = false) {
         this.maxTime = maxTime;
+        this.onEnd = onEnd;
+        this.repeat = repeat;
     }
 
     update(){
-        if(!this.running) return;
-        this.time = Math.min(this.maxTime, this.time + 1)
-        this.running = this.time != 0 && this.time < this.maxTime;
+        if(!this.isActive) return;
+        this.time = (this.time + 1) % this.maxTime;
+
+        if(this.time == 0){
+            this.onEnd();
+            this.isActive = this.repeat;
+        }
     }
 
-    restart () {
+    start () {
         this.time = 0;
-        this.running = true;
+        this.isActive = true;
     }
 }

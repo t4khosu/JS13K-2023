@@ -18,7 +18,7 @@ export class Player extends Character {
     dashingDirection: Vector = Vector(0, 0);
 
     constructor() {
-        super(60, 60, getSpriteById(4));
+        super(60, 60, getSpriteById(4), 100);
         this.dashingTimeoutTimer = new Timer(60);
     }
 
@@ -34,7 +34,7 @@ export class Player extends Character {
         if (keyPressed('a')) vx = -1;
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
-        if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && !this.dashingTimeoutTimer.running;
+        if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && !this.dashingTimeoutTimer.isActive;
         if(mousePressed(0)) this.attack();
 
         this.moving = vx != 0 || vy != 0;
@@ -46,7 +46,7 @@ export class Player extends Character {
             this.dashing = true;
             this.dashingDirection = vec;
             this.dashingTimer = this.dashingMaxTimer;
-            this.dashingTimeoutTimer.restart();
+            this.dashingTimeoutTimer.start();
         }
 
         if(!this.dashing){
@@ -60,15 +60,15 @@ export class Player extends Character {
         }
     }
 
-    removeHealth(damage: number){
-        super.removeHealth(damage);
+    takeDamage(damage: number){
+        super.takeDamage(damage);
     }
 
-    isInvincible = () => this.invicibleTimer.running || this.dashing;
+    isInvincible = () => this.invicibleTimer.isActive || this.dashing;
 
     getNewDir = () => {
         return this.x - mousePosition().x < 0 ? 1 : -1;
     };
 
-    doHop = () => this.moving && !this.dashing;
+    isHopping = () => this.moving && !this.dashing;
 }

@@ -1,4 +1,4 @@
-import {imageAssets, Sprite, SpriteSheet} from "kontra";
+import {imageAssets, Sprite, SpriteSheet, Vector} from "kontra";
 
 function getSpriteById(id: number, additional: object = {}): Sprite {
     return Sprite({
@@ -15,6 +15,10 @@ function getSpriteById(id: number, additional: object = {}): Sprite {
             }
         }).animations
     });
+}
+
+function getRandomVecDir(){
+    return Vector(Math.random() * 2 - 1, Math.random() * 2 - 1).normalize();
 }
 
 function getElementPosition(el: any) {
@@ -64,4 +68,4 @@ function mousePressed(button: number){
 const centeredAnchor = {x: 0.5, y: 0.5}
 
 
-export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor}
+export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor, getRandomVecDir}

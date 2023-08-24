@@ -6,56 +6,61 @@ import {Timer} from "./timer";
 export class Character extends GameObjectClass {
     sprite: Sprite;
 
-    // health
+    // general
     maxHealth: number = 30;
     health: number = 0;
-
-    // timers
-    invicibleTimer: Timer;
-
-    weapon: Weapon | undefined = undefined;
-
     dir: number = 1;
     speed: number = 2;
 
-    // states
     moving: boolean = false;
+    moveToDestination: Vector | undefined;
+    moveToDir: number = 1;
 
-    // hopping
+    // hopping values
     z: number = 0;
     zMax: number = 1.5;
     zSpeed: number = 0.25;
     zDir: number = 1;
 
+    // timers
+    invicibleTimer: Timer = new Timer(60);
+
+    weapon: Weapon | undefined = undefined;
+
+    // TODO replace
     dummyTargets: Character[] = [];
 
-    constructor(x: number, y: number, sprite: Sprite) {
+    constructor(x: number, y: number, sprite: Sprite, health: number) {
         super({width: 5, height: 8, x: x, y: y, anchor: centeredAnchor, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
         this.sprite.x += 0.5;
-        this.health = this.maxHealth;
-        this.invicibleTimer = new Timer(60);
         this.addChild(this.sprite);
+        this.setHealth(health)
+    }
+
+    setHealth(health: number){
+        this.maxHealth = health;
+        this.health = health;
     }
 
     giveWeapon(weapon: Weapon){
-        this.weapon && this.removeChild();
+        if(this.weapon) this.removeChild();
         this.weapon = weapon;
         this.weapon.setOwner(this);
         this.addChild(weapon);
     }
 
-    isInvincible = () => this.invicibleTimer.running;
+    isInvincible = () => this.invicibleTimer.isActive;
 
     hitBy(weapon: Weapon){
         if(this.isInvincible()) return;
 
-        this.removeHealth(weapon.damage);
+        this.takeDamage(weapon.damage);
         if(this.health <= 0) this.die();
-        this.invicibleTimer.restart();
+        this.invicibleTimer.start();
     }
 
-    removeHealth(damage: number){
+    takeDamage(damage: number){
         this.health = Math.max(0, this.health - damage);
     }
 
@@ -68,14 +73,15 @@ export class Character extends GameObjectClass {
 
     update(){
         super.update();
-
         this.invicibleTimer.update();
+
         this.hopOnCondition();
         this.tryToChangeDir();
+        this.moveToUpdate();
     }
 
     hopOnCondition(){
-        if(this.doHop()){
+        if(this.isHopping()){
             this.z += this.zSpeed * this.zDir;
             if (this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
         }else{
@@ -85,18 +91,37 @@ export class Character extends GameObjectClass {
         this.sprite.y = -this.z;
     }
 
-    doHop = () => this.moving;
-
-    move(vec: Vector, speed: number) {
-        this.x += vec.x * speed
-        this.y += vec.y * speed
-    }
+    isHopping = () => this.moving;
 
     tryToChangeDir(){
         if(!this.isAttacking() && this.getNewDir() != this.dir){
             this.dir *= -1;
             this.scaleX *= -1;
         }
+    }
+
+    moveTo(x: number, y: number){
+        this.moveToDestination = Vector(x, y);
+        this.moveToDir = this.x - x <= 0 ? 1 : -1;
+    }
+
+    moveToUpdate(){
+        if(!this.moveToDestination) return;
+        this.moving = this.moveToDestination.distance(Vector(this.x, this.y)) > this.speed;
+
+        if(this.moving){
+            let goTo = Vector(this.moveToDestination.x - this.x, this.moveToDestination.y - this.y).normalize()
+            this.move(goTo, this.speed);
+        }else{
+            this.x = this.moveToDestination.x;
+            this.y = this.moveToDestination.y;
+            this.moveToDestination = undefined;
+        }
+    }
+
+    move(vec: Vector, speed: number) {
+        this.x += vec.x * speed
+        this.y += vec.y * speed
     }
 
     getNewDir(){
