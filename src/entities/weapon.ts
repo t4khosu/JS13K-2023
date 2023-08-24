@@ -75,7 +75,6 @@ export class BigDagger extends Dagger{
         this.width = 4;
         this.height = 2;
         this.damage = 5;
-
     }
 }
 

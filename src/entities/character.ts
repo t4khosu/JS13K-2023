@@ -60,11 +60,15 @@ export class Character extends GameObjectClass {
     }
 
     die(){
-
+        this.sprite.rotation = -0.5 * Math.PI;
+        this.weapon && this.removeChild(this.weapon)
+        this.weapon = undefined;
+        this.update = () => {};
     }
 
     update(){
         super.update();
+
         this.invicibleTimer.update();
         this.hopOnCondition();
         this.tryToChangeDir();
