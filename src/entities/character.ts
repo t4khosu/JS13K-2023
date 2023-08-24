@@ -99,7 +99,9 @@ export class Character extends GameObjectClass {
         }
     }
 
-    getNewDir = () => 1;
+    getNewDir(){
+        return 1;
+    }
 
     attack(){
         this.weapon?.tryToAttack();

@@ -7,11 +7,13 @@ import {Timer} from "./timer";
 
 export class Enemy extends Character {
     moveToDestination: Vector | undefined;
+    moveToDir: number = 1;
     player: Player | undefined;
     healthBar: Sprite;
     healthBarWidth: number = 6;
     seeDistance: number = 100;
     attackTimer: Timer;
+    aggro: boolean = false;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
@@ -26,6 +28,7 @@ export class Enemy extends Character {
 
     moveTo(x: number, y: number){
         this.moveToDestination = Vector(x, y);
+        this.moveToDir = this.x - x <= 0 ? 1 : -1;
     }
 
     moveToPlayer(){
@@ -37,7 +40,13 @@ export class Enemy extends Character {
         return this.x - this.player!.x >= 0 ? 1 : -1;
     }
 
-    getNewDir = () => Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
+    getNewDir(){
+        if(this.aggro){
+            return Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
+        }else{
+            return this.moveToDir;
+        }
+    }
 
     update(){
         super.update();
@@ -62,22 +71,41 @@ export class Enemy extends Character {
     }
 }
 export class Villager extends Enemy {
-    speed: number = 1.6;
+    speed: number = 1.2 + Math.random() * 0.6;
+    idleAroundTimer: Timer;
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(0));
-        this.seeDistance = 150;
+        this.seeDistance = 120 + Math.random() * 80;
+        this.idleAroundTimer = new Timer(200);
     }
 
     update(){
         super.update();
         let distanceToPlayer = this.getDistanceTo(this.player!);
 
-        if(distanceToPlayer < this.seeDistance){
+        this.aggro = distanceToPlayer < this.seeDistance;
+
+        if(this.aggro){
             this.moveToPlayer();
+
+            if(distanceToPlayer <= 60 && !this.attackTimer.running){
+                this.attack();
+                this.attackTimer.restart();
+            }
+        }else{
+            this.idleAround();
         }
-        if(distanceToPlayer <= 60 && !this.attackTimer.running){
-            this.attack();
-            this.attackTimer.restart();
+    }
+
+    idleAround(){
+        if(!this.moving){
+            if(!this.idleAroundTimer.running){
+                this.idleAroundTimer.restart();
+            }
+            this.idleAroundTimer.update();
+            if(!this.idleAroundTimer.running){
+                this.moveTo(this.x + 20, this.y + 20);
+            }
         }
     }
 
