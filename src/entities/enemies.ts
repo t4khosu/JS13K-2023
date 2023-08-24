@@ -3,6 +3,7 @@ import {centeredAnchor, getSpriteById} from "../utils";
 import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
 import {Weapon} from "./weapon";
+import {Timer} from "./timer";
 
 export class Enemy extends Character {
     moveToDestination: Vector | undefined;
@@ -10,10 +11,12 @@ export class Enemy extends Character {
     healthBar: Sprite;
     healthBarWidth: number = 6;
     seeDistance: number = 100;
+    attackTimer: Timer;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
         this.healthBar = Sprite({anchor: centeredAnchor, x: 0, y: -5, width: 0, height: 1, color: "#ff000099"})
+        this.attackTimer = new Timer(50);
         this.addChild(this.healthBar)
     }
 
@@ -38,6 +41,8 @@ export class Enemy extends Character {
 
     update(){
         super.update();
+        this.attackTimer.update();
+
         if(this.moveToDestination){
             if(this.moveToDestination.distance(Vector(this.x, this.y)) > this.speed){
                 this.moving = true;
@@ -70,8 +75,9 @@ export class Villager extends Enemy {
         if(distanceToPlayer < this.seeDistance){
             this.moveToPlayer();
         }
-        if(distanceToPlayer <= 60){
+        if(distanceToPlayer <= 60 && !this.attackTimer.running){
             this.attack();
+            this.attackTimer.restart();
         }
     }
 
