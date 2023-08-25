@@ -8,7 +8,7 @@ init()
 initKeys()
 
 load(
-    'characters.png', 'grass.png',
+    'characters.png', 'tiles.png',
 ).then(function () {
     const room = new Room()
 
