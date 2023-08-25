@@ -23,14 +23,10 @@ export class Weapon extends GameObjectClass{
         if(this.isIdle) this.isIdle = false;
     }
 
-    setOwner(owner: Character) {
-        this.owner = owner;
-    }
-
     checkForHit(){
         if(this.isIdle) return;
         this.owner?.getTargets().forEach(target => {
-            collides(this, target) && target.getHitBy(this);
+            collides(this, target) && target.onGettingAttackedBy(this);
         });
     }
 

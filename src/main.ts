@@ -13,27 +13,27 @@ load(
     'characters.png',
 ).then(function () {
     const player = new Player()
-    player.giveWeapon(new BigDagger());
+    player.handWeapon(new BigDagger());
 
     const villager = new Villager(250, 150);
-    villager.giveWeapon(new SmallDagger())
-    villager.setPlayer(player);
+    villager.handWeapon(new SmallDagger())
+    villager.player = player;
 
     const villager2 = new Villager(350, 200);
-    villager2.giveWeapon(new SmallDagger())
-    villager2.setPlayer(player);
+    villager2.handWeapon(new SmallDagger())
+    villager2.player = player;
 
     player.dummyTargets = [villager, villager2]
 
     GameLoop({
         update: () => {
-            !villager.remove && villager.update()
-            !villager2.remove && villager2.update();
+            !villager.removeFlag && villager.update()
+            !villager2.removeFlag && villager2.update();
             player.update()
         },
         render: () => {
-            !villager.remove && villager.render()
-            !villager2.remove && villager2.render();
+            !villager.removeFlag && villager.render()
+            !villager2.removeFlag && villager2.render();
             player.render()
         }
     }).start()

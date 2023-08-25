@@ -24,5 +24,6 @@ export class Timer{
     start () {
         this.time = 0;
         this.isActive = true;
+        return this;
     }
 }
