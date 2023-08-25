@@ -1,14 +1,18 @@
 export class Timer{
-    maxTime: number;
+    maxTime!: number;
     time: number = 0;
     isActive: boolean = false;
     repeat: boolean = false;
     onEnd: () => void;
 
     constructor(maxTime: number, onEnd = () => {}, repeat: boolean = false) {
-        this.maxTime = maxTime;
+        this.setMax(maxTime);
         this.onEnd = onEnd;
         this.repeat = repeat;
+    }
+
+    setMax(max: number){
+        this.maxTime = Math.floor(max);
     }
 
     update(){

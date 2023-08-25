@@ -1,5 +1,5 @@
 import {Character} from "./character";
-import {centeredAnchor, getRandomVecDir, getSpriteById} from "../utils";
+import {centeredAnchor, getRandomVecDir, getSpriteById, randNumAround} from "../utils";
 import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
 import {Weapon} from "./weapon";
@@ -12,10 +12,10 @@ export class Enemy extends Character {
     seeDistance: number = 100;
     aggro: boolean = false;
 
-    idleTimer = new Timer(200, () => {
-        const destination = this.getNextPosition(getRandomVecDir(), 40);
+    idleTimer = new Timer(randNumAround(200), () => {
+        const destination = this.getNextPosition(getRandomVecDir(), randNumAround(60));
         this.moveTo(destination.x, destination.y);
-        this.idleTimer.maxTime = 200;
+        this.idleTimer.setMax(randNumAround(200));
     }, true).start();
 
     attackTimer = new Timer(60, () => {
@@ -86,9 +86,9 @@ export class Enemy extends Character {
     }
 }
 export class Villager extends Enemy {
-    speed: number = 1.2 + Math.random() * 0.6;
+    speed: number = randNumAround(1.4);
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(0));
-        this.seeDistance = 120 + Math.random() * 80;
+        this.seeDistance = randNumAround(160);
     }
 }
