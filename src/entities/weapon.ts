@@ -44,7 +44,7 @@ export class Weapon extends Damageable{
         this.originY = y;
     }
 
-    attack(target: Character){
+    attack(target?: Character){
         this.isAttacking = true;
         this.target = target;
     }
