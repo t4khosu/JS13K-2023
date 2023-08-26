@@ -1,4 +1,5 @@
 import {imageAssets, Sprite, SpriteSheet, Vector} from "kontra";
+import {Spell} from "./entities/weapon";
 
 function getSpriteById(id: number, additional: object = {}): Sprite {
     return Sprite({
@@ -67,7 +68,12 @@ function mousePressed(button: number){
 
 const randNumber = (num: number) => 0.7 * num + Math.random() * 0.6 * num;
 
+let spells: Spell[] = []
+const getSpells = () => spells;
+const addSpell = (spell: Spell) => {spells.push(spell)}
+
+const cleanSpells = () => {spells = spells.filter(s => !s.removeFlag)}
 const centeredAnchor = {x: 0.5, y: 0.5}
 
 
-export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor, getRandomVecDir, randNumber}
+export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor, getRandomVecDir, randNumber, addSpell, getSpells, cleanSpells}

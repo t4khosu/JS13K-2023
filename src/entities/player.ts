@@ -15,7 +15,7 @@ export class Player extends Character {
     update() {
         super.update();
         this.updatePlayerMovement();
-        if(mousePressed(0)) this.attack();
+        if(mousePressed(0)) this.attack(Vector(0, 0));
     }
 
     updatePlayerMovement(){

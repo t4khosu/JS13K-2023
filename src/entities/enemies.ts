@@ -40,13 +40,17 @@ export class Enemy extends Character {
             this.aggro = false;
         }
 
-        if(this.distanceToPlayer() <= this.attackDistance){
-            this.attack();
+        if(this.canAttack()){
+            this.attack(this.vectorTo(this.player.x, this.player.y));
         }
 
         if(this.distanceToPlayer() <= this.seeDistance){
             this.moveToPlayer();
         }
+    }
+
+    canAttack(){
+        return this.distanceToPlayer() <= this.attackDistance;
     }
 
     updateIdle(){
@@ -83,7 +87,7 @@ export class Villager extends Enemy {
     speed: number = randNumber(1.4);
     seeDistance: number = randNumber(160);
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(0), 20);
+        super(x, y, getSpriteById(0), 15);
     }
 }
 
@@ -92,20 +96,24 @@ export class Mage extends Enemy {
     rangeToPlayer: number
 
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(2), 20);
+        super(x, y, getSpriteById(2), 10);
         this.seeDistance = randNumber(350);
         this.rangeToPlayer = this.seeDistance * 0.6;
-        this.attackDistance = this.rangeToPlayer
+        this.attackDistance = this.rangeToPlayer + 5
+        this.attackTimeoutTimer.setMax(100);
     }
 
     update(){
         super.update();
     }
 
+    canAttack(){
+        return super.canAttack() && this.distanceToPlayer() >= this.attackDistance * 0.4
+    }
+
     moveToPlayer(){
         let v = this.vectorTo(this.player.x, this.player.y)
         let distance = v.length() - this.rangeToPlayer
         if(Math.abs(distance) > 12) this.moveTo(v, distance)
-
     }
 }

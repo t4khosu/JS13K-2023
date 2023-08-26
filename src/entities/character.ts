@@ -72,9 +72,9 @@ export class Character extends Entity {
         this.addChild(weapon);
     }
 
-    attack(){
+    attack(direction: Vector){
         if(!this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking){
-            this.weapon?.attack();
+            this.weapon?.attack(direction);
             this.attackTimeoutTimer.start();
         }
     }

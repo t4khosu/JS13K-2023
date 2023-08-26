@@ -1,5 +1,5 @@
-import {collides, GameObjectClass, Sprite, Vector} from "kontra";
-import {centeredAnchor, getSpriteById} from "../utils";
+import {collides, Sprite, Vector} from "kontra";
+import {addSpell, centeredAnchor, getSpriteById} from "../utils";
 import {Character} from "./character";
 import {Entity} from "./entity";
 
@@ -20,6 +20,7 @@ export class Weapon extends Damageable{
 
     isAttacking: boolean = false;
     owner: Character | undefined;
+    direction!: Vector;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
@@ -27,8 +28,9 @@ export class Weapon extends Damageable{
         this.originY = y;
     }
 
-    attack(){
+    attack(direction: Vector){
         this.isAttacking = true;
+        this.direction = direction;
     }
 
     checkForHit(){
@@ -90,31 +92,29 @@ export class Staff extends Weapon {
         this.width = 4;
         this.height = 1;
         this.damage = 0;
-
     }
 
     update(){
         super.update();
-        if(!this.isAttacking){
-            this.addChild(new StaffMagic(
-                Vector(1, 1).normalize()
-            ));
-            this.isAttacking = true;
+        if(this.isAttacking){
+            addSpell(new Spell(this.world.x, this.world.y - 15, this.direction))
+            this.isAttacking = false;
         }
     }
 }
 
-export class StaffMagic extends Weapon {
-    speed: number = 1;
-    direction: Vector;
+export class Spell extends Damageable {
+    speed: number = 4;
+    lifeTime: number = 70;
 
-    constructor(direction: Vector){
-        super(-1, -3, Sprite({width: 1, height: 1, color: "red"}))
-        this.direction= direction;
+    constructor(x: number, y: number, direction: Vector){
+        super(x, y, Sprite({width: 1, height: 1, color: "#ffffbbdd"}))
+        this.setScale(8, 8)
+        this.moveTo(direction, 1000000)
     }
 
     update(){
-        this.x += this.direction.x * this.speed;
-        this.y += this.direction.y * this.speed;
+        super.update();
+        if(--this.lifeTime <= 0) this.removeFlag = true;
     }
 }
