@@ -1,7 +1,7 @@
 import {init, GameLoop, initKeys, load} from 'kontra'
 import {Player} from "./entities/player";
-import {BigDagger, SmallDagger} from "./entities/weapon";
-import {Villager} from "./entities/enemies";
+import {BigDagger, SmallDagger, Staff} from "./entities/weapon";
+import {Mage, Villager} from "./entities/enemies";
 import {initMouse} from "./utils";
 
 let { canvas} = init();
@@ -19,21 +19,21 @@ load(
     villager.handWeapon(new SmallDagger())
     villager.player = player;
 
-    const villager2 = new Villager(350, 200);
-    villager2.handWeapon(new SmallDagger())
-    villager2.player = player;
+    const mage = new Mage(350, 200);
+    mage.handWeapon(new Staff())
+    mage.player = player;
 
-    player.dummyTargets = [villager, villager2]
+    player.dummyTargets = [villager, mage]
 
     GameLoop({
         update: () => {
             !villager.removeFlag && villager.update()
-            !villager2.removeFlag && villager2.update();
+            !mage.removeFlag && mage.update();
             player.update()
         },
         render: () => {
             !villager.removeFlag && villager.render()
-            !villager2.removeFlag && villager2.render();
+            !mage.removeFlag && mage.render();
             player.render()
         }
     }).start()

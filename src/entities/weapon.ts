@@ -82,3 +82,17 @@ export class SmallDagger extends Dagger {
         this.damage = 4;
     }
 }
+
+export class Staff extends Weapon {
+    constructor() {
+        super(6, 0, getSpriteById(7));
+        this.width = 4;
+        this.height = 1;
+        this.damage = 0;
+    }
+
+    update(){
+        super.update();
+        this.isIdle = true;
+    }
+}

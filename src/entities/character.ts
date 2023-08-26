@@ -88,9 +88,9 @@ export class Character extends GameObjectClass {
     moveUpdate(){
         const distance = this.moveToDestination!.distance(Vector(this.x, this.y));
         const speed = this.dashing ? this.speed * 4 : this.speed;
-        this.moving = distance >= speed;
+        this.moving = distance > 0.1;
 
-        const goTo = this.moving ? this.getNextPosition(Vector(this.moveToDestination!.x - this.x, this.moveToDestination!.y - this.y), speed) : this.moveToDestination;
+        const goTo = distance >= speed ? this.getNextPosition(Vector(this.moveToDestination!.x - this.x, this.moveToDestination!.y - this.y), speed) : this.moveToDestination;
         this.x = goTo.x;
         this.y = goTo.y;
 

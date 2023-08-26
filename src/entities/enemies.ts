@@ -1,6 +1,6 @@
 import {Character} from "./character";
 import {centeredAnchor, getRandomVecDir, getSpriteById, randNumAround} from "../utils";
-import {Sprite} from "kontra";
+import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
 import {Weapon} from "./weapon";
 import {Timer} from "./timer";
@@ -90,5 +90,28 @@ export class Villager extends Enemy {
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(0));
         this.seeDistance = randNumAround(160);
+    }
+}
+
+export class Mage extends Enemy {
+    speed: number = randNumAround(1.1);
+    rangeToPlayer: number;
+    constructor(x: number, y: number) {
+        super(x, y, getSpriteById(2));
+        this.seeDistance = randNumAround(300);
+        this.rangeToPlayer = this.seeDistance * 0.6;
+    }
+
+    update(){
+        super.update();
+        console.log(this.aggro)
+    }
+
+    moveToPlayer(){
+        let v = Vector(this.player.x - this.x, this.player.y - this.y)
+        let goalDistToPlayer = v.length() - this.rangeToPlayer
+        let p = this.getNextPosition(v.normalize(), goalDistToPlayer)
+
+        this.moveTo(p.x, p.y)
     }
 }
