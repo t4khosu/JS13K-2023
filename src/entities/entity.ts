@@ -1,4 +1,5 @@
 import {GameObjectClass, Vector} from "kontra";
+import {centeredAnchor} from "../utils";
 
 export class Entity extends GameObjectClass {
     movingTo: Vector = Vector(this.x, this.y);
@@ -6,6 +7,7 @@ export class Entity extends GameObjectClass {
     removeFlag: boolean = false;
     lookingDirection: number = 1;
     moving: boolean = false;
+    anchor = centeredAnchor;
 
     update(){
         super.update();

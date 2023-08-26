@@ -29,14 +29,14 @@ load(
         update: () => {
             !villager.removeFlag && villager.update()
             !mage.removeFlag && mage.update();
-            player.update()
+            !player.removeFlag && player.update()
             cleanSpells();
             getSpells().forEach(s => s.update())
         },
         render: () => {
             !villager.removeFlag && villager.render()
             !mage.removeFlag && mage.render();
-            player.render()
+            !player.removeFlag && player.render()
             getSpells().forEach(s => s.render())
         }
     }).start()

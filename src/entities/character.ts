@@ -23,7 +23,7 @@ export class Character extends Entity {
     dummyTargets: Character[] = [];
 
     constructor(x: number, y: number, sprite: Sprite, health: number) {
-        super({width: 5, height: 8, x: x, y: y, anchor: centeredAnchor, scaleX: 5, scaleY: 5});
+        super({width: 5, height: 8, x: x, y: y, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
         this.sprite.x += 0.5;
         this.maxHealth = health;
@@ -72,9 +72,9 @@ export class Character extends Entity {
         this.addChild(weapon);
     }
 
-    attack(direction: Vector){
+    attack(target: Character){
         if(!this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking){
-            this.weapon?.attack(direction);
+            this.weapon?.attack(target);
             this.attackTimeoutTimer.start();
         }
     }

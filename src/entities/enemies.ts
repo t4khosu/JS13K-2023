@@ -41,7 +41,7 @@ export class Enemy extends Character {
         }
 
         if(this.canAttack()){
-            this.attack(this.vectorTo(this.player.x, this.player.y));
+            this.attack(this.player);
         }
 
         if(this.distanceToPlayer() <= this.seeDistance){
@@ -67,7 +67,7 @@ export class Enemy extends Character {
     }
 
     moveToPlayer(){
-        this.movingTo = Vector( this.player.x - this.playerDirection() * 38, this.player.y)
+        this.movingTo = Vector(this.player.x - this.playerDirection() * 38, this.player.y)
     }
 
     playerDirection(){
