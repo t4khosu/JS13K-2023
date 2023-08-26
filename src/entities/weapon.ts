@@ -24,8 +24,8 @@ export class Damageable extends Entity{
     checkForHit(){
         if(!this.isAttacking) return;
         this.owner?.targets().forEach(target => {
+            if(target.isInvincible()) return;
             if(collides(this, target)){
-                console.log("connect")
                 target.getsHitBy(this)
                 this.removeFlag = this.destroyOnCollision;
             }

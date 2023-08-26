@@ -19,7 +19,7 @@ load(
     villager.handWeapon(new SmallDagger())
     villager.player = player;
 
-    const mage = new Mage(350, 200);
+    const mage = new Mage(500, 300);
     mage.handWeapon(new Staff())
     mage.player = player;
 
