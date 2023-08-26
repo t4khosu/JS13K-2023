@@ -65,9 +65,9 @@ function mousePressed(button: number){
     return buttonPressed === button;
 }
 
-const randNumAround = (num: number) => 0.7 * num + Math.random() * 0.6 * num;
+const randNumber = (num: number) => 0.7 * num + Math.random() * 0.6 * num;
 
 const centeredAnchor = {x: 0.5, y: 0.5}
 
 
-export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor, getRandomVecDir, randNumAround}
+export {getSpriteById, getElementPosition, initMouse, mousePosition, mousePressed, centeredAnchor, getRandomVecDir, randNumber}

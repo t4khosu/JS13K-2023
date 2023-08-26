@@ -81,6 +81,7 @@ export class Character extends Entity {
 
     getsHitBy(damageable: Damageable){
         if(this.isInvincible()) return;
+        this.invincibleTimer.start();
         this.health = Math.max(0, this.health - damageable.damage);
         if(this.health <= 0) this.die();
     }

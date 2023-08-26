@@ -17,7 +17,7 @@ export class Entity extends GameObjectClass {
         const distance = Math.min(this.movingTo.distance(Vector(this.x, this.y)), this.currentSpeed());
         this.moving = distance != 0;
 
-        if(distance < 1){
+        if(distance < this.currentSpeed()){
             this.x = this.movingTo.x;
             this.y = this.movingTo.y;
         }else{
@@ -41,6 +41,8 @@ export class Entity extends GameObjectClass {
         distance = distance == 0 ? this.currentSpeed() : distance;
         this.movingTo.x = this.x + direction.x * distance;
         this.movingTo.y = this.y + direction.y * distance;
+
+        console.log(this.movingTo)
     }
 
     getLookingDirection(): number{

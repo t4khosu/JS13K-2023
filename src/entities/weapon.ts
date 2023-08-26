@@ -45,19 +45,24 @@ export class Weapon extends Damageable{
 }
 
 export class Dagger extends Weapon{
-    maxDistance: number = 4;
+    maxDistance: number = 6;
+    speed: number = 0.5;
 
     update(){
         super.update();
-        if(this.isAttacking){
-            if(this.x <= this.maxDistance){
-                this.moveTo(Vector(this.lookingDirection, 0), this.maxDistance)
+        if(!this.isAttacking){
+            this.movingTo = Vector(this.originX, this.originY)
+        }else{
+            if(this.x < this.maxDistance){
+                this.movingTo = Vector(this.x + this.maxDistance, this.y)
             }else{
                 this.isAttacking = false;
             }
-        }else{
-            this.moveTo(Vector(this.originX, this.originY), this.maxDistance)
         }
+    }
+
+    getLookingDirection(): number{
+        return 0;
     }
 }
 
