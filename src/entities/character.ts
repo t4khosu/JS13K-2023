@@ -1,6 +1,5 @@
-import {GameObjectClass, Sprite, Vector} from "kontra";
+import {Sprite, Vector} from "kontra";
 import {Damageable, Weapon} from "./weapon";
-import {centeredAnchor} from "../utils";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
 
