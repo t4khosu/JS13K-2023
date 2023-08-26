@@ -18,7 +18,7 @@ function getSpriteById(id: number, additional: object = {}): Sprite {
 }
 
 function getRandomVecDir(){
-    return Vector(Math.random() * 2 - 1, Math.random() * 2 - 1).normalize();
+    return Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
 }
 
 function getElementPosition(el: any) {

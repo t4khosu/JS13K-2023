@@ -2,7 +2,7 @@ import {Character} from "./character";
 import {centeredAnchor, getRandomVecDir, getSpriteById, randNumAround} from "../utils";
 import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
-import {Weapon} from "./weapon";
+import {Damageable, Weapon} from "./weapon";
 import {Timer} from "./timer";
 
 export class Enemy extends Character {
@@ -14,20 +14,14 @@ export class Enemy extends Character {
     attackDistance: number = 60;
 
     idleTimer = new Timer(randNumAround(200), () => {
-        const destination = this.getNextPosition(getRandomVecDir(), randNumAround(60));
-        this.moveTo(destination.x, destination.y);
+        this.moveTo(getRandomVecDir(), randNumAround(60));
         this.idleTimer.setMax(randNumAround(200));
     }, true).start();
 
-    attackTimer = new Timer(60, () => {
-        if(this.getDistanceToPlayer() <= this.attackDistance){
-            this.attack();
-        }
-    }, true).start();
 
-    constructor(x: number, y: number, sprite: Sprite) {
-        super(x, y, sprite, 20);
-        this.healthBar = Sprite({anchor: centeredAnchor, x: 0, y: -5, width: 0, height: 1, color: "#ff000099"})
+    constructor(x: number, y: number, sprite: Sprite, health: number) {
+        super(x, y, sprite, health);
+        this.healthBar = Sprite({anchor: centeredAnchor, y: -5, height: 1, color: "#ff000099"})
         this.addChild(this.healthBar)
     }
 
@@ -40,57 +34,58 @@ export class Enemy extends Character {
         }
     }
 
+    updateAggro(){
+        if(this.distanceToPlayer() >= this.seeDistance && !this.moving){
+            this.idleTimer.start();
+            this.aggro = false;
+        }
+
+        if(this.distanceToPlayer() <= this.attackDistance){
+            this.attack();
+        }
+
+        if(this.distanceToPlayer() <= this.seeDistance){
+            this.moveToPlayer();
+        }
+    }
+
     updateIdle(){
         this.idleTimer.update();
-        if(this.getDistanceToPlayer() <= this.seeDistance){
+        if(this.distanceToPlayer() <= this.seeDistance){
             this.aggro = true;
         }
     }
 
-    updateAggro(){
-        this.attackTimer.update();
-        if(this.getDistanceToPlayer() <= this.seeDistance){
-            this.moveToPlayer();
-        }
-        if(this.getDistanceToPlayer() >= this.seeDistance && !this.moving){
-            this.idleTimer.start();
-            this.aggro = false;
-        }
-    }
+    distanceToPlayer = () => this.distanceTo(this.player!);
 
-    getDistanceToPlayer = () => this.distanceTo(this.player!);
-
-    getTargets(): Character[] {
+    targets(): Character[] {
         return [this.player!]
     }
 
     moveToPlayer(){
-        let followX = this.player?.dashing ? this.player!.x : this.player!.x + this.posToPlayer() * 40
-        this.moveTo(followX, this.player!.y)
+        let xDestination
+        let followX = this.player?.dashing ? this.player!.x : this.player!.x + this.playerDirection() * 40
+        this.moveTo(Vector(followX, this.player!.y))
     }
 
-    posToPlayer(){
-        return this.x - this.player!.x >= 0 ? 1 : -1;
+    playerDirection(){
+        return Math.sign(this.player!.x - this.x);
     }
 
-    getTargetDir(){
-        if(this.aggro){
-            return Math.sign(this.x - this.player!.x) < 0 ? 1 : -1;
-        }else{
-            return this.moveToDir;
-        }
+    getLookingDirection(){
+        return this.aggro ? this.playerDirection() : super.getLookingDirection();
     }
 
-    onGettingAttackedBy(weapon: Weapon){
-        super.onGettingAttackedBy(weapon);
-        this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth
+    getsHitBy(damageable: Damageable){
+        super.getsHitBy(damageable);
+        this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth;
     }
 }
 export class Villager extends Enemy {
     speed: number = randNumAround(1.4);
+    seeDistance: number = randNumAround(160);
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(0));
-        this.seeDistance = randNumAround(160);
+        super(x, y, getSpriteById(0), 20);
     }
 }
 
@@ -99,7 +94,7 @@ export class Mage extends Enemy {
     rangeToPlayer: number;
 
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(2));
+        super(x, y, getSpriteById(2), 20);
         this.seeDistance = randNumAround(300);
         this.rangeToPlayer = this.seeDistance * 0.6;
         this.attackDistance = this.rangeToPlayer

@@ -1,35 +1,23 @@
 import {GameObjectClass, Sprite, Vector} from "kontra";
-import {Weapon} from "./weapon";
+import {Damageable, Weapon} from "./weapon";
 import {centeredAnchor} from "../utils";
 import {Timer} from "./timer";
+import {Entity} from "./entity";
 
-export class Character extends GameObjectClass {
+export class Character extends Entity {
     sprite: Sprite;
 
-    // general
     maxHealth: number = 30;
     health: number = 0;
-    dir: number = 1;
-    speed: number = 2;
-    removeFlag: boolean = false;
-
-    moving: boolean = false;
-    moveToDestination: Vector;
-    moveToDir: number = 1;
-
     dashing: boolean = false;
-    dashingDistance: number = 60;
-    dashingWaitTimer: Timer = new Timer(60);
+    dashRefillTimer: Timer = new Timer(60);
+    invincibleTimer: Timer = new Timer(60);
+    attackTimeoutTimer: Timer = new Timer(30);
+    weapon: Weapon | undefined = undefined;
 
     // hopping values
     z: number = 0;
     zDir: number = 1;
-
-    // timers
-    invincibleTimer: Timer = new Timer(60);
-    deathTimer: Timer = new Timer(60, () => {this.removeFlag = true;});
-
-    weapon: Weapon | undefined = undefined;
 
     // TODO replace
     dummyTargets: Character[] = [];
@@ -40,66 +28,24 @@ export class Character extends GameObjectClass {
         this.sprite.x += 0.5;
         this.maxHealth = health;
         this.health = health;
-        this.moveToDestination = Vector(x, y);
 
         this.addChild(this.sprite);
     }
 
     update(){
         super.update();
+        this.updateHopping();
+
         this.invincibleTimer.update();
-        this.dashingWaitTimer.update();
+        this.dashRefillTimer.update();
+        this.attackTimeoutTimer.update();
 
-        this.tryToHop();
-        this.tryToTurn();
-
-        this.moveUpdate();
-    }
-
-    handWeapon(weapon: Weapon){
-        if(this.weapon) this.removeChild();
-        this.weapon = weapon;
-        this.weapon.owner = this;
-        this.addChild(weapon);
-    }
-
-    onGettingAttackedBy(weapon: Weapon){
-        if(this.invincibleTimer.isActive) return;
-        this.invincibleTimer.start();
-
-        this.takeDamage(weapon.damage);
-        if(this.health <= 0) this.die();
-    }
-
-    takeDamage(damage: number){
-        this.health = Math.max(0, this.health - damage);
-    }
-
-    die(){
-        this.sprite.rotation = -0.5 * Math.PI;
-        this.weapon && this.removeChild(this.weapon)
-        this.weapon = undefined;
-        this.deathTimer.start();
-        this.update = () => {
-            this.deathTimer.update();
-        };
-    }
-
-    moveUpdate(){
-        const distance = this.moveToDestination!.distance(Vector(this.x, this.y));
-        const speed = this.dashing ? this.speed * 4 : this.speed;
-        this.moving = distance > 0.1;
-
-        const goTo = distance >= speed ? this.getNextPosition(Vector(this.moveToDestination!.x - this.x, this.moveToDestination!.y - this.y), speed) : this.moveToDestination;
-        this.x = goTo.x;
-        this.y = goTo.y;
-
-        if(!this.moving){
+        if(!this.moving && this.dashing){
             this.dashing = false;
         }
     }
 
-    tryToHop(){
+    updateHopping(){
         if(this.moving && !this.dashing){
             this.z += 0.25 * this.zDir;
             if (this.z <= 0 || this.z >= 1.5) this.zDir *= -1;
@@ -110,47 +56,49 @@ export class Character extends GameObjectClass {
         this.sprite.y = -this.z;
     }
 
-    tryToTurn(){
-        if(!this.isAttacking() && this.getTargetDir() != this.dir){
-            this.dir *= -1;
-            this.scaleX *= -1;
-        }
-    }
-
-    moveTo(x: number, y: number){
-        this.moveToDestination = Vector(x, y);
-        this.moveToDir = this.x - x <= 0 ? 1 : -1;
-    }
-
-    dashTo(x: number, y: number){
-        if(!this.dashingWaitTimer.isActive){
+    dashTo(direction: Vector, distance: number = 0){
+        if(!this.dashing && !this.dashRefillTimer.isActive) {
             this.dashing = true;
-            this.dashingWaitTimer.start();
-            this.moveTo(x, y);
+            this.dashRefillTimer.start();
+            this.moveTo(direction, distance);
         }
     }
 
-    getNextPosition(direction: Vector, distance: number){
-        direction = direction.normalize();
-        return Vector(
-            this.x + direction.x * distance,
-            this.y + direction.y * distance,
-        )
-    }
+    currentSpeed = () => this.dashing ? this.speed * 4 : this.speed;
 
-    getTargetDir(){
-        return 1;
+    handWeapon(weapon: Weapon){
+        this.weapon = weapon;
+        this.weapon.owner = this;
+        this.addChild(weapon);
     }
 
     attack(){
-        this.weapon?.tryToAttack();
+        if(!this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking){
+            this.weapon?.attack();
+            this.attackTimeoutTimer.start();
+        }
     }
 
-    isAttacking = () => this.weapon ? !this.weapon.isIdle : false;
+    getsHitBy(damageable: Damageable){
+        if(this.isInvincible()) return;
+        this.health = Math.max(0, this.health - damageable.damage);
+        if(this.health <= 0) this.die();
+    }
 
-    distanceTo = (character: Character) => Vector(this.x, this.y).distance(Vector(character.x, character.y));
+    isInvincible = () => this.invincibleTimer.isActive || this.dashing;
 
-    getTargets(): Character[] {
+    die(){
+        this.sprite.rotation = -0.5 * Math.PI;
+        this.weapon && this.removeChild(this.weapon)
+        this.weapon = undefined;
+
+        const deathTimer = new Timer(60, () => {this.removeFlag = true;}).start();
+        this.update = () => {
+            deathTimer.update();
+        };
+    }
+
+    targets(): Character[] {
         return this.dummyTargets;
     }
 }

@@ -1,32 +1,40 @@
 import {collides, GameObjectClass, Sprite, Vector} from "kontra";
 import {centeredAnchor, getSpriteById} from "../utils";
 import {Character} from "./character";
+import {Entity} from "./entity";
 
-export class Weapon extends GameObjectClass{
-    originX: number;
-    originY: number;
-    sprite: Sprite;
-    isIdle: boolean = true;
-    owner: Character | undefined;
+export class Damageable extends Entity{
     damage: number = 0;
+    sprite: Sprite;
 
-    constructor(originX: number, originY: number, sprite: Sprite) {
-        super({x: originX, y: originY, anchor: centeredAnchor});
-        this.originX = originX;
-        this.originY = originY;
+    constructor(x: number, y: number, sprite: Sprite) {
+        super({x: x, y: y, anchor: centeredAnchor});
         this.sprite = sprite;
-
         this.addChild(this.sprite);
     }
+}
 
-    tryToAttack(){
-        if(this.isIdle) this.isIdle = false;
+export class Weapon extends Damageable{
+    originX: number;
+    originY: number;
+
+    isAttacking: boolean = false;
+    owner: Character | undefined;
+
+    constructor(x: number, y: number, sprite: Sprite) {
+        super(x, y, sprite);
+        this.originX = x;
+        this.originY = y;
+    }
+
+    attack(){
+        this.isAttacking = true;
     }
 
     checkForHit(){
-        if(this.isIdle) return;
-        this.owner?.getTargets().forEach(target => {
-            collides(this, target) && target.onGettingAttackedBy(this);
+        if(!this.isAttacking) return;
+        this.owner?.targets().forEach(target => {
+            collides(this, target) && target.getsHitBy(this);
         });
     }
 
@@ -37,30 +45,18 @@ export class Weapon extends GameObjectClass{
 }
 
 export class Dagger extends Weapon{
-
-    attackMaxTime: number = 4;
-    attackTime: number = 0;
-    attackSpeed: number = 0.5;
+    maxDistance: number = 4;
 
     update(){
         super.update();
-        if(this.isIdle) return;
-
-        this.attackTime += this.attackSpeed;
-        let relX;
-
-        if(this.attackTime < this.attackMaxTime){
-            relX = this.attackTime;
+        if(this.isAttacking){
+            if(this.x <= this.maxDistance){
+                this.moveTo(Vector(this.lookingDirection, 0), this.maxDistance)
+            }else{
+                this.isAttacking = false;
+            }
         }else{
-            relX = this.attackMaxTime - this.attackTime + this.attackMaxTime;
-        }
-
-        relX = Math.max(0, relX);
-        this.x = this.originX + relX;
-
-        if(relX === 0){
-            this.attackTime =  0;
-            this.isIdle = true;
+            this.moveTo(Vector(this.originX, this.originY), this.maxDistance)
         }
     }
 }
@@ -94,11 +90,11 @@ export class Staff extends Weapon {
 
     update(){
         super.update();
-        if(!this.isIdle){
+        if(!this.isAttacking){
             this.addChild(new StaffMagic(
                 Vector(1, 1).normalize()
             ));
-            this.isIdle = true;
+            this.isAttacking = true;
         }
     }
 }
