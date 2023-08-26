@@ -41,8 +41,6 @@ export class Entity extends GameObjectClass {
         distance = distance == 0 ? this.currentSpeed() : distance;
         this.movingTo.x = this.x + direction.x * distance;
         this.movingTo.y = this.y + direction.y * distance;
-
-        console.log(this.movingTo)
     }
 
     getLookingDirection(): number{

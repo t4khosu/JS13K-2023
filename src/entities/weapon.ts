@@ -86,7 +86,7 @@ export class SmallDagger extends Dagger {
 
 export class Staff extends Weapon {
     constructor() {
-        super(6, 0, getSpriteById(7));
+        super(5, 0, getSpriteById(7));
         this.width = 4;
         this.height = 1;
         this.damage = 0;
@@ -109,7 +109,7 @@ export class StaffMagic extends Weapon {
     direction: Vector;
 
     constructor(direction: Vector){
-        super(-2, -3, Sprite({width: 1, height: 1, color: "red"}))
+        super(-1, -3, Sprite({width: 1, height: 1, color: "red"}))
         this.direction= direction;
     }
 
