@@ -11,6 +11,7 @@ export class Enemy extends Character {
     healthBarWidth: number = 6;
     seeDistance: number = 100;
     aggro: boolean = false;
+    attackDistance: number = 60;
 
     idleTimer = new Timer(randNumAround(200), () => {
         const destination = this.getNextPosition(getRandomVecDir(), randNumAround(60));
@@ -19,7 +20,7 @@ export class Enemy extends Character {
     }, true).start();
 
     attackTimer = new Timer(60, () => {
-        if(this.getDistanceToPlayer() <= 60){
+        if(this.getDistanceToPlayer() <= this.attackDistance){
             this.attack();
         }
     }, true).start();
@@ -96,10 +97,12 @@ export class Villager extends Enemy {
 export class Mage extends Enemy {
     speed: number = randNumAround(1.1);
     rangeToPlayer: number;
+
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(2));
         this.seeDistance = randNumAround(300);
         this.rangeToPlayer = this.seeDistance * 0.6;
+        this.attackDistance = this.rangeToPlayer
     }
 
     update(){

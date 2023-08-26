@@ -1,4 +1,4 @@
-import {collides, GameObjectClass, Sprite} from "kontra";
+import {collides, GameObjectClass, Sprite, Vector} from "kontra";
 import {centeredAnchor, getSpriteById} from "../utils";
 import {Character} from "./character";
 
@@ -89,10 +89,31 @@ export class Staff extends Weapon {
         this.width = 4;
         this.height = 1;
         this.damage = 0;
+
     }
 
     update(){
         super.update();
-        this.isIdle = true;
+        if(!this.isIdle){
+            this.addChild(new StaffMagic(
+                Vector(1, 1).normalize()
+            ));
+            this.isIdle = true;
+        }
+    }
+}
+
+export class StaffMagic extends Weapon {
+    speed: number = 1;
+    direction: Vector;
+
+    constructor(direction: Vector){
+        super(-2, -3, Sprite({width: 1, height: 1, color: "red"}))
+        this.direction= direction;
+    }
+
+    update(){
+        this.x += this.direction.x * this.speed;
+        this.y += this.direction.y * this.speed;
     }
 }
