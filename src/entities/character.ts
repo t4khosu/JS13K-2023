@@ -30,7 +30,6 @@ export class Character extends Entity {
         this.health = health;
 
         this.addChild(this.sprite);
-        this.addChild(Sprite({width: this.width, height: this.height, anchor: this.anchor, color: "#00ff0088"}))
     }
 
     update(){

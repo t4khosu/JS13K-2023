@@ -104,7 +104,6 @@ export class BigDagger extends Dagger{
         this.width = 4;
         this.height = 2;
         this.damage = 5;
-        this.addChild(Sprite({width: this.width, height: this.height, anchor: this.anchor, color: "#00ffff88"}))
     }
 
     update(){
