@@ -122,7 +122,7 @@ export class Spell extends Damageable {
         this.isAttacking = true;
         this.owner= owner;
         this.setScale(8, 8)
-        this.moveTo(direction, 1000000)
+        this.moveTo(direction, this.speed * this.lifeTime)
     }
 
     update(){
