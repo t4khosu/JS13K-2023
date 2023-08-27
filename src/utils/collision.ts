@@ -126,12 +126,7 @@ function sat(rect1: CollRect, rect2: CollRect){
 }
 
 function collidesWithRotation(obj1: GameObject, obj2: GameObject): boolean{
-    const rect1 = new CollRect(obj1);
-    const rect2 = new CollRect(obj2);
-
-    // console.log(rect1)
-    // console.log(rect2)
-    return sat(rect1, rect2);
+    return sat(new CollRect(obj1), new CollRect(obj2));
 }
 
 
