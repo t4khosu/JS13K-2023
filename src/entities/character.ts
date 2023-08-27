@@ -1,74 +1,107 @@
-import {GameObjectClass, Sprite, Vector} from "kontra";
-import {Weapons} from "./weapons";
+import {Sprite, Vector} from "kontra";
+import {Damageable, Weapon} from "./weapon";
+import {Timer} from "./timer";
+import {Entity} from "./entity";
 import Room from "./room";
 
-export class Character extends GameObjectClass {
+export class Character extends Entity {
     sprite: Sprite;
     room: Room | undefined
-    weapon: Weapons | undefined = undefined;
 
-    dir: number = 1;
-    speed: number = 2;
+    maxHealth: number = 30;
+    health: number = 0;
+    dashing: boolean = false;
+    dashRefillTimer: Timer = new Timer(60);
+    invincibleTimer: Timer = new Timer(60);
+    attackTimeoutTimer: Timer = new Timer(30);
+    weapon: Weapon | undefined = undefined;
 
-    // states
-    moving: boolean = false;
-
-    // hopping
+    // hopping values
     z: number = 0;
-    zMax: number = 1.5;
-    zSpeed: number = 0.25;
     zDir: number = 1;
 
-    constructor(x: number, y: number, sprite: Sprite, room: Room | undefined) {
-        super({x: x, y: y, anchor: {x: 0.5, y: 0.5}, scaleX: 5, scaleY: 5});
+    // TODO replace
+    dummyTargets: Character[] = [];
+
+    constructor(x: number, y: number, sprite: Sprite, health: number,room: Room | undefined) {
+        super({width: 5, height: 8, x: x, y: y, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
+        this.sprite.x += 0.5;
+        this.maxHealth = health;
+        this.health = health;
         this.room = room
+
         this.addChild(this.sprite);
     }
 
-    move(vec: Vector, speed: number) {
-        let collision = false
-        const prevX = this.x
-        const prevY = this.y
-        this.x += vec.x * speed
-        this.y += vec.y * speed
+    update(){
+        super.update();
+        this.updateHopping();
 
-        if (this.room) {
-            collision = this.room.tileEngine.layerCollidesWith('walls', this)
-        }
-        if (collision) {
-            this.x = prevX
-            this.y = prevY
-        } else {
-            let newDir = vec.x >= 0 ? 1 : -1;
-            if (newDir != this.dir) {
-                this.dir *= -1;
-                this.scaleX *= -1;
-            }
+        this.invincibleTimer.update();
+        this.dashRefillTimer.update();
+        this.attackTimeoutTimer.update();
+
+        if(!this.moving && this.dashing){
+            this.dashing = false;
         }
     }
 
-    attack() {
-        this.weapon?.attack();
-    }
-
-    setWeapon(weapon: Weapons) {
-        this.weapon && this.removeChild();
-        this.weapon = weapon;
-        this.addChild(this.weapon);
-    }
-
-    doHop = () => this.moving;
-
-    hopOnCondition() {
-        if (this.doHop()) {
-            this.z += this.zSpeed * this.zDir;
-            if (this.z <= 0 || this.z >= this.zMax) this.zDir *= -1;
+    updateHopping(){
+        if(this.moving && !this.dashing) {
+            this.z += 0.25 * this.zDir;
+            if (this.z <= 0 || this.z >= 1.5) this.zDir *= -1;
         } else {
             this.z = 0;
             this.zDir = 1;
         }
-
         this.sprite.y = -this.z;
+    }
+
+    dashTo(direction: Vector, distance: number = 0){
+        if(!this.dashing && !this.dashRefillTimer.isActive) {
+            this.dashing = true;
+            this.dashRefillTimer.start();
+            this.moveTo(direction, distance);
+        }
+    }
+
+    currentSpeed = () => this.dashing ? this.speed * 4 : this.speed;
+
+    handWeapon(weapon: Weapon){
+        this.weapon = weapon;
+        this.weapon.owner = this;
+        this.addChild(weapon);
+    }
+
+    attack(target?: Character){
+        if(!this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking){
+            this.weapon?.attack(target);
+            this.attackTimeoutTimer.start();
+        }
+    }
+
+    getsHitBy(damageable: Damageable){
+        if(this.isInvincible()) return;
+        this.invincibleTimer.start();
+        this.health = Math.max(0, this.health - damageable.damage);
+        if(this.health <= 0) this.die();
+    }
+
+    isInvincible = () => this.invincibleTimer.isActive || this.dashing;
+
+    die(){
+        this.sprite.rotation = -0.5 * Math.PI;
+        this.weapon && this.removeChild(this.weapon)
+        this.weapon = undefined;
+
+        const deathTimer = new Timer(60, () => {this.removeFlag = true;}).start();
+        this.update = () => {
+            deathTimer.update();
+        };
+    }
+
+    targets(): Character[] {
+        return this.dummyTargets;
     }
 }
