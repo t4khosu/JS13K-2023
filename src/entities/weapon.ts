@@ -1,4 +1,4 @@
-import {collides, Sprite, Vector} from "kontra";
+import {Sprite, Vector} from "kontra";
 import {addSpell} from "../utils/utils";
 import {Character} from "./character";
 import {Entity} from "./entity";
@@ -57,8 +57,8 @@ export class Weapon extends Damageable{
 }
 
 export class Dagger extends Weapon{
-    maxDistance: number = 6;
-    holdingDistance: number = 4;
+    stabbingDistance: number = 3;
+    holdingDistance: number = 5;
     speed: number = 0.5;
     returnDagger: boolean = false;
 
@@ -73,11 +73,11 @@ export class Dagger extends Weapon{
                 this.returnDagger = false;
             }
         }else{
-            if(this.attackFromX != this.originX && this.attackFromY != this.originY){
+            if(this.attackFromX != this.originX || this.attackFromY != this.originY){
                 const direction = Vector(this.attackFromX - this.originX, this.attackFromY - this.originY).normalize();
                 const distance = Vector(this.attackFromX, this.attackFromY).distance(Vector(this.x, this.y));
 
-                if(distance < this.maxDistance){
+                if(distance < this.stabbingDistance){
                     this.moveTo(direction, this.speed)
                 }else{
                     this.returnDagger = true;
@@ -88,9 +88,9 @@ export class Dagger extends Weapon{
 
     pointInDirection(direction: Vector){
         if(this.isAttacking) return;
-        this.rotation = Math.PI * 0.5 - Vector(0, -1).angle(direction)
-        this.x = -this.owner!.lookingDirection * direction.x * this.holdingDistance
-        this.y = -direction.y * this.holdingDistance
+        this.rotation = Vector(0, -1).angle(direction) - 0.5 * Math.PI
+        this.x = this.owner!.lookingDirection * direction.x * this.holdingDistance
+        this.y = this.originY + direction.y * this.holdingDistance
     }
 
     getLookingDirection(): number{

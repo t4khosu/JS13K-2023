@@ -1,26 +1,20 @@
 import {
-    GameObject,
     keyMap,
-    keyPressed, Sprite,
+    keyPressed,
     Vector,
 } from "kontra";
 import {Character} from "./character";
 import {Dagger, Weapon} from "./weapon";
 import {mousePosition, mousePressed} from "../utils/mouse";
-import {centeredAnchor, getSpriteById} from "../utils/sprite";
+import {getSpriteById} from "../utils/sprite";
 
 
 export class Player extends Character {
+    freeArm: boolean = true;
 
     constructor() {
         super(60, 60, getSpriteById(4), 100);
-        this.speed = 2.5
-    }
-
-    handWeapon(weapon: Weapon){
-        weapon.owner = this;
-        this.weapon = weapon;
-        this.armPivotPoint.addChild(weapon);
+        this.speed = 2.3
     }
 
     update() {
@@ -54,12 +48,12 @@ export class Player extends Character {
 
     updateDaggerPosition(dagger: Dagger){
         const mouse = mousePosition();
-        const directionTowardsMouse = Vector(this.world.x - mouse.x, this.world.y - mouse.y).normalize()
-        dagger.pointInDirection(directionTowardsMouse)
+        const direction = this.freeArm ? Vector(mouse.x - this.world.x, mouse.y - this.world.y).normalize() : Vector(this.lookingDirection, 0);
+        dagger.pointInDirection(direction)
     }
 
     getLookingDirection(){
+        if(this.weapon?.isAttacking) return 0;
         return this.x - mousePosition().x < 0 ? 1 : -1;
     }
-
 }
