@@ -2,7 +2,6 @@ import {Sprite, Vector} from "kontra";
 import {Dagger, Damageable, Weapon} from "./weapon";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
-import {mousePosition} from "../utils/mouse";
 
 
 export class Character extends Entity {

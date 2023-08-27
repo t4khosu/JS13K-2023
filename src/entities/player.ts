@@ -4,7 +4,6 @@ import {
     Vector,
 } from "kontra";
 import {Character} from "./character";
-import {Dagger, Weapon} from "./weapon";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {getSpriteById} from "../utils/sprite";
 
