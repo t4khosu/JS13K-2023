@@ -55,42 +55,30 @@ load(
     mage.handWeapon(new Staff())
     mage.player = player;
 
-    player.dummyTargets = [mage]
+    player.dummyTargets = [mage, villager]
 
-    // const obj1 = new ControlRect(150, 150, 100, 50, "yellow", {x: 0.5, y: 0.5});
     const obj2 = new ControlRect(290, 100, 100, 50, "purple", {x: 0.5, y: 0.5});
-    // obj2.setScale(2, 2)
-    // obj1.setScale(-2, -2)
+    obj2.setScale(-1.5, -1.5)
 
     GameLoop({
         update: () => {
 
             obj2.update();
             if(collidesWithRotation(obj2, weapon)){
-
                 obj2.setColor("red")
             }else{
                 obj2.setColor("purple")
             }
-            // obj2.update();
-            //
-            // if(collidesWithRotation(obj1, obj2)){
-            //     obj1.setColor("red")
-            //     obj2.setColor("red")
-            // }else{
-            //     obj1.setColor("yellow")
-            //     obj2.setColor("purple")
-            // }
-            // !villager.removeFlag && villager.update()
+
+            !villager.removeFlag && villager.update()
             !mage.removeFlag && mage.update();
             !player.removeFlag && player.update()
             cleanSpells();
             getSpells().forEach(s => s.update())
         },
         render: () => {
-            // obj1.render();
             obj2.render();
-            // !villager.removeFlag && villager.render()
+            !villager.removeFlag && villager.render()
             !mage.removeFlag && mage.render();
             !player.removeFlag && player.render()
             getSpells().forEach(s => s.render())
