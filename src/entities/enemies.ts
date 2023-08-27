@@ -93,11 +93,11 @@ export class Villager extends Enemy {
 }
 
 export class Mage extends Enemy {
-    speed: number = randNumber(1.1);
+    speed: number = 0;
     rangeToPlayer: number
 
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(2), 10);
+        super(x, y, getSpriteById(2), 50);
         this.seeDistance = randNumber(350);
         this.rangeToPlayer = this.seeDistance * 0.6;
         this.attackDistance = this.rangeToPlayer + 5

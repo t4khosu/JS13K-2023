@@ -4,7 +4,7 @@ import {BigDagger, SmallDagger, Staff} from "./entities/weapon";
 import {Mage, Villager} from "./entities/enemies";
 import {cleanSpells, getSpells} from "./utils/utils";
 import {initMouse} from "./utils/mouse";
-import {collidesWithRotation} from "./utils/collision";
+import {collidesWithRotation, CollRect} from "./utils/collision";
 
 let { canvas} = init();
 
@@ -15,7 +15,6 @@ class Rect extends GameObjectClass {
     sprite: Sprite;
     constructor(x: number, y: number, width: number, height: number, color: string, anchor: {x: number, y: number}) {
         super({width: width, height: height, x: x, y: y, rotation: 0, anchor: anchor});
-        this.setScale(5, 5);
         this.sprite = Sprite({height: height, width: width, color: color, anchor: anchor})
         this.addChild(this.sprite)
     }
@@ -31,10 +30,10 @@ class ControlRect extends Rect{
 
     update(){
         super.update();
-        if(keyPressed("a")) this.x -= 2;
-        if(keyPressed("d")) this.x += 2;
-        if(keyPressed("w")) this.y -= 2;
-        if(keyPressed("s")) this.y += 2;
+        if(keyPressed("arrowleft")) this.x -= 2;
+        if(keyPressed("arrowright")) this.x += 2;
+        if(keyPressed("arrowup")) this.y -= 2;
+        if(keyPressed("arrowdown")) this.y += 2;
         if(keyPressed("q")) this.rotation += 0.03;
         if(keyPressed("e")) this.rotation -= 0.03;
     }
@@ -44,47 +43,57 @@ class ControlRect extends Rect{
 load(
     'characters.png',
 ).then(function () {
-    // const player = new Player()
-    // player.handWeapon(new BigDagger());
-    //
-    // const villager = new Villager(250, 150);
-    // villager.handWeapon(new SmallDagger())
-    // villager.player = player;
-    //
-    // const mage = new Mage(500, 300);
-    // mage.handWeapon(new Staff())
-    // mage.player = player;
-    //
-    // player.dummyTargets = [villager, mage]
+    const player = new Player()
+    const weapon = new BigDagger();
+    player.handWeapon(weapon);
 
-    const obj1 = new ControlRect(150, 150, 20, 10, "green", {x: 0.5, y: 0.5});
-    const obj2 = new Rect(290, 100, 20, 10, "blue", {x: 0.5, y: 0.5});
+    const villager = new Villager(250, 150);
+    villager.handWeapon(new SmallDagger())
+    villager.player = player;
+
+    const mage = new Mage(500, 300);
+    mage.handWeapon(new Staff())
+    mage.player = player;
+
+    player.dummyTargets = [mage]
+
+    // const obj1 = new ControlRect(150, 150, 100, 50, "yellow", {x: 0.5, y: 0.5});
+    const obj2 = new ControlRect(290, 100, 100, 50, "purple", {x: 0.5, y: 0.5});
+    // obj2.setScale(2, 2)
+    // obj1.setScale(-2, -2)
 
     GameLoop({
         update: () => {
-            obj1.update();
-            obj2.update();
 
-            if(collidesWithRotation(obj1, obj2)){
-                obj1.setColor("red")
+            obj2.update();
+            if(collidesWithRotation(obj2, weapon)){
+
                 obj2.setColor("red")
             }else{
-                obj1.setColor("green")
-                obj2.setColor("blue")
+                obj2.setColor("purple")
             }
+            // obj2.update();
+            //
+            // if(collidesWithRotation(obj1, obj2)){
+            //     obj1.setColor("red")
+            //     obj2.setColor("red")
+            // }else{
+            //     obj1.setColor("yellow")
+            //     obj2.setColor("purple")
+            // }
             // !villager.removeFlag && villager.update()
-            // !mage.removeFlag && mage.update();
-            // !player.removeFlag && player.update()
-            // cleanSpells();
-            // getSpells().forEach(s => s.update())
+            !mage.removeFlag && mage.update();
+            !player.removeFlag && player.update()
+            cleanSpells();
+            getSpells().forEach(s => s.update())
         },
         render: () => {
-            obj1.render();
+            // obj1.render();
             obj2.render();
             // !villager.removeFlag && villager.render()
-            // !mage.removeFlag && mage.render();
-            // !player.removeFlag && player.render()
-            // getSpells().forEach(s => s.render())
+            !mage.removeFlag && mage.render();
+            !player.removeFlag && player.render()
+            getSpells().forEach(s => s.render())
         }
     }).start()
 });

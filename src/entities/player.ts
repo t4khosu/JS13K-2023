@@ -5,29 +5,31 @@ import {
     Vector,
 } from "kontra";
 import {Character} from "./character";
-import {Weapon} from "./weapon";
+import {Dagger, Weapon} from "./weapon";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 
 
 export class Player extends Character {
-    armPivot: GameObject = GameObject({anchor: centeredAnchor});
+
     constructor() {
         super(60, 60, getSpriteById(4), 100);
-        this.armPivot.addChild(Sprite({width: 2, height: 2, color: "red", anchor: centeredAnchor}))
-        this.addChild(this.armPivot);
+        this.speed = 2.5
     }
 
     handWeapon(weapon: Weapon){
+        weapon.owner = this;
         this.weapon = weapon;
-        this.weapon.owner = this;
-        this.armPivot.addChild(weapon);
+        this.armPivotPoint.addChild(weapon);
     }
 
     update() {
         super.update();
         this.updatePlayerMovement();
-        this.updateWeaponPosition();
+
+        if(this.weapon instanceof Dagger){
+            this.updateDaggerPosition(this.weapon);
+        }
 
         if(mousePressed(0)) this.attack();
     }
@@ -50,10 +52,10 @@ export class Player extends Character {
         }
     }
 
-    updateWeaponPosition(){
+    updateDaggerPosition(dagger: Dagger){
         const mouse = mousePosition();
-        const rotation = Vector(0, -1).angle(Vector(this.x - mouse.x, this.y - mouse.y));
-        this.armPivot.rotation = Math.PI * 0.5 - rotation
+        const directionTowardsMouse = Vector(this.world.x - mouse.x, this.world.y - mouse.y).normalize()
+        dagger.pointInDirection(directionTowardsMouse)
     }
 
     getLookingDirection(){

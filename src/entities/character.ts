@@ -1,8 +1,18 @@
-import {Sprite, Vector} from "kontra";
+import {GameObject, GameObjectClass, Sprite, Vector} from "kontra";
 import {Damageable, Weapon} from "./weapon";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
+import {centeredAnchor} from "../utils/sprite";
 
+export class Arm extends GameObjectClass{
+    anchor = centeredAnchor;
+    rotatable: boolean = false;
+
+    constructor() {
+        super();
+        this.addChild(Sprite({width: 2, height: 2, color: "red", anchor: centeredAnchor}))
+    }
+}
 export class Character extends Entity {
     sprite: Sprite;
 
@@ -13,6 +23,8 @@ export class Character extends Entity {
     invincibleTimer: Timer = new Timer(60);
     attackTimeoutTimer: Timer = new Timer(30);
     weapon: Weapon | undefined = undefined;
+
+    armPivotPoint: Arm = new Arm();
 
     // hopping values
     z: number = 0;
@@ -29,6 +41,8 @@ export class Character extends Entity {
         this.health = health;
 
         this.addChild(this.sprite);
+        this.addChild(Sprite({width: this.width, height: this.height, anchor: this.anchor, color: "#00ff0088"}))
+        this.addChild(this.armPivotPoint)
     }
 
     update(){

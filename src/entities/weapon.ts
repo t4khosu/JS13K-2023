@@ -3,6 +3,7 @@ import {addSpell} from "../utils/utils";
 import {Character} from "./character";
 import {Entity} from "./entity";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
+import {collidesWithRotation} from "../utils/collision";
 
 export class Damageable extends Entity{
     damage: number = 0;
@@ -26,7 +27,7 @@ export class Damageable extends Entity{
         if(!this.isAttacking) return;
         this.owner?.targets().forEach(target => {
             if(target.dashing) return;
-            if(collides(this, target)){
+            if(collidesWithRotation(this, target)){
                 target.getsHitBy(this)
                 this.removeFlag = this.destroyOnCollision;
             }
@@ -38,6 +39,8 @@ export class Weapon extends Damageable{
     originX: number;
     originY: number;
     isAttacking: boolean = false;
+    attackFromX!: number;
+    attackFromY!: number;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
@@ -48,24 +51,46 @@ export class Weapon extends Damageable{
     attack(target?: Character){
         this.isAttacking = true;
         this.target = target;
+        this.attackFromX = this.x;
+        this.attackFromY = this.y;
     }
 }
 
 export class Dagger extends Weapon{
     maxDistance: number = 6;
+    holdingDistance: number = 4;
     speed: number = 0.5;
+    returnDagger: boolean = false;
 
     update(){
         super.update();
-        if(!this.isAttacking){
-            this.movingTo = Vector(this.originX, this.originY)
-        }else{
-            if(this.x < this.originX + this.maxDistance){
-                this.movingTo = Vector(this.originX + this.maxDistance, this.y)
-            }else{
+        if(!this.isAttacking) return;
+
+        if(this.returnDagger){
+            this.movingTo = Vector(this.attackFromX, this.attackFromY)
+            if(this.x == this.attackFromX && this.y == this.attackFromY){
                 this.isAttacking = false;
+                this.returnDagger = false;
+            }
+        }else{
+            if(this.attackFromX != this.originX && this.attackFromY != this.originY){
+                const direction = Vector(this.attackFromX - this.originX, this.attackFromY - this.originY).normalize();
+                const distance = Vector(this.attackFromX, this.attackFromY).distance(Vector(this.x, this.y));
+
+                if(distance < this.maxDistance){
+                    this.moveTo(direction, this.speed)
+                }else{
+                    this.returnDagger = true;
+                }
             }
         }
+    }
+
+    pointInDirection(direction: Vector){
+        if(this.isAttacking) return;
+        this.rotation = Math.PI * 0.5 - Vector(0, -1).angle(direction)
+        this.x = -this.owner!.lookingDirection * direction.x * this.holdingDistance
+        this.y = -direction.y * this.holdingDistance
     }
 
     getLookingDirection(): number{
@@ -75,10 +100,16 @@ export class Dagger extends Weapon{
 
 export class BigDagger extends Dagger{
     constructor() {
-        super(4, 0, getSpriteById(6));
+        super(0, 0, getSpriteById(6));
         this.width = 4;
         this.height = 2;
         this.damage = 5;
+        this.addChild(Sprite({width: this.width, height: this.height, anchor: this.anchor, color: "#00ffff88"}))
+    }
+
+    update(){
+        super.update();
+
     }
 }
 
@@ -123,6 +154,8 @@ export class Spell extends Damageable {
         this.isAttacking = true;
         this.owner= owner;
         this.setScale(8, 8)
+        this.width = 1;
+        this.height = 1;
         this.moveTo(direction, this.speed * this.lifeTime)
     }
 
