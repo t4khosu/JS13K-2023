@@ -1,7 +1,7 @@
 import {GameObjectClass, Sprite} from "kontra";
 import {getSpriteById} from "../utils";
 
-export class Weapons extends GameObjectClass{
+export class Weapons extends GameObjectClass {
     originX: number;
     originY: number;
     sprite: Sprite;
@@ -17,42 +17,40 @@ export class Weapons extends GameObjectClass{
         this.addChild(this.sprite);
     }
 
-    attack(){
-        if(this.canAttack) this.canAttack = false;
+    attack() {
+        if (this.canAttack) this.canAttack = false;
     }
 }
 
-export class Dagger extends Weapons{
+export class Dagger extends Weapons {
     attackMaxTime: number = 4;
     attackTime: number = 0;
     attackSpeed: number = 0.5;
 
-    update(){
-        console.log(this.canAttack)
+    update() {
         super.update();
-        if(this.canAttack) return;
-        console.log("update")
+        if (this.canAttack) return;
 
         this.attackTime += this.attackSpeed;
         let relX;
 
-        if(this.attackTime < this.attackMaxTime){
+        if (this.attackTime < this.attackMaxTime) {
             relX = this.attackTime;
-        }else{
+        } else {
             relX = this.attackMaxTime - this.attackTime + this.attackMaxTime;
         }
 
         relX = Math.max(0, relX);
         this.sprite.x = relX;
 
-        if(relX === 0){
-            this.attackTime =  0;
+        if (relX === 0) {
+            this.attackTime = 0;
             this.canAttack = true;
         }
     }
 }
 
-export class BigDagger extends Dagger{
+export class BigDagger extends Dagger {
     constructor() {
         super(3, 0, getSpriteById(6));
     }

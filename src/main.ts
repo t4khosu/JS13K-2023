@@ -13,7 +13,7 @@ load(
     const room = new Room()
 
 
-    const player = new Player()
+    const player = new Player(room)
     player.setWeapon(new BigDagger());
     const villager = new Villager(250, 150);
     villager.setWeapon(new SmallDagger())

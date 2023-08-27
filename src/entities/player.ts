@@ -5,6 +5,7 @@ import {
 } from "kontra";
 import {getSpriteById} from "../utils";
 import {Character} from "./character";
+import Room from "./room";
 
 
 export class Player extends Character {
@@ -16,8 +17,8 @@ export class Player extends Character {
     dashingSpeed: number = 10;
     dashingDirection: Vector = Vector(0, 0);
 
-    constructor() {
-        super(60, 60, getSpriteById(4));
+    constructor(room: Room) {
+        super(60, 60, getSpriteById(4), room);
     }
 
     update() {
@@ -32,7 +33,7 @@ export class Player extends Character {
         if (keyPressed('d')) vx = 1;
         if (keyPressed('s')) vy = 1;
         if (keyPressed([keyMap.space, 'space'])) dash = !this.dashing && this.dashingTimeoutTimer === 0;
-        if(keyPressed('j')) this.attack();
+        if (keyPressed('j')) this.attack();
 
         this.moving = vx != 0 || vy != 0;
 
@@ -48,7 +49,7 @@ export class Player extends Character {
             this.dashingTimeoutTimer = this.dashingTimeout;
         }
 
-        if(!this.dashing){
+        if (!this.dashing) {
             this.moving && this.move(vec, this.speed);
         } else {
             this.move(this.dashingDirection, this.dashingSpeed);
