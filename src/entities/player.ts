@@ -4,9 +4,10 @@ import {
     keyPressed, Sprite,
     Vector,
 } from "kontra";
-import {centeredAnchor, getSpriteById, mousePosition, mousePressed} from "../utils";
 import {Character} from "./character";
 import {Weapon} from "./weapon";
+import {mousePosition, mousePressed} from "../utils/mouse";
+import {centeredAnchor, getSpriteById} from "../utils/sprite";
 
 
 export class Player extends Character {

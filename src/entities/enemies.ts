@@ -1,9 +1,10 @@
 import {Character} from "./character";
-import {centeredAnchor, getRandomVecDir, getSpriteById, randNumber} from "../utils";
+import {getRandomVecDir, randNumber} from "../utils/utils";
 import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
 import {Damageable} from "./weapon";
 import {Timer} from "./timer";
+import {centeredAnchor, getSpriteById} from "../utils/sprite";
 
 export class Enemy extends Character {
     player!: Player;

@@ -1,7 +1,8 @@
 import {collides, Sprite, Vector} from "kontra";
-import {addSpell, centeredAnchor, getSpriteById} from "../utils";
+import {addSpell} from "../utils/utils";
 import {Character} from "./character";
 import {Entity} from "./entity";
+import {centeredAnchor, getSpriteById} from "../utils/sprite";
 
 export class Damageable extends Entity{
     damage: number = 0;
