@@ -4,6 +4,7 @@ import {Sprite, Vector} from "kontra";
 import {Player} from "./player";
 import {Damageable} from "./weapon";
 import {Timer} from "./timer";
+import Room from "./room";
 
 export class Enemy extends Character {
     player!: Player;
@@ -25,37 +26,37 @@ export class Enemy extends Character {
         this.addChild(this.healthBar)
     }
 
-    update(){
+    update() {
         super.update();
-        if(this.aggro){
+        if (this.aggro) {
             this.updateAggro();
-        }else{
+        } else {
             this.updateIdle();
         }
     }
 
-    updateAggro(){
-        if(this.distanceToPlayer() >= this.seeDistance && !this.moving){
+    updateAggro() {
+        if (this.distanceToPlayer() >= this.seeDistance && !this.moving) {
             this.idleTimer.start();
             this.aggro = false;
         }
 
-        if(this.canAttack()){
+        if (this.canAttack()) {
             this.attack(this.player);
         }
 
-        if(this.distanceToPlayer() <= this.seeDistance){
+        if (this.distanceToPlayer() <= this.seeDistance) {
             this.moveToPlayer();
         }
     }
 
-    canAttack(){
+    canAttack() {
         return this.distanceToPlayer() <= this.attackDistance;
     }
 
-    updateIdle(){
+    updateIdle() {
         this.idleTimer.update();
-        if(this.distanceToPlayer() <= this.seeDistance){
+        if (this.distanceToPlayer() <= this.seeDistance) {
             this.aggro = true;
         }
     }
@@ -66,26 +67,28 @@ export class Enemy extends Character {
         return [this.player!]
     }
 
-    moveToPlayer(){
+    moveToPlayer() {
         this.movingTo = Vector(this.player.x - this.playerDirection() * 38, this.player.y)
     }
 
-    playerDirection(){
+    playerDirection() {
         return Math.sign(this.player!.x - this.x);
     }
 
-    getLookingDirection(){
+    getLookingDirection() {
         return this.aggro ? this.playerDirection() : super.getLookingDirection();
     }
 
-    getsHitBy(damageable: Damageable){
+    getsHitBy(damageable: Damageable) {
         super.getsHitBy(damageable);
         this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth;
     }
 }
+
 export class Villager extends Enemy {
     speed: number = randNumber(1.4);
     seeDistance: number = randNumber(160);
+
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(0), 15);
     }
@@ -103,17 +106,17 @@ export class Mage extends Enemy {
         this.attackTimeoutTimer.setMax(100);
     }
 
-    update(){
+    update() {
         super.update();
     }
 
-    canAttack(){
+    canAttack() {
         return super.canAttack() && this.distanceToPlayer() >= this.attackDistance * 0.4
     }
 
-    moveToPlayer(){
+    moveToPlayer() {
         let v = this.vectorTo(this.player.x, this.player.y)
         let distance = v.length() - this.rangeToPlayer
-        if(Math.abs(distance) > 12) this.moveTo(v, distance)
+        if (Math.abs(distance) > 12) this.moveTo(v, distance)
     }
 }

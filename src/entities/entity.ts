@@ -1,5 +1,6 @@
 import {GameObjectClass, Vector} from "kontra";
 import {centeredAnchor} from "../utils";
+import Room from "./room";
 
 export class Entity extends GameObjectClass {
     movingTo: Vector = Vector(this.x, this.y);
@@ -9,28 +10,42 @@ export class Entity extends GameObjectClass {
     moving: boolean = false;
     anchor = centeredAnchor;
 
-    update(){
+    room?: Room
+
+    update() {
         super.update();
         this.updateLookingDirection();
         this.updateMoving();
     }
 
-    updateMoving(){
+    updateMoving() {
         const distance = Math.min(this.movingTo.distance(Vector(this.x, this.y)), this.currentSpeed());
         this.moving = distance != 0;
 
-        if(distance < this.currentSpeed()){
+        let collision = false
+        const prevX = this.x
+        const prevY = this.y
+
+        if (distance < this.currentSpeed()) {
             this.x = this.movingTo.x;
             this.y = this.movingTo.y;
-        }else{
+        } else {
             const direction = this.vectorTo(this.movingTo.x, this.movingTo.y).normalize();
             this.x += direction.x * distance;
             this.y += direction.y * distance;
         }
+
+        if (this.room) {
+            collision = this.room.tileEngine.layerCollidesWith('walls', this)
+        }
+        if (collision) {
+            this.x = prevX
+            this.y = prevY
+        }
     }
 
-    updateLookingDirection(){
-        if(this.getLookingDirection() == 0 || this.getLookingDirection() == this.lookingDirection) return;
+    updateLookingDirection() {
+        if (this.getLookingDirection() == 0 || this.getLookingDirection() == this.lookingDirection) return;
         this.lookingDirection *= -1;
         this.scaleX *= -1;
     }
@@ -38,14 +53,14 @@ export class Entity extends GameObjectClass {
     distanceTo = (other: Entity): number => Vector(this.x, this.y).distance(Vector(other.x, other.y));
     vectorTo = (x: number, y: number): Vector => Vector(x - this.x, y - this.y)
 
-    moveTo(direction: Vector, distance: number = 0){
+    moveTo(direction: Vector, distance: number = 0) {
         direction = direction.normalize();
         distance = distance == 0 ? this.currentSpeed() : distance;
         this.movingTo.x = this.x + direction.x * distance;
         this.movingTo.y = this.y + direction.y * distance;
     }
 
-    getLookingDirection(): number{
+    getLookingDirection(): number {
         return Math.sign(this.movingTo.x - this.x);
     }
 

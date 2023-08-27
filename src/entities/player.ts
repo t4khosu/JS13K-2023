@@ -5,21 +5,22 @@ import {
 } from "kontra";
 import {getSpriteById, mousePosition, mousePressed} from "../utils";
 import {Character} from "./character";
+import Room from "./room";
 
 
 export class Player extends Character {
-    constructor() {
-        super(60, 60, getSpriteById(4), 100);
+    constructor(room: Room) {
+        super(60, 60, getSpriteById(4), 100, room);
     }
 
     update() {
         super.update();
         this.updatePlayerMovement();
-        if(mousePressed(0)) this.attack();
+        if (mousePressed(0)) this.attack();
     }
 
-    updatePlayerMovement(){
-        if(this.dashing) return;
+    updatePlayerMovement() {
+        if (this.dashing) return;
 
         let direction: Vector = Vector(0, 0);
         if (keyPressed('w')) direction.y = -1;
@@ -31,14 +32,13 @@ export class Player extends Character {
             this.dashTo(direction, 60)
         }
 
-        if(!this.dashing){
+        if (!this.dashing) {
             this.moveTo(direction)
         }
     }
 
 
-
-    getLookingDirection(){
+    getLookingDirection() {
         return this.x - mousePosition().x < 0 ? 1 : -1;
     }
 
