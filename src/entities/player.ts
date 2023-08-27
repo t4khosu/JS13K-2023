@@ -1,20 +1,33 @@
 import {
+    GameObject,
     keyMap,
-    keyPressed,
+    keyPressed, Sprite,
     Vector,
 } from "kontra";
-import {getSpriteById, mousePosition, mousePressed} from "../utils";
+import {centeredAnchor, getSpriteById, mousePosition, mousePressed} from "../utils";
 import {Character} from "./character";
+import {Weapon} from "./weapon";
 
 
 export class Player extends Character {
+    armPivot: GameObject = GameObject({anchor: centeredAnchor});
     constructor() {
         super(60, 60, getSpriteById(4), 100);
+        this.armPivot.addChild(Sprite({width: 2, height: 2, color: "red", anchor: centeredAnchor}))
+        this.addChild(this.armPivot);
+    }
+
+    handWeapon(weapon: Weapon){
+        this.weapon = weapon;
+        this.weapon.owner = this;
+        this.armPivot.addChild(weapon);
     }
 
     update() {
         super.update();
         this.updatePlayerMovement();
+        this.updateWeaponPosition();
+
         if(mousePressed(0)) this.attack();
     }
 
@@ -36,15 +49,14 @@ export class Player extends Character {
         }
     }
 
-
+    updateWeaponPosition(){
+        const mouse = mousePosition();
+        const rotation = Vector(0, -1).angle(Vector(this.x - mouse.x, this.y - mouse.y));
+        this.armPivot.rotation = Math.PI * 0.5 - rotation
+    }
 
     getLookingDirection(){
         return this.x - mousePosition().x < 0 ? 1 : -1;
     }
 
-    // takeDamage(damage: number){
-    //     super.takeDamage(damage);
-    // }
-    //
-    //
 }

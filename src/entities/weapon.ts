@@ -59,8 +59,8 @@ export class Dagger extends Weapon{
         if(!this.isAttacking){
             this.movingTo = Vector(this.originX, this.originY)
         }else{
-            if(this.x < this.maxDistance){
-                this.movingTo = Vector(this.x + this.maxDistance, this.y)
+            if(this.x < this.originX + this.maxDistance){
+                this.movingTo = Vector(this.originX + this.maxDistance, this.y)
             }else{
                 this.isAttacking = false;
             }
@@ -74,7 +74,7 @@ export class Dagger extends Weapon{
 
 export class BigDagger extends Dagger{
     constructor() {
-        super(3, 2, getSpriteById(6));
+        super(4, 0, getSpriteById(6));
         this.width = 4;
         this.height = 2;
         this.damage = 5;

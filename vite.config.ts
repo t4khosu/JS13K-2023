@@ -39,6 +39,7 @@ export default defineConfig({
             vector: {
                 normalize: true,
                 distance: true,
+                angle: true,
             },
             debug: false
         }),
