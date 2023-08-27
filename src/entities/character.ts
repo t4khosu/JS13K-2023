@@ -1,7 +1,8 @@
 import {Sprite, Vector} from "kontra";
-import {Damageable, Weapon} from "./weapon";
+import {Dagger, Damageable, Weapon} from "./weapon";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
+import {mousePosition} from "../utils/mouse";
 
 
 export class Character extends Entity {
@@ -43,6 +44,10 @@ export class Character extends Entity {
         if(!this.moving && this.dashing){
             this.dashing = false;
         }
+
+        if(this.weapon instanceof Dagger){
+            this.weapon.pointInDirection(this.pointDaggerDirection())
+        }
     }
 
     updateHopping(){
@@ -56,6 +61,9 @@ export class Character extends Entity {
         this.sprite.y = -this.z;
     }
 
+    pointDaggerDirection(){
+        return Vector(this.lookingDirection, 0);
+    }
 
     dashTo(direction: Vector, distance: number = 0){
         if(!this.dashing && !this.dashRefillTimer.isActive) {

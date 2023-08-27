@@ -20,11 +20,6 @@ export class Player extends Character {
     update() {
         super.update();
         this.updatePlayerMovement();
-
-        if(this.weapon instanceof Dagger){
-            this.updateDaggerPosition(this.weapon);
-        }
-
         if(mousePressed(0)) this.attack();
     }
 
@@ -46,10 +41,10 @@ export class Player extends Character {
         }
     }
 
-    updateDaggerPosition(dagger: Dagger){
+    pointDaggerDirection(){
+        if(!this.freeArm) return super.pointDaggerDirection()
         const mouse = mousePosition();
-        const direction = this.freeArm ? Vector(mouse.x - this.world.x, mouse.y - this.world.y).normalize() : Vector(this.lookingDirection, 0);
-        dagger.pointInDirection(direction)
+        return Vector(mouse.x - this.world.x, mouse.y - this.world.y).normalize();
     }
 
     getLookingDirection(){
