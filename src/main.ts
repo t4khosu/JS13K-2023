@@ -1,9 +1,10 @@
 import {init, GameLoop, initKeys, load} from 'kontra'
 import {Player} from "./entities/player";
 import {BigDagger, SmallDagger, Staff} from "./entities/weapon";
-import {Mage, Villager} from "./entities/enemies";
 import {cleanSpells, getSpells} from "./utils/utils";
 import {initMouse} from "./utils/mouse";
+import {Villager} from "./entities/enemies/villager";
+import {Mage} from "./entities/enemies/mage";
 
 let { canvas} = init();
 
