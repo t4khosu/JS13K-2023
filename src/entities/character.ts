@@ -14,6 +14,7 @@ export class Character extends Entity {
     invincibleTimer: Timer = new Timer(60);
     attackTimeoutTimer: Timer = new Timer(30);
     weapon: Weapon | undefined = undefined;
+    armCanRotate: boolean = true;
 
     // hopping values
     z: number = 0;

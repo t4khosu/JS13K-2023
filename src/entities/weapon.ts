@@ -4,6 +4,7 @@ import {Character} from "./character";
 import {Entity} from "./entity";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {collidesWithRotation} from "../utils/collision";
+import {Player} from "./player";
 
 export class Damageable extends Entity{
     damage: number = 0;
@@ -57,40 +58,43 @@ export class Weapon extends Damageable{
 }
 
 export class Dagger extends Weapon{
-    stabbingDistance: number = 3;
+    stabbingDistance: number = 8;
     holdingDistance: number = 5;
+    currentDistance: number = 0;
+
     speed: number = 0.5;
     returnDagger: boolean = false;
+    direction = Vector(1, 0);
 
     update(){
         super.update();
+        this.adjust();
+
         if(!this.isAttacking) return;
 
-        if(this.returnDagger){
-            this.movingTo = Vector(this.attackFromX, this.attackFromY)
-            if(this.x == this.attackFromX && this.y == this.attackFromY){
-                this.isAttacking = false;
-                this.returnDagger = false;
-            }
-        }else{
-            if(this.attackFromX != this.originX || this.attackFromY != this.originY){
-                const direction = Vector(this.attackFromX - this.originX, this.attackFromY - this.originY).normalize();
-                const distance = Vector(this.attackFromX, this.attackFromY).distance(Vector(this.x, this.y));
+        this.currentDistance += this.returnDagger ? -this.speed : this.speed;
+        this.x += this.direction.x * this.currentDistance;
+        this.y += this.direction.y * this.currentDistance;
 
-                if(distance < this.stabbingDistance){
-                    this.moveTo(direction, this.speed)
-                }else{
-                    this.returnDagger = true;
-                }
-            }
+        if(this.currentDistance >= this.stabbingDistance - this.holdingDistance){
+            this.returnDagger = true;
+        }
+
+        if(this.currentDistance <= 0){
+            this.isAttacking = false;
+            this.returnDagger = false;
         }
     }
 
+    adjust(){
+        this.rotation = Vector(0, -1).angle(this.direction) - 0.5 * Math.PI;
+        this.x = this.originY + this.direction.x * this.holdingDistance
+        this.y = this.originY + this.direction.y * this.holdingDistance
+    }
+
     pointInDirection(direction: Vector){
-        if(this.isAttacking) return;
-        this.rotation = Vector(0, -1).angle(direction) - 0.5 * Math.PI
-        this.x = this.owner!.lookingDirection * direction.x * this.holdingDistance
-        this.y = this.originY + direction.y * this.holdingDistance
+        direction.x *= this.owner!.lookingDirection;
+        this.direction = direction.normalize();
     }
 
     getLookingDirection(): number{

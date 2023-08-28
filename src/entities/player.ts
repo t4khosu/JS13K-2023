@@ -9,8 +9,6 @@ import {getSpriteById} from "../utils/sprite";
 
 
 export class Player extends Character {
-    freeArm: boolean = true;
-
     constructor() {
         super(60, 60, getSpriteById(4), 100);
         this.speed = 2.3
@@ -41,13 +39,13 @@ export class Player extends Character {
     }
 
     pointDaggerDirection(){
-        if(!this.freeArm) return super.pointDaggerDirection()
+        if(!this.armCanRotate) return super.pointDaggerDirection()
         const mouse = mousePosition();
         return Vector(mouse.x - this.world.x, mouse.y - this.world.y).normalize();
     }
 
     getLookingDirection(){
-        if(this.weapon?.isAttacking) return 0;
+        if(this.weapon?.isAttacking && !this.armCanRotate) return 0;
         return this.x - mousePosition().x < 0 ? 1 : -1;
     }
 }
