@@ -4,7 +4,8 @@ import {Sprite, Vector} from "kontra";
 import {Timer} from "../timer";
 import {getRandomVecDir, randNumber} from "../../utils/utils";
 import {centeredAnchor} from "../../utils/sprite";
-import {Damageable} from "../weapon";
+
+import {Damageable} from "../weapons/damageable";
 
 export class Enemy extends Character {
     player!: Player;
