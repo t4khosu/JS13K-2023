@@ -33,6 +33,11 @@ export class Character extends Entity {
         this.addChild(this.sprite);
     }
 
+    render(){
+        if(this.invincibleTimer.isActive && (1 + this.invincibleTimer.time) % 2 == 0) return;
+        super.render();
+    }
+
     update(){
         super.update();
         this.updateHopping();
