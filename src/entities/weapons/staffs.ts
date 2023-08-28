@@ -1,27 +1,35 @@
 import {getSpriteById} from "../../utils/sprite";
-import {Vector} from "kontra";
 import {addSpell} from "../../utils/utils";
 import {Weapon} from "./weapon";
 import {Spell} from "./spells";
+import {Timer} from "../timer";
+import {Character} from "../character";
 
 export class Staff extends Weapon {
-    constructor() {
+    castTimer: Timer;
+    constructor(castTime: number) {
         super(5, 0, getSpriteById(7));
-        this.width = 4;
-        this.height = 1;
+        this.width = 1;
+        this.height = 4;
         this.damage = 0;
+
+        this.castTimer = new Timer(castTime)
     }
 
-    update() {
-        super.update();
-        if (this.isAttacking) {
-            const spellX = this.world.x;
-            const spellY = this.world.y - 6;
-            const direction = Vector(this.target!.world.x - spellX, this.target!.world.y - spellY)
+    startAttack(target?: Character) {
+        super.startAttack(target);
+        this.castTimer.start();
+    }
 
-            const spell = new Spell(spellX, spellY, direction, this.owner!);
-            addSpell(spell);
-            this.isAttacking = false;
-        }
+    runAttack() {
+        this.castTimer.update();
+        if(this.castTimer.isActive) return;
+
+        this.castSpell();
+        this.endAttack();
+    }
+
+    castSpell(){
+        addSpell(new Spell(this.world.x - this.owner!.lookingDirection * 6 * this.scaleX, this.world.y - 12, this.owner!, this.target!));
     }
 }

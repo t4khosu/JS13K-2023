@@ -30,7 +30,7 @@ load(
     villager2.player = player;
 
     const mage = new Mage(500, 300);
-    mage.handWeapon(new Staff())
+    mage.handWeapon(new Staff(50))
     mage.player = player;
 
     player.dummyTargets = [mage, villager, villager2]
@@ -42,14 +42,14 @@ load(
             !mage.removeFlag && mage.update();
             !player.removeFlag && player.update()
             cleanSpells();
-            getSpells().forEach(s => s.update())
+            getSpells().forEach(s => !s.removeFlag && s.update())
         },
         render: () => {
             !villager.removeFlag && villager.render()
             !villager2.removeFlag && villager2.render()
             !mage.removeFlag && mage.render();
             !player.removeFlag && player.render()
-            getSpells().forEach(s => s.render())
+            getSpells().forEach(s => !s.removeFlag && s.render())
         }
     }).start()
 });

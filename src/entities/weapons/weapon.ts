@@ -5,9 +5,6 @@ import {Damageable} from "./damageable";
 export class Weapon extends Damageable{
     originX: number;
     originY: number;
-    isAttacking: boolean = false;
-    attackFromX!: number;
-    attackFromY!: number;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
@@ -15,11 +12,31 @@ export class Weapon extends Damageable{
         this.originY = y;
     }
 
-    attack(target?: Character){
+    update() {
+        super.update();
+        if(this.isAttacking) this.runAttack();
+    }
+
+    tryToAttack(target?: Character){
+        if(this.canAttack()) this.startAttack(target);
+    }
+
+    canAttack(): boolean {
+        return !this.isAttacking;
+    }
+
+    startAttack(target?: Character){
         this.isAttacking = true;
         this.target = target;
-        this.attackFromX = this.x;
-        this.attackFromY = this.y;
+    }
+
+    endAttack(){
+        this.isAttacking = false;
+        this.target = undefined;
+    }
+
+    runAttack(){
+
     }
 }
 

@@ -89,10 +89,9 @@ export class Character extends Entity {
     }
 
     attack(target?: Character){
-        if(!this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking){
-            this.weapon?.attack(target);
-            this.attackTimeoutTimer.start();
-        }
+        if(this.attackTimeoutTimer.isActive) return;
+        this.weapon?.tryToAttack(target);
+        this.attackTimeoutTimer.start();
     }
 
     getsHitBy(damageable: Damageable){

@@ -5,6 +5,7 @@ import {centeredAnchor} from "../../utils/sprite";
 import {collidesWithRotation} from "../../utils/collision";
 
 export class Damageable extends Entity {
+    isAttacking: boolean = false;
     damage: number = 0;
     sprite: Sprite;
     owner: Character | undefined;

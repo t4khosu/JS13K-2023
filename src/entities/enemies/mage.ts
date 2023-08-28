@@ -14,10 +14,6 @@ export class Mage extends Enemy {
         this.attackTimeoutTimer.setMax(100);
     }
 
-    update() {
-        super.update();
-    }
-
     canAttack() {
         return super.canAttack() && this.distanceToPlayer() >= this.attackDistance * 0.4
     }
