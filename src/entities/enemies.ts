@@ -5,6 +5,7 @@ import {Player} from "./player";
 import {Damageable} from "./weapon";
 import {Timer} from "./timer";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
+import {mousePosition} from "../utils/mouse";
 
 export class Enemy extends Character {
     player!: Player;
@@ -82,6 +83,11 @@ export class Enemy extends Character {
     getsHitBy(damageable: Damageable){
         super.getsHitBy(damageable);
         this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth;
+    }
+
+    pointDaggerDirection(){
+        if(!this.armCanRotate || !this.aggro) return super.pointDaggerDirection()
+        return Vector(this.player.world.x - this.world.x, this.player.world.y - this.world.y).normalize();
     }
 }
 export class Villager extends Enemy {

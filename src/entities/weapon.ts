@@ -117,6 +117,9 @@ export class SmallDagger extends Dagger {
         this.width = 4;
         this.height = 1;
         this.damage = 4;
+
+        this.stabbingDistance = 6;
+        this.holdingDistance = 3;
     }
 }
 
