@@ -5,7 +5,6 @@ import {Player} from "./player";
 import {Damageable} from "./weapon";
 import {Timer} from "./timer";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
-import {mousePosition} from "../utils/mouse";
 
 export class Enemy extends Character {
     player!: Player;

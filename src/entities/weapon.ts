@@ -4,7 +4,6 @@ import {Character} from "./character";
 import {Entity} from "./entity";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {collidesWithRotation} from "../utils/collision";
-import {Player} from "./player";
 
 export class Damageable extends Entity{
     damage: number = 0;
