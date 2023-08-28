@@ -57,8 +57,8 @@ export class Weapon extends Damageable{
 }
 
 export class Dagger extends Weapon{
-    stabbingDistance: number = 8;
-    holdingDistance: number = 5;
+    stabbingDistance: number = 6;
+    holdingDistance: number = 3;
     currentDistance: number = 0;
 
     speed: number = 0.5;
@@ -103,7 +103,7 @@ export class Dagger extends Weapon{
 
 export class BigDagger extends Dagger{
     constructor() {
-        super(0, 1, getSpriteById(6));
+        super(0, 2, getSpriteById(6));
         this.width = 4;
         this.height = 2;
         this.damage = 5;
