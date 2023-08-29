@@ -1,6 +1,6 @@
 import {getSpriteById} from "../../utils/sprite";
 import {Weapon} from "./weapon";
-import {HolySpell, CircularSpell, Spell} from "./spells";
+import {CircularSpell} from "./spells";
 import {Character} from "../character";
 import {Timer} from "../timer";
 import {addSpell} from "../../utils/utils";

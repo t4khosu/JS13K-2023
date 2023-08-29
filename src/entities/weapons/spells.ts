@@ -1,9 +1,6 @@
 import {Damageable} from "./damageable";
 import {GameObjectClass, Sprite, Vector} from "kontra";
-import {Character} from "../character";
 import {centeredAnchor} from "../../utils/sprite";
-import {Entity} from "../entity";
-import {addSpell, randNumber} from "../../utils/utils";
 import {Timer} from "../timer";
 import {Staff} from "./staffs";
 
