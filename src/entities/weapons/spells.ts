@@ -3,73 +3,113 @@ import {GameObjectClass, Sprite, Vector} from "kontra";
 import {Character} from "../character";
 import {centeredAnchor} from "../../utils/sprite";
 import {Entity} from "../entity";
-import {randNumber} from "../../utils/utils";
+import {addSpell, randNumber} from "../../utils/utils";
 import {Timer} from "../timer";
+import {Staff} from "./staffs";
 
-export class Spell extends Entity{
-    speed: number = 0;
-    lifeTime: number = 150;
-    owner: Character;
-    target: Character;
+export class Spell extends GameObjectClass{
+    staff: Staff;
+    castTimer: Timer;
+    castFinished: boolean = false;
 
-    constructor(x: number, y: number, owner: Character, target: Character) {
-        super({x: x, y: y, anchor: centeredAnchor})
-        this.setScale(8, 8)
-        this.owner = owner;
-        this.target = target;
+    constructor(staff: Staff) {
+        super({x: staff.tipX(), y: staff.tipY(), anchor: centeredAnchor, scaleX: 8, scaleY: 8})
+        // this.addChild(Sprite({width: 1, height: 1, color: "lightblue", anchor: centeredAnchor}))
+        this.staff = staff;
 
-        this.spawnSpellParticle();
+        this.castTimer = new Timer(0, () => {
+            this.castFinished = true;
+            this.children.forEach(c => {
+                if (c instanceof SpellParticle) c.activate();
+            })
+        })
     }
 
-    spawnSpellParticle(){
-        const particle = new SoftFollowSpellParticle(0, 0, "red", this.owner, this.target);
-        this.addChild(particle)
-        particle.run();
+    start(){
+        this.castTimer.start(this.getCastTime());
+        this.startSpell();
     }
 
-    update() {
+    getCastTime = () => this.castTime;
+
+    getCastTimeout = () => Math.floor(this.getCastTime() * (5/3));
+
+    update(){
         super.update();
-        if (--this.lifeTime <= 0) this.removeFlag = true;
+        if(!this.castFinished){
+            this.x = this.staff.tipX();
+            this.y = this.staff.tipY();
+            this.castTimer.update();
+            this.updateSpell();
+        }
     }
+
+    startSpell(){}
+
+    updateSpell(){}
 }
 
 export class SpellParticle extends Damageable{
-    target: Character;
-    constructor(x: number, y: number, color: string, owner: Character, target: Character) {
+    spell: Spell;
+    isAttacking = true;
+    destroyOnCollision = true;
+    width = 1;
+    height = 1;
+    speed = 0.5;
+
+    constructor(x: number, y: number, color: string, spell: Spell) {
         super(x, y, Sprite({width: 1, height: 1, color: color, anchor: centeredAnchor}))
-
-        this.isAttacking = true;
-        this.destroyOnCollision = true;
-        this.target = target;
-        this.owner = owner;
-        this.width = 1;
-        this.height = 1;
-        this.speed = 0.5;
+        this.spell = spell;
+        this.owner = spell.staff.owner;
     }
 
-    run(){
+    activate(){
         this.moveToTarget();
-    }
-
-    vectorToTarget(){
-        return this.vectorTo(this.target.world.x - this.world.x, this.target.world.y - this.world.y);
     }
 
     moveToTarget(){
         this.moveTo(this.vectorToTarget(), 2000);
     }
+
+    vectorToTarget(){
+        return Vector(this.spell.staff.target!.world.x - this.world.x, this.spell.staff.target!.world.y - this.world.y);
+    }
 }
 
-export class SoftFollowSpellParticle extends SpellParticle{
-    timer: Timer = new Timer(randNumber(60), () => this.moveToTarget());
-    constructor(x: number, y: number, color: string, owner: Character, target: Character) {
-        super(x, y, color, owner, target)
-        this.speed = 0.4;
-        this.timer.start();
+export class HolySpell extends Spell{
+    startSpell() {
+        this.addChild(new HolySpellParticle(0, 0, this));
+    }
+}
+
+export class CircularSpell extends Spell{
+    timer: number = 0;
+    distance: number = 9;
+    numParticles: number = 40;
+    spawnSpeed: number = 3;
+
+    getCastTime = () => this.numParticles * this.spawnSpeed;
+
+    getCastTimeout = () => this.getCastTime() * 3
+
+    updateSpell() {
+        super.updateSpell();
+
+        if(this.timer % this.spawnSpeed == 0){
+            const direction = this.getRotatedDirection(2 * Math.PI * (this.timer / (this.spawnSpeed * this.numParticles)))
+            this.addChild(new HolySpellParticle(direction.x * this.distance, direction.y * this.distance, this));
+        }
+        this.timer++;
     }
 
-    update(){
-        super.update();
-        this.timer.update();
+    getRotatedDirection(radiant: number){
+        return Vector(Math.cos(radiant), Math.sin(radiant))
+    }
+}
+
+export class HolySpellParticle extends SpellParticle{
+    speed = 0.6;
+    constructor(x: number, y: number, spell: Spell) {
+        super(x, y, "#ffffcc", spell)
     }
 }

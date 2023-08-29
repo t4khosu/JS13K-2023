@@ -30,7 +30,7 @@ load(
     villager2.player = player;
 
     const mage = new Mage(500, 300);
-    mage.handWeapon(new Staff(50))
+    mage.handWeapon(new Staff())
     mage.player = player;
 
     player.dummyTargets = [mage, villager, villager2]

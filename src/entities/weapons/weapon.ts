@@ -35,8 +35,6 @@ export class Weapon extends Damageable{
         this.target = undefined;
     }
 
-    runAttack(){
-
-    }
+    runAttack(){}
 }
 

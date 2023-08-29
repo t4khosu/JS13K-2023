@@ -1,35 +1,32 @@
 import {getSpriteById} from "../../utils/sprite";
-import {addSpell} from "../../utils/utils";
 import {Weapon} from "./weapon";
-import {Spell} from "./spells";
-import {Timer} from "../timer";
+import {HolySpell, CircularSpell, Spell} from "./spells";
 import {Character} from "../character";
+import {Timer} from "../timer";
+import {addSpell} from "../../utils/utils";
 
 export class Staff extends Weapon {
-    castTimer: Timer;
-    constructor(castTime: number) {
+    postCastTimer?: Timer;
+    constructor() {
         super(5, 0, getSpriteById(7));
         this.width = 1;
         this.height = 4;
         this.damage = 0;
-
-        this.castTimer = new Timer(castTime)
     }
 
     startAttack(target?: Character) {
         super.startAttack(target);
-        this.castTimer.start();
+        const spell = new CircularSpell(this);
+        spell.start();
+        addSpell(spell)
+        this.postCastTimer = new Timer(spell.getCastTimeout(), () => this.endAttack()).start()
     }
+
+    tipX = () => this.world.x - 7 * this.owner!.lookingDirection;
+
+    tipY = () => this.world.y - 14;
 
     runAttack() {
-        this.castTimer.update();
-        if(this.castTimer.isActive) return;
-
-        this.castSpell();
-        this.endAttack();
-    }
-
-    castSpell(){
-        addSpell(new Spell(this.world.x - this.owner!.lookingDirection * 6 * this.scaleX, this.world.y - 12, this.owner!, this.target!));
+        this.postCastTimer?.update();
     }
 }

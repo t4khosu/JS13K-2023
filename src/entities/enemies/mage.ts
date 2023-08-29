@@ -15,7 +15,7 @@ export class Mage extends Enemy {
     }
 
     canAttack() {
-        return super.canAttack() && this.distanceToPlayer() >= this.attackDistance * 0.4
+        return super.canAttack() && this.distanceToPlayer() >= this.attackDistance * 0.6
     }
 
     moveToPlayer() {

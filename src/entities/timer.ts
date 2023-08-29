@@ -25,7 +25,8 @@ export class Timer{
         }
     }
 
-    start () {
+    start (maxTime: number = -1) {
+        this.maxTime = maxTime >= 0 ? maxTime : this.maxTime;
         this.time = 0;
         this.isActive = true;
         return this;
