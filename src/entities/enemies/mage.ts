@@ -2,6 +2,8 @@ import {Enemy} from "./enemy";
 import {randNumber} from "../../utils/utils";
 import {getSpriteById} from "../../utils/sprite";
 import {Staff} from "../weapons/staffs";
+import {imageAssets, Sprite} from "kontra";
+import {colorizeImage} from "../../utils/colorize";
 
 export class Mage extends Enemy {
     speed: number = randNumber(1.1);

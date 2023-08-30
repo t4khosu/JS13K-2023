@@ -1,6 +1,7 @@
 import {Vector} from "kontra";
 import {Weapon} from "./weapon";
 import {getSpriteById} from "../../utils/sprite";
+import {PenColor} from "../../utils/colorize";
 
 export class Dagger extends Weapon {
     stabbingDistance: number = 6;
@@ -58,7 +59,7 @@ export class BigDagger extends Dagger {
 
 export class SmallDagger extends Dagger {
     constructor() {
-        super(0, 1, getSpriteById(8, {y: -0.5}));
+        super(0, 1, getSpriteById(8, PenColor.None, {y: -0.5}));
         this.width = 4;
         this.height = 1;
         this.damage = 4;
