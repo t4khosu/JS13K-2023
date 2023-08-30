@@ -11,7 +11,7 @@ import {getSpriteById} from "../utils/sprite";
 export class Player extends Character {
     constructor() {
         super(60, 60, getSpriteById(4), 100);
-        this.speed = 2.3
+        this.speed = 2.5
     }
 
     update() {
