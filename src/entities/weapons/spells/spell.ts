@@ -24,16 +24,18 @@ export class Spell extends GameObjectClass{
 
     particleLifeTime = () => 180;
 
-    startCasting(){
-        this.castTimer.start(this.getCastTime());
-        this.startSpell();
-    }
-
     getCastTime = () => this.castTime;
 
     getCastTimeout = () => Math.floor(this.getCastTime() * (5/3));
 
     getSpellParticles = (): SpellParticle[] => this.children.filter(c => c instanceof SpellParticle).map(c => c as SpellParticle);
+
+
+    startCasting(){
+        this.castTimer.start(this.getCastTime());
+        this.startSpell();
+    }
+
 
     update(){
         super.update();

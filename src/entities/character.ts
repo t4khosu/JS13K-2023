@@ -35,11 +35,6 @@ export class Character extends Entity {
         this.addChild(this.sprite);
     }
 
-    render(){
-        if(this.invincibleTimer.isActive && (1 + this.invincibleTimer.time) % 2 == 0) return;
-        super.render();
-    }
-
     isAlive = () => this.health > 0;
 
     update(){
@@ -49,6 +44,8 @@ export class Character extends Entity {
         this.invincibleTimer.update();
         this.dashRefillTimer.update();
         this.attackTimeoutTimer.update();
+
+        this.sprite.opacity = this.invincibleTimer.isActive ? 0.5 : 1;
 
         if(!this.moving && this.dashing){
             this.dashing = false;
