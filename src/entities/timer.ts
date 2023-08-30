@@ -31,4 +31,9 @@ export class Timer{
         this.isActive = true;
         return this;
     }
+
+    stop(){
+        this.time = 0;
+        this.isActive = false;
+    }
 }
