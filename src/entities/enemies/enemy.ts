@@ -17,9 +17,9 @@ export class Enemy extends Character {
 
     idleTimer = new Timer(randNumber(200), () => {
         this.moveTo(getRandomVecDir(), randNumber(60));
-        this.idleTimer.setMax(randNumber(200));
     }, true).start();
 
+    loadAttackTimer = new Timer(40, () => this.attack(this.player));
 
     constructor(x: number, y: number, sprite: Sprite, health: number) {
         super(x, y, sprite, health);
@@ -29,31 +29,36 @@ export class Enemy extends Character {
 
     update() {
         super.update();
-        if (this.aggro) {
-            this.updateAggro();
-        } else {
-            this.updateIdle();
-        }
+        if (this.aggro) this.updateAggro();
+        else this.updateIdle();
     }
 
     updateAggro() {
-        if (this.distanceToPlayer() >= this.seeDistance && !this.moving) {
-            this.idleTimer.start();
-            this.aggro = false;
-        }
+        this.loadAttackTimer.update();
 
-        if (this.canAttack()) {
-            this.attack(this.player);
+        if(this.inAttackRange() && this.canAttack() && !this.loadAttackTimer.isActive) {
+            this.initAttack();
         }
 
         if (this.distanceToPlayer() <= this.seeDistance) {
             this.moveToPlayer();
         }
+
+        if (this.canIdle()) {
+            this.loadAttackTimer.stop();
+            this.idleTimer.start(randNumber(200));
+            this.aggro = false;
+        }
     }
 
-    canAttack() {
-        return this.distanceToPlayer() <= this.attackDistance;
+    initAttack(){
+        this.loadAttackTimer.start();
+        this.weapon?.startWiggle();
     }
+
+    inAttackRange = () => this.distanceToPlayer() <= this.attackDistance;
+
+    canIdle = () => this.distanceToPlayer() >= this.seeDistance && !this.moving && !this.loadAttackTimer.isActive;
 
     updateIdle() {
         this.idleTimer.update();
