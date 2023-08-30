@@ -19,7 +19,8 @@ export class Entity extends GameObjectClass {
 
     updateMoving(){
         const distance = Math.min(this.movingTo.distance(Vector(this.x, this.y)), this.currentSpeed());
-        this.moving = distance != 0;
+        this.moving = distance != 0 && this.canMove();
+        if(!this.moving) return;
 
         if(distance < this.currentSpeed()){
             this.x = this.movingTo.x;
@@ -30,6 +31,8 @@ export class Entity extends GameObjectClass {
             this.y += direction.y * distance;
         }
     }
+
+    canMove = () => true;
 
     updateLookingDirection(){
         if(this.getLookingDirection() == 0 || this.getLookingDirection() == this.lookingDirection) return;

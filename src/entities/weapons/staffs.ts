@@ -1,12 +1,14 @@
 import {getSpriteById} from "../../utils/sprite";
 import {Weapon} from "./weapon";
-import {CircularSpell} from "./spells";
+import {CircularSpell} from "./spells/spells";
 import {Character} from "../character";
 import {Timer} from "../timer";
 import {addSpell} from "../../utils/utils";
+import {Spell} from "./spells/spell";
 
 export class Staff extends Weapon {
     postCastTimer?: Timer;
+    currentSpell?: Spell;
     constructor() {
         super(5, 0, getSpriteById(7));
         this.width = 1;
@@ -16,11 +18,13 @@ export class Staff extends Weapon {
 
     startAttack(target?: Character) {
         super.startAttack(target);
-        const spell = new CircularSpell(this);
-        spell.start();
-        addSpell(spell)
-        this.postCastTimer = new Timer(spell.getCastTimeout(), () => this.endAttack()).start()
+        this.currentSpell = new CircularSpell(this);
+        this.currentSpell.start();
+        addSpell(this.currentSpell)
+        this.postCastTimer = new Timer(this.currentSpell.getCastTimeout(), () => this.endAttack()).start()
     }
+
+    isCasting = () => this.currentSpell !== undefined && !this.currentSpell.finishedCasting;
 
     tipX = () => this.world.x - 7 * this.owner!.lookingDirection;
 
@@ -28,5 +32,15 @@ export class Staff extends Weapon {
 
     runAttack() {
         this.postCastTimer?.update();
+    }
+
+    endAttack(){
+        super.endAttack();
+        this.currentSpell = undefined;
+    }
+
+    update(){
+        super.update();
+        console.log(this.isAttacking)
     }
 }

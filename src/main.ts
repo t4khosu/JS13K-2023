@@ -37,16 +37,16 @@ load(
 
     GameLoop({
         update: () => {
-            !villager.removeFlag && villager.update()
-            !villager2.removeFlag && villager2.update()
+            // !villager.removeFlag && villager.update()
+            // !villager2.removeFlag && villager2.update()
             !mage.removeFlag && mage.update();
             !player.removeFlag && player.update()
             cleanSpells();
             getSpells().forEach(s => !s.removeFlag && s.update())
         },
         render: () => {
-            !villager.removeFlag && villager.render()
-            !villager2.removeFlag && villager2.render()
+            // !villager.removeFlag && villager.render()
+            // !villager2.removeFlag && villager2.render()
             !mage.removeFlag && mage.render();
             !player.removeFlag && player.render()
             getSpells().forEach(s => !s.removeFlag && s.render())

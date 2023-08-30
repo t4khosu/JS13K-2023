@@ -1,6 +1,7 @@
 import {Enemy} from "./enemy";
 import {randNumber} from "../../utils/utils";
 import {getSpriteById} from "../../utils/sprite";
+import {Staff} from "../weapons/staffs";
 
 export class Mage extends Enemy {
     speed: number = randNumber(1.1);
@@ -13,6 +14,8 @@ export class Mage extends Enemy {
         this.attackDistance = this.rangeToPlayer + 5
         this.attackTimeoutTimer.setMax(100);
     }
+
+    canMove = () => !(this.weapon as Staff).isCasting();
 
     inAttackRange = () => this.distanceToPlayer() <= this.attackDistance && this.distanceToPlayer() >= this.attackDistance * 0.5;
 

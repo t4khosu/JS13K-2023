@@ -1,59 +1,7 @@
-import {Damageable} from "./damageable";
-import {GameObjectClass, Sprite, Vector} from "kontra";
-import {centeredAnchor} from "../../utils/sprite";
-import {Timer} from "../timer";
-import {Staff} from "./staffs";
-
-export class Spell extends GameObjectClass{
-    staff: Staff;
-    castTimer: Timer;
-    finishedCasting: boolean = false;
-    removeFlag: boolean = false;
-
-    constructor(staff: Staff) {
-        super({x: staff.tipX(), y: staff.tipY(), anchor: centeredAnchor, scaleX: 8, scaleY: 8})
-        this.addChild(Sprite({width: 1, height: 1, color: "lightblue", anchor: centeredAnchor}))
-        this.staff = staff;
-
-        this.castTimer = new Timer(0, () => {
-            this.finishedCasting = true;
-            this.children.forEach(c => {
-                if (c instanceof SpellParticle) c.activate();
-            })
-        })
-    }
-
-    particleLifeTime = () => 180;
-
-    start(){
-        this.castTimer.start(this.getCastTime());
-        this.startSpell();
-    }
-
-    getCastTime = () => this.castTime;
-
-    getCastTimeout = () => Math.floor(this.getCastTime() * (5/3));
-
-    update(){
-        super.update();
-        this.children = this.children.filter(c => !(c as SpellParticle).removeFlag)
-
-        if(!this.finishedCasting){
-            this.x = this.staff.tipX();
-            this.y = this.staff.tipY();
-            this.castTimer.update();
-            this.updateSpell();
-        }
-
-        if(this.finishedCasting && this.children.length == 0){
-            this.removeFlag = true;
-        }
-    }
-
-    startSpell(){}
-
-    updateSpell(){}
-}
+import {Damageable} from "../damageable";
+import {Sprite, Vector} from "kontra";
+import {centeredAnchor} from "../../../utils/sprite";
+import {Spell} from "./spell";
 
 export class SpellParticle extends Damageable{
     spell: Spell;
@@ -100,9 +48,9 @@ export class HolySpell extends Spell{
 
 export class CircularSpell extends Spell{
     timer: number = 0;
-    distance: number = 11;
-    numParticles: number = 20;
-    spawnSpeed: number = 3;
+    distance: number = 6;
+    numParticles: number = 15;
+    spawnSpeed: number = 7;
 
     getCastTime = () => this.numParticles * this.spawnSpeed;
 
