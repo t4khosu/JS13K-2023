@@ -1,4 +1,4 @@
-import {GameObjectClass, Sprite} from "kontra";
+import {GameObjectClass} from "kontra";
 import {Staff} from "../staffs";
 import {Timer} from "../../timer";
 import {centeredAnchor} from "../../../utils/sprite";
