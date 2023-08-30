@@ -10,23 +10,21 @@ export class Spell extends GameObjectClass{
     castTimer: Timer;
     finishedCasting: boolean = false;
     removeFlag: boolean = false;
+    lifeTime: number = 50;
 
     constructor(staff: Staff) {
         super({x: staff.tipX(), y: staff.tipY(), anchor: centeredAnchor, scaleX: 8, scaleY: 8})
-        this.addChild(Sprite({width: 1, height: 1, color: "lightblue", anchor: centeredAnchor}))
         this.staff = staff;
 
         this.castTimer = new Timer(0, () => {
             this.finishedCasting = true;
-            this.children.forEach(c => {
-                if (c instanceof SpellParticle) c.activate();
-            })
+            this.getSpellParticles().forEach(c => c.activate());
         })
     }
 
     particleLifeTime = () => 180;
 
-    start(){
+    startCasting(){
         this.castTimer.start(this.getCastTime());
         this.startSpell();
     }
@@ -35,8 +33,12 @@ export class Spell extends GameObjectClass{
 
     getCastTimeout = () => Math.floor(this.getCastTime() * (5/3));
 
+    getSpellParticles = (): SpellParticle[] => this.children.filter(c => c instanceof SpellParticle).map(c => c as SpellParticle);
+
     update(){
         super.update();
+        if(this.doRemove()) this.removeFlag = true;
+
         this.children = this.children.filter(c => !(c as SpellParticle).removeFlag)
 
         if(!this.finishedCasting){
@@ -44,12 +46,12 @@ export class Spell extends GameObjectClass{
             this.y = this.staff.tipY();
             this.castTimer.update();
             this.updateSpell();
-        }
-
-        if(this.finishedCasting && this.children.length == 0){
-            this.removeFlag = true;
+        }else{
+            this.lifeTime--;
         }
     }
+
+    doRemove = () => (!this.staff.owner?.isAlive() && !this.finishedCasting) || (this.lifeTime <= 0 && this.finishedCasting && this.getSpellParticles().length == 0);
 
     startSpell(){}
 

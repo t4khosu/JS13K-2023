@@ -7,12 +7,14 @@ export class SpellParticle extends Damageable {
     spell: Spell;
     lifeTime: number;
 
-    isAttacking = true;
-    destroyOnCollision = true;
+    isAttacking = false;
+    destroyOnCollision = false;
 
     width = 1;
     height = 1;
     speed = 0.5;
+
+    damage = 1;
 
 
     constructor(x: number, y: number, color: string, spell: Spell) {
@@ -29,6 +31,8 @@ export class SpellParticle extends Damageable {
 
     activate() {
         this.moveToTarget();
+        this.isAttacking = true;
+        this.destroyOnCollision = true;
     }
 
     moveToTarget() {

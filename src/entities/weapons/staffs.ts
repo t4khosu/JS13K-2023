@@ -19,7 +19,7 @@ export class Staff extends Weapon {
     startAttack(target?: Character) {
         super.startAttack(target);
         this.currentSpell = new CircularSpell(this);
-        this.currentSpell.start();
+        this.currentSpell.startCasting();
         addSpell(this.currentSpell)
         this.postCastTimer = new Timer(this.currentSpell.getCastTimeout(), () => this.endAttack()).start()
     }

@@ -40,6 +40,8 @@ export class Character extends Entity {
         super.render();
     }
 
+    isAlive = () => this.health > 0;
+
     update(){
         super.update();
         this.updateHopping();
