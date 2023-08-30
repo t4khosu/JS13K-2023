@@ -2,7 +2,8 @@ import {GameObjectClass, Sprite} from "kontra";
 import {Staff} from "../staffs";
 import {Timer} from "../../timer";
 import {centeredAnchor} from "../../../utils/sprite";
-import {SpellParticle} from "./spells";
+
+import {SpellParticle} from "./particles/spellParticle";
 
 export class Spell extends GameObjectClass{
     staff: Staff;

@@ -1,10 +1,10 @@
 import {getSpriteById} from "../../utils/sprite";
 import {Weapon} from "./weapon";
-import {CircularSpell} from "./spells/spells";
 import {Character} from "../character";
 import {Timer} from "../timer";
 import {addSpell} from "../../utils/utils";
 import {Spell} from "./spells/spell";
+import {CircularSpell} from "./spells/circularSpell";
 
 export class Staff extends Weapon {
     postCastTimer?: Timer;
