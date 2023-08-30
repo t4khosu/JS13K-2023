@@ -89,13 +89,18 @@ export class Character extends Entity {
     }
 
     attack(target?: Character){
-        if(this.attackTimeoutTimer.isActive) return;
-        this.weapon?.tryToAttack(target);
-        this.attackTimeoutTimer.start();
+        if(this.canAttack()){
+            this.weapon?.tryToAttack(target);
+            this.attackTimeoutTimer.start();
+        }
+    }
+
+    canAttack() {
+        return !this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking;
     }
 
     getsHitBy(damageable: Damageable){
-        if(this.isInvincible()) return;
+        if(this.isInvincible() || damageable.damage == 0) return;
         this.invincibleTimer.start();
         this.health = Math.max(0, this.health - damageable.damage);
         if(this.health <= 0) this.die();
