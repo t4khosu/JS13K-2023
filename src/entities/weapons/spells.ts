@@ -7,20 +7,23 @@ import {Staff} from "./staffs";
 export class Spell extends GameObjectClass{
     staff: Staff;
     castTimer: Timer;
-    castFinished: boolean = false;
+    finishedCasting: boolean = false;
+    removeFlag: boolean = false;
 
     constructor(staff: Staff) {
         super({x: staff.tipX(), y: staff.tipY(), anchor: centeredAnchor, scaleX: 8, scaleY: 8})
-        // this.addChild(Sprite({width: 1, height: 1, color: "lightblue", anchor: centeredAnchor}))
+        this.addChild(Sprite({width: 1, height: 1, color: "lightblue", anchor: centeredAnchor}))
         this.staff = staff;
 
         this.castTimer = new Timer(0, () => {
-            this.castFinished = true;
+            this.finishedCasting = true;
             this.children.forEach(c => {
                 if (c instanceof SpellParticle) c.activate();
             })
         })
     }
+
+    particleLifeTime = () => 180;
 
     start(){
         this.castTimer.start(this.getCastTime());
@@ -33,11 +36,17 @@ export class Spell extends GameObjectClass{
 
     update(){
         super.update();
-        if(!this.castFinished){
+        this.children = this.children.filter(c => !(c as SpellParticle).removeFlag)
+
+        if(!this.finishedCasting){
             this.x = this.staff.tipX();
             this.y = this.staff.tipY();
             this.castTimer.update();
             this.updateSpell();
+        }
+
+        if(this.finishedCasting && this.children.length == 0){
+            this.removeFlag = true;
         }
     }
 
@@ -48,16 +57,26 @@ export class Spell extends GameObjectClass{
 
 export class SpellParticle extends Damageable{
     spell: Spell;
+    lifeTime: number;
+
     isAttacking = true;
     destroyOnCollision = true;
+
     width = 1;
     height = 1;
     speed = 0.5;
 
+
     constructor(x: number, y: number, color: string, spell: Spell) {
         super(x, y, Sprite({width: 1, height: 1, color: color, anchor: centeredAnchor}))
+        this.lifeTime = spell.particleLifeTime();
         this.spell = spell;
         this.owner = spell.staff.owner;
+    }
+
+    update(){
+        super.update();
+        if(--this.lifeTime == 0) this.removeFlag = true;
     }
 
     activate(){
@@ -81,8 +100,8 @@ export class HolySpell extends Spell{
 
 export class CircularSpell extends Spell{
     timer: number = 0;
-    distance: number = 9;
-    numParticles: number = 40;
+    distance: number = 11;
+    numParticles: number = 20;
     spawnSpeed: number = 3;
 
     getCastTime = () => this.numParticles * this.spawnSpeed;

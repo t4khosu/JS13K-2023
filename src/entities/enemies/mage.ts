@@ -14,9 +14,7 @@ export class Mage extends Enemy {
         this.attackTimeoutTimer.setMax(100);
     }
 
-    canAttack() {
-        return super.canAttack() && this.distanceToPlayer() >= this.attackDistance * 0.6
-    }
+    inAttackRange = () => this.distanceToPlayer() <= this.attackDistance && this.distanceToPlayer() >= this.attackDistance * 0.5;
 
     moveToPlayer() {
         let v = this.vectorTo(this.player.x, this.player.y)
