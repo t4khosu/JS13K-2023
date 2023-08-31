@@ -57,8 +57,8 @@ Contra
 
 ![Brewery](img/brewery.png)
 
-## The Catharian
-"The Catharian" is a Rogue Like Game inspired by Hades in which the player steps into the shoes of a Catharian.
+## The Cathar
+"The Cathar" is a Rogue Like Game inspired by Hades in which the player steps into the shoes of a Catharian.
 
 ### What is Catharism?
 [Catharism](https://en.wikipedia.org/wiki/Catharism) is a Christian dualist movement between the 12. and 14. century. Catharians believe in two gods:
@@ -67,7 +67,7 @@ Contra
   * A good god (new testament): Creator of physical world (Satan)
 
 They regard human spirits as angels which are trapped in the physical world, destined to reincarnate (bad thing). The only way to overcome this is through [Consolamentum](https://en.wikipedia.org/wiki/Consolamentum)
-This is a form of Baptism right before death. The catholic church didn't like the catharians and at one point started to kill them (inquisition).
+This is a form of Baptism right before death. The catholic church didn't like the cathars and at one point started to kill them (inquisition).
 
 ### Gameplay
 The game is a combination of strategy and real time fights.
@@ -112,7 +112,7 @@ Killing enemies also grants the player money (holy coins?). They can use it to i
 
 The following gif demonstrates how the gameplay could look like.
 
-![The Catharian Gameplay](img/TheCatharian.gif)
+![The Cathar Gameplay](img/TheCatharian.gif)
 
 ## Church in a Mafia Simulation
 * Increase the number of followers
@@ -122,7 +122,7 @@ The following gif demonstrates how the gameplay could look like.
 
 ## Bitlife + (Church + Brewery)
 * combine with rogue lite/like elements
-* decide which route to take: curch or catharian
+* decide which route to take: curch or cathar
 * more options than in Bitlife: you should be able to do stuff
 * may not be too enjoyable, but can easily be implemented in one month
 * more real decisions + more transparancy what are the consequences of the player's actions

@@ -2,7 +2,7 @@
 
 Entry for the [JS13K](https://js13kgames.com/) 2023 GameJam by [Christian Staudte](https://github.com/t4khosu) and  [Tim Streicher](https://github.com/coronoro).
 
-## The Catharian
+## The Cathar
 Our initial and unrefined game concepts can be found [here](ideas/README.md).
 
 ## Techstack

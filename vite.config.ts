@@ -1,6 +1,5 @@
 import svg from 'vite-plugin-svgo';
 import {rollupPluginSpglsl} from 'spglsl';
-import copy from "rollup-plugin-copy";
 
 // @ts-ignore
 import {
@@ -13,27 +12,11 @@ import {
 } from 'js13k-vite-plugins';
 // @ts-ignore
 import kontra from 'rollup-plugin-kontra';
-import {BuildOptions, defineConfig} from 'vite';
-
-const viteOptions: BuildOptions = {
-    ...defaultViteBuildOptions,
-    // rollupOptions: {
-    //     ...defaultRollupOptions,
-    //     output: {
-    //         dir: 'bundle',
-    //         format: 'iife',
-    //     },
-    // }
-}
+import {defineConfig} from 'vite';
 
 export default defineConfig({
-    build: viteOptions,
+    build: defaultViteBuildOptions,
     plugins: [
-        copy({
-            targets: [
-                {src: 'assets/', dest: 'public'},
-            ]
-        }),
         svg({
             multipass: true,
         }),
@@ -41,10 +24,8 @@ export default defineConfig({
             minify: true,
             mangle: true,
         }),
-        // googleClosurePlugin(),
         roadrollerPlugin(),
         ectPlugin(),
-        advzipPlugin(),
         kontra({
             gameObject: {
                 scale: true,
@@ -57,9 +38,10 @@ export default defineConfig({
             },
             vector: {
                 normalize: true,
+                distance: true,
+                angle: true,
             },
             debug: false
         }),
-
     ],
 });
