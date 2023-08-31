@@ -26,16 +26,16 @@ export class Weapon extends Damageable{
     startWiggle(){
         this.doesWiggle = true;
         this.wiggleTime = 0;
-        this.sprite.y = this.spriteOriginY;
     }
 
     endWiggle(){
         this.doesWiggle = false;
+        this.sprite.y = this.spriteOriginY;
     }
 
     wiggle(){
         if(++this.wiggleTime % 7 == 0){
-            this.sprite.y = this.spriteOriginY + this.wiggleDir;
+            this.sprite.y += this.wiggleDir;
             this.wiggleDir *= -1;
         }
     }
