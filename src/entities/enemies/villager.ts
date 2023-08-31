@@ -7,7 +7,8 @@ export class Villager extends Enemy {
     seeDistance: number = randNumber(160);
 
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(0), 15);
+        super(x, y, getSpriteById(0));
         this.attackTimeoutTimer.setMax(90);
+        this.initHealth(10);
     }
 }

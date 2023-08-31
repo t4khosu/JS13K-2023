@@ -9,11 +9,11 @@ import {CircularSpell} from "./spells/circularSpell";
 export class Staff extends Weapon {
     postCastTimer?: Timer;
     currentSpell?: Spell;
+    width = 1;
+    height = 4;
+    damage = 0;
     constructor() {
         super(5, 0, getSpriteById(7));
-        this.width = 1;
-        this.height = 4;
-        this.damage = 0;
     }
 
     startAttack(target?: Character) {
@@ -37,10 +37,5 @@ export class Staff extends Weapon {
     endAttack(){
         super.endAttack();
         this.currentSpell = undefined;
-    }
-
-    update(){
-        super.update();
-        console.log(this.isAttacking)
     }
 }

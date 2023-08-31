@@ -21,8 +21,8 @@ export class Enemy extends Character {
 
     loadAttackTimer = new Timer(40, () => this.attack(this.player));
 
-    constructor(x: number, y: number, sprite: Sprite, health: number) {
-        super(x, y, sprite, health);
+    constructor(x: number, y: number, sprite: Sprite) {
+        super(x, y, sprite);
         this.healthBar = Sprite({anchor: centeredAnchor, y: -5, height: 1, color: "#ff000099"})
         this.addChild(this.healthBar)
     }

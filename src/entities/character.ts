@@ -11,9 +11,11 @@ import {playSound, TAKE_DAMAGE} from "../utils/sound";
 export class Character extends Entity {
     sprite: Sprite;
 
-    maxHealth: number = 30;
+    maxHealth: number = 0;
     health: number = 0;
+
     dashing: boolean = false;
+
     dashRefillTimer: Timer = new Timer(60);
     invincibleTimer: Timer = new Timer(60);
     attackTimeoutTimer: Timer = new Timer(30);
@@ -27,18 +29,20 @@ export class Character extends Entity {
     // TODO replace
     dummyTargets: Character[] = [];
 
-    constructor(x: number, y: number, sprite: Sprite, health: number, room?: Room) {
+    constructor(x: number, y: number, sprite: Sprite, room?: Room) {
         super({width: 5, height: 8, x: x, y: y, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
         this.sprite.x += 0.5;
-        this.maxHealth = health;
-        this.health = health;
         this.room = room
-
         this.addChild(this.sprite);
     }
 
     isAlive = () => this.health > 0;
+
+    initHealth(maxHealth: number){
+        this.health = maxHealth;
+        this.maxHealth = maxHealth;
+    }
 
     update(){
         super.update();
@@ -96,10 +100,8 @@ export class Character extends Entity {
     }
 
     attack(target?: Character){
-        if(this.canAttack()){
-            this.weapon?.tryToAttack(target);
-            this.attackTimeoutTimer.start();
-        }
+        this.weapon?.tryToAttack(target);
+        this.attackTimeoutTimer.start();
     }
 
     canAttack() {

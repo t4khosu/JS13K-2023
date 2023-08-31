@@ -8,11 +8,13 @@ export class Mage extends Enemy {
     rangeToPlayer: number
 
     constructor(x: number, y: number) {
-        super(x, y, getSpriteById(2), 10);
+        super(x, y, getSpriteById(2));
         this.seeDistance = randNumber(350);
         this.rangeToPlayer = this.seeDistance * 0.6;
         this.attackDistance = this.rangeToPlayer + 5
         this.attackTimeoutTimer.setMax(100);
+
+        this.initHealth(10);
     }
 
     canMove = () => !(this.weapon as Staff).isCasting();

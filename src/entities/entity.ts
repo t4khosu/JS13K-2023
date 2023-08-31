@@ -9,7 +9,6 @@ export class Entity extends GameObjectClass {
     lookingDirection: number = 1;
     moving: boolean = false;
     anchor = centeredAnchor;
-
     room?: Room
 
     update() {

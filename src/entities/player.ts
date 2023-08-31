@@ -8,12 +8,18 @@ import {mousePosition, mousePressed} from "../utils/mouse";
 import {getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
 import Room from "./room";
-
-
+import {SmallDagger} from "./weapons/daggers";
 export class Player extends Character {
-    constructor(room: Room) {
-        super(60, 60, getSpriteById(4), 100, room);
+    constructor(x: number, y: number, room: Room) {
+        super(60, 60, getSpriteById(4), room);
+        this.reset();
+    }
+
+    reset(){
         this.speed = 2.5
+        this.armCanRotate = true;
+        this.initHealth(20);
+        this.handWeapon(new SmallDagger());
     }
 
     update() {
@@ -36,13 +42,9 @@ export class Player extends Character {
         if (keyPressed('d')) direction.x = 1;
         if (keyPressed('s')) direction.y = 1;
 
-        if (keyPressed([keyMap.space, 'space'])) {
-            this.dashTo(direction, 60)
-        }
+        this.moveTo(direction)
 
-        if(!this.dashing){
-            this.moveTo(direction)
-        }
+        if (keyPressed([keyMap.space, 'space'])) this.dashTo(direction, 60)
     }
 
     pointDaggerDirection(){

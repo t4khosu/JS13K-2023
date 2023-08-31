@@ -53,10 +53,7 @@ export default class Room extends GameObjectClass {
         });
 
 
-        this.player = new Player(this)
-        this.player.armCanRotate = true;
-        this.player.handWeapon(new BigDagger());
-
+        this.player = new Player(60, 60, this)
         this.addEnemies()
         this.player.dummyTargets = this.enemies
     }
