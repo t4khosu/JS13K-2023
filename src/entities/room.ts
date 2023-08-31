@@ -66,7 +66,7 @@ export default class Room extends GameObjectClass {
 
         const randomVillager = randInt(1, this.level + 1)
         for (let _ in Array.from(Array(randomVillager).keys())) {
-            const villager = new Villager(randInt(0, this.width), randInt(0, this.height));
+            const villager = new Villager(randInt(20, this.width-20), randInt(20, this.height-20));
             villager.handWeapon(new SmallDagger())
             villager.player = this.player;
             villager.room = this
