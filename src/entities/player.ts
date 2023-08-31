@@ -6,6 +6,7 @@ import {
 import {Character} from "./character";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {getSpriteById} from "../utils/sprite";
+import {HOP, playSound, STAB} from "../utils/sound";
 
 
 export class Player extends Character {
@@ -17,8 +18,13 @@ export class Player extends Character {
     update() {
         super.update();
         this.updatePlayerMovement();
-        if(mousePressed(0)) this.attack();
+        if(mousePressed(0) && this.canAttack()) {
+            this.attack();
+            playSound(STAB)
+        }
     }
+
+    playHopSound = () => playSound(HOP)
 
     updatePlayerMovement(){
         if(this.dashing) return;

@@ -4,6 +4,7 @@ import {Timer} from "./timer";
 import {Entity} from "./entity";
 import {Damageable} from "./weapons/damageable";
 import {Dagger} from "./weapons/daggers";
+import {playSound, TAKE_DAMAGE} from "../utils/sound";
 
 
 export class Character extends Entity {
@@ -59,13 +60,18 @@ export class Character extends Entity {
     updateHopping(){
         if(this.moving && !this.dashing){
             this.z += 0.25 * this.zDir;
-            if (this.z <= 0 || this.z >= 1.5) this.zDir *= -1;
+            if (this.z <= 0 || this.z >= 1.5) {
+                this.zDir *= -1
+                if(this.z <= 0) this.playHopSound();
+            };
         }else{
             this.z = 0;
             this.zDir = 1;
         }
         this.sprite.y = -this.z;
     }
+
+    playHopSound = () => {};
 
     pointDaggerDirection(){
         return Vector(this.lookingDirection, 0);
@@ -101,8 +107,13 @@ export class Character extends Entity {
     getsHitBy(damageable: Damageable){
         if(this.isInvincible() || damageable.damage == 0) return;
         this.invincibleTimer.start();
-        this.health = Math.max(0, this.health - damageable.damage);
+        this.takeDamage(damageable.damage);
         if(this.health <= 0) this.die();
+    }
+
+    takeDamage(damage: number){
+        this.health = Math.max(0, this.health - damage);
+        playSound(TAKE_DAMAGE)
     }
 
     isInvincible = () => this.invincibleTimer.isActive || this.dashing;
