@@ -1,7 +1,6 @@
 import {GameObjectClass, Vector} from "kontra";
-
-
 import {centeredAnchor} from "../utils/sprite";
+import Room from "./room";
 
 export class Entity extends GameObjectClass {
     movingTo: Vector = Vector(this.x, this.y);
@@ -11,7 +10,9 @@ export class Entity extends GameObjectClass {
     moving: boolean = false;
     anchor = centeredAnchor;
 
-    update(){
+    room?: Room
+
+    update() {
         super.update();
         this.updateLookingDirection();
         this.updateMoving();
@@ -22,6 +23,10 @@ export class Entity extends GameObjectClass {
         this.moving = distance != 0 && this.canMove();
         if(!this.moving) return;
 
+        let collision = false
+        const prevX = this.x
+        const prevY = this.y
+
         if(distance < this.currentSpeed()){
             this.x = this.movingTo.x;
             this.y = this.movingTo.y;
@@ -29,6 +34,14 @@ export class Entity extends GameObjectClass {
             const direction = this.vectorTo(this.movingTo.x, this.movingTo.y).normalize();
             this.x += direction.x * distance;
             this.y += direction.y * distance;
+        }
+
+        if (this.room) {
+            collision = this.room.tileEngine.layerCollidesWith('walls', this)
+        }
+        if (collision) {
+            this.x = prevX
+            this.y = prevY
         }
     }
 

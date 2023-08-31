@@ -7,11 +7,12 @@ import {Character} from "./character";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
+import Room from "./room";
 
 
 export class Player extends Character {
-    constructor() {
-        super(60, 60, getSpriteById(4), 100);
+    constructor(room: Room) {
+        super(60, 60, getSpriteById(4), 100, room);
         this.speed = 2.5
     }
 

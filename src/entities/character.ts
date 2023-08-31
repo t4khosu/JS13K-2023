@@ -2,6 +2,7 @@ import {Sprite, Vector} from "kontra";
 import {Weapon} from "./weapons/weapon";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
+import Room from "./room";
 import {Damageable} from "./weapons/damageable";
 import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
@@ -26,12 +27,13 @@ export class Character extends Entity {
     // TODO replace
     dummyTargets: Character[] = [];
 
-    constructor(x: number, y: number, sprite: Sprite, health: number) {
+    constructor(x: number, y: number, sprite: Sprite, health: number, room?: Room) {
         super({width: 5, height: 8, x: x, y: y, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
         this.sprite.x += 0.5;
         this.maxHealth = health;
         this.health = health;
+        this.room = room
 
         this.addChild(this.sprite);
     }
@@ -123,13 +125,16 @@ export class Character extends Entity {
         this.weapon && this.removeChild(this.weapon)
         this.weapon = undefined;
 
-        const deathTimer = new Timer(60, () => {this.removeFlag = true;}).start();
+        const deathTimer = new Timer(60, () => {
+            this.removeFlag = true;
+        }).start();
         this.update = () => {
             deathTimer.update();
         };
     }
 
     targets(): Character[] {
-        return this.dummyTargets;
+        const enemies = this.room?.enemies;
+        return enemies ? enemies : []
     }
 }
