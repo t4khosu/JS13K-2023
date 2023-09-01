@@ -15,12 +15,11 @@ export default class Room extends GameObjectClass {
     height: number
 
     tileEngine
-    player: Player
 
     enemies: Character[] = []
 
-    constructor() {
-        super()
+    constructor(player: Player) {
+        super({player: player})
         let {width, height} = getCanvas();
         this.width = width
         this.height = height
@@ -52,8 +51,7 @@ export default class Room extends GameObjectClass {
             ]
         });
 
-
-        this.player = new Player(60, 60, this)
+        player.room = this;
         this.addEnemies()
         this.player.dummyTargets = this.enemies
     }
@@ -63,7 +61,7 @@ export default class Room extends GameObjectClass {
 
         const randomVillager = randInt(1, this.level + 1)
         for (let _ in Array.from(Array(randomVillager).keys())) {
-            const villager = new Villager(randInt(20, this.width-20), randInt(20, this.height-20), 1);
+            const villager = new Villager(randInt(20, this.width-20), randInt(20, this.height-20), 2);
             villager.player = this.player;
             villager.room = this
             this.enemies.push(villager)

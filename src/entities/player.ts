@@ -7,11 +7,10 @@ import {Character} from "./character";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
-import Room from "./room";
 import {SmallDagger} from "./weapons/daggers";
 export class Player extends Character {
-    constructor(x: number, y: number, room: Room) {
-        super(60, 60, getSpriteById(4), room);
+    constructor(x: number, y: number) {
+        super(x, y, getSpriteById(4));
         this.reset();
     }
 

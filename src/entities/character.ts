@@ -21,7 +21,7 @@ export class Character extends Entity {
 
     dashing: boolean = false;
     dashRefillTimer: Timer = new Timer();
-    invincibleTimer: Timer = new Timer();
+    invincibleTimer: Timer = new Timer(15);
     attackTimeoutTimer: Timer = new Timer();
     weapon: Weapon | undefined = undefined;
 
