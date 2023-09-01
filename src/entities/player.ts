@@ -18,6 +18,10 @@ export class Player extends Character {
     reset(){
         this.speed = 2.5
         this.armCanRotate = true;
+        this.strength = 1;
+        this.attackSpeed = 30;
+        this.dashTimeout = 60;
+        this.dashDistance = 60;
         this.initHealth(20);
         this.handWeapon(new SmallDagger());
     }
@@ -44,7 +48,7 @@ export class Player extends Character {
 
         this.moveTo(direction)
 
-        if (keyPressed([keyMap.space, 'space'])) this.dashTo(direction, 60)
+        if (keyPressed([keyMap.space, 'space'])) this.dashTo(direction)
     }
 
     pointDaggerDirection(){

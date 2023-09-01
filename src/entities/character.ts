@@ -14,21 +14,20 @@ export class Character extends Entity {
     maxHealth: number = 0;
     health: number = 0;
     strength: number = 1;
+    armCanRotate: boolean = false;
+    attackSpeed: number = 60;
+    dashTimeout: number = 60;
+    dashDistance: number = 60;
 
     dashing: boolean = false;
-
-    dashRefillTimer: Timer = new Timer(60);
-    invincibleTimer: Timer = new Timer(60);
-    attackTimeoutTimer: Timer = new Timer(30);
+    dashRefillTimer: Timer = new Timer();
+    invincibleTimer: Timer = new Timer();
+    attackTimeoutTimer: Timer = new Timer();
     weapon: Weapon | undefined = undefined;
-    armCanRotate: boolean = false;
 
     // hopping values
     z: number = 0;
     zDir: number = 1;
-
-    // TODO replace
-    dummyTargets: Character[] = [];
 
     constructor(x: number, y: number, sprite: Sprite, room?: Room) {
         super({width: 5, height: 8, x: x, y: y, scaleX: 5, scaleY: 5});
@@ -84,11 +83,11 @@ export class Character extends Entity {
         return Vector(this.lookingDirection, 0);
     }
 
-    dashTo(direction: Vector, distance: number = 0){
+    dashTo(direction: Vector){
         if(!this.dashing && !this.dashRefillTimer.isActive) {
             this.dashing = true;
-            this.dashRefillTimer.start();
-            this.moveTo(direction, distance);
+            this.dashRefillTimer.start(this.dashTimeout);
+            this.moveTo(direction, this.dashDistance);
         }
     }
 
@@ -102,7 +101,7 @@ export class Character extends Entity {
 
     attack(target?: Character){
         this.weapon?.tryToAttack(target);
-        this.attackTimeoutTimer.start();
+        this.attackTimeoutTimer.start(this.attackSpeed);
     }
 
     canAttack() {
@@ -135,7 +134,6 @@ export class Character extends Entity {
     }
 
     targets(): Character[] {
-        const enemies = this.room?.enemies;
-        return enemies ? enemies : []
+        return this.room?.enemies ?? []
     }
 }

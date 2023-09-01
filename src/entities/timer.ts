@@ -5,7 +5,7 @@ export class Timer{
     repeat: boolean = false;
     onEnd: () => void;
 
-    constructor(maxTime: number, onEnd = () => {}, repeat: boolean = false) {
+    constructor(maxTime: number = 60, onEnd = () => {}, repeat: boolean = false) {
         this.setMax(maxTime);
         this.onEnd = onEnd;
         this.repeat = repeat;
