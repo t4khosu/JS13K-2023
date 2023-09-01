@@ -6,9 +6,9 @@ import {collidesWithRotation} from "../../utils/collision";
 
 export class Damageable extends Entity {
     isAttacking: boolean = false;
-    damage: number = 0;
+    standardDamage: number = 0;
     sprite: Sprite;
-    owner: Character | undefined;
+    owner!: Character;
     destroyOnCollision: boolean = false;
     target?: Character;
 
@@ -23,12 +23,14 @@ export class Damageable extends Entity {
         this.checkForHit();
     }
 
+    damage = () => this.standardDamage * this.owner.strength;
+
     checkForHit() {
         if (!this.isAttacking) return;
-        this.owner?.targets().forEach(target => {
+        this.owner.targets().forEach(target => {
             if (target.dashing) return;
             if (collidesWithRotation(this, target)) {
-                target.getsHitBy(this)
+                target.takeDamage(this.damage())
                 this.removeFlag = this.destroyOnCollision;
             }
         });

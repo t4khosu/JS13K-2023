@@ -14,7 +14,7 @@ export class SpellParticle extends Damageable {
     height = 1;
     speed = 0.5;
 
-    damage = 1;
+    standardDamage = 1;
 
 
     constructor(x: number, y: number, color: string, spell: Spell) {

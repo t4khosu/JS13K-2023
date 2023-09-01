@@ -53,7 +53,7 @@ export class BigDagger extends Dagger {
         super(0, 2, getSpriteById(6));
         this.width = 4;
         this.height = 2;
-        this.damage = 5;
+        this.standardDamage = 5;
     }
 }
 
@@ -62,7 +62,7 @@ export class SmallDagger extends Dagger {
         super(0, 1, getSpriteById(8, PenColor.None, {y: -0.5}));
         this.width = 4;
         this.height = 1;
-        this.damage = 4;
+        this.standardDamage = 4;
 
         this.stabbingDistance = 6;
         this.holdingDistance = 3;

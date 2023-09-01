@@ -11,7 +11,7 @@ export class Staff extends Weapon {
     currentSpell?: Spell;
     width = 1;
     height = 4;
-    damage = 0;
+    standardDamage = 0;
     constructor() {
         super(5, 0, getSpriteById(7));
     }

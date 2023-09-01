@@ -13,6 +13,7 @@ export class Character extends Entity {
 
     maxHealth: number = 0;
     health: number = 0;
+    strength: number = 1;
 
     dashing: boolean = false;
 
@@ -108,16 +109,13 @@ export class Character extends Entity {
         return !this.attackTimeoutTimer.isActive && !this.weapon?.isAttacking;
     }
 
-    getsHitBy(damageable: Damageable){
-        if(this.isInvincible() || damageable.damage == 0) return;
-        this.invincibleTimer.start();
-        this.takeDamage(damageable.damage);
-        if(this.health <= 0) this.die();
-    }
-
     takeDamage(damage: number){
+        if(this.isInvincible() || damage == 0) return;
+        this.invincibleTimer.start();
+
         this.health = Math.max(0, this.health - damage);
         playSound(TAKE_DAMAGE)
+        if(this.health <= 0) this.die();
     }
 
     isInvincible = () => this.invincibleTimer.isActive || this.dashing;
@@ -130,6 +128,7 @@ export class Character extends Entity {
         const deathTimer = new Timer(60, () => {
             this.removeFlag = true;
         }).start();
+
         this.update = () => {
             deathTimer.update();
         };

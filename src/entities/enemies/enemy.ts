@@ -85,8 +85,8 @@ export class Enemy extends Character {
         return this.aggro ? this.playerDirection() : super.getLookingDirection();
     }
 
-    getsHitBy(damageable: Damageable) {
-        super.getsHitBy(damageable);
+    takeDamage(damage: number) {
+        super.takeDamage(damage);
         this.healthBar.width = (this.health / this.maxHealth) * this.healthBarWidth;
     }
 
