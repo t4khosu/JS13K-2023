@@ -11,6 +11,7 @@ export class Spell extends GameObjectClass{
     finishedCasting: boolean = false;
     removeFlag: boolean = false;
     lifeTime: number = 50;
+    castTime: number = 50;
 
     constructor(staff: Staff) {
         super({x: staff.tipX(), y: staff.tipY(), anchor: centeredAnchor, scaleX: 8, scaleY: 8})

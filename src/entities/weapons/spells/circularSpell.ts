@@ -15,8 +15,6 @@ export class CircularSpell extends Spell {
 
     updateSpell() {
         super.updateSpell();
-        console.log("update")
-
         if (this.timer % this.spawnSpeed == 0) {
             const direction = this.getRotatedDirection(2 * Math.PI * (this.timer / (this.spawnSpeed * this.numParticles)))
             this.addChild(new HolySpellParticle(direction.x * this.distance, direction.y * this.distance, this));

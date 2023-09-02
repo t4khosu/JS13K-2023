@@ -5,6 +5,7 @@ import {Timer} from "../timer";
 import {addSpell} from "../../utils/utils";
 import {Spell} from "./spells/spell";
 import {CircularSpell} from "./spells/circularSpell";
+import NormalSpell from "./spells/normalSpell";
 
 export class Staff extends Weapon {
     postCastTimer?: Timer;
@@ -18,7 +19,7 @@ export class Staff extends Weapon {
 
     startAttack(target?: Character) {
         super.startAttack(target);
-        this.currentSpell = new CircularSpell(this);
+        this.currentSpell = new NormalSpell(this);
         this.currentSpell.startCasting();
         addSpell(this.currentSpell)
         this.postCastTimer = new Timer(this.currentSpell.getCastTimeout(), () => this.endAttack()).start()
