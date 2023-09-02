@@ -11,8 +11,6 @@ const levelToColor: any = {
 }
 
 export class Villager extends Enemy {
-    seeDistance: number = randNumber(160);
-
     params: any = {
         speed: [2.1, 2.3, 2.5],
         attackTimeout: [90, 70, 50],

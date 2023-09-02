@@ -14,6 +14,7 @@ export class Enemy extends Character {
     seeDistance: number = 100;
     aggro: boolean = false;
     attackDistance: number = 60;
+    name: string = "";
 
     idleTimer = new Timer(randNumber(200), () => {
         this.moveTo(getRandomVecDir(), randNumber(60));

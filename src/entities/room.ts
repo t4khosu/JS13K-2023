@@ -7,6 +7,8 @@ import {Mage} from "./enemies/mage";
 import {Staff} from "./weapons/staffs";
 import {Villager} from "./enemies/villager";
 import {cleanSpells, getSpells} from "../utils/utils";
+import {Enemy} from "./enemies/enemy";
+import Pope from "./enemies/pope";
 
 export default class Room extends GameObjectClass {
     level: number = 1
@@ -17,6 +19,7 @@ export default class Room extends GameObjectClass {
     tileEngine
 
     enemies: Character[] = []
+    boss?: Enemy
 
     constructor(player: Player) {
         super({player: player})
@@ -52,8 +55,15 @@ export default class Room extends GameObjectClass {
         });
 
         player.room = this;
-        this.addEnemies()
+        //this.addEnemies()
+        this.boss = new Pope(160,160);
+        this.boss.player = player;
+        this.addBoss(this.boss)
         this.player.dummyTargets = this.enemies
+    }
+
+    addBoss(boss: Enemy){
+        this.enemies.push(boss);
     }
 
     addEnemies() {
