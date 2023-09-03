@@ -23,13 +23,13 @@ export default class Room extends GameObjectClass {
         let {width, height} = getCanvas();
         this.width = width
         this.height = height
-        const xDim = Math.ceil(width / 16)
-        const yDim = Math.ceil(height / 16)
+        const xDim = Math.ceil(width / 8)
+        const yDim = Math.ceil(height / 8)
 
         const wallScale = 2
         this.tileEngine = TileEngine({
-            tilewidth: 16,
-            tileheight: 16,
+            tilewidth: 8,
+            tileheight: 8,
 
             width: xDim,
             height: yDim,
@@ -43,7 +43,7 @@ export default class Room extends GameObjectClass {
             // layer object
             layers: [{
                 name: 'ground',
-                data: getBackGroundTileMap()
+                data: getBackGroundTileMap(xDim, yDim)
             }, {
                 name: 'walls',
                 data: getWallTileMap().flat(),
@@ -61,7 +61,7 @@ export default class Room extends GameObjectClass {
 
         const randomVillager = randInt(1, this.level + 1)
         for (let _ in Array.from(Array(randomVillager).keys())) {
-            const villager = new Villager(randInt(20, this.width-20), randInt(20, this.height-20), 2);
+            const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 2);
             villager.player = this.player;
             villager.room = this
             this.enemies.push(villager)
