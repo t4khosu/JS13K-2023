@@ -1,15 +1,17 @@
-import {GameObjectClass} from "kontra";
+import {GameObjectClass, Sprite} from "kontra";
 import {Character} from "../../character";
-import {addSpell} from "../../../utils/utils";
+import {Spell} from "./spell";
+import {addSpell} from "../../../utils/spellsCollection";
 
 class SpellCaster extends GameObjectClass{
-    constructor(x: number, y: number, owner: Character, spells: any[]) {
-        super({x: x, y: y, owner: owner, spells: spells});
+    constructor(x: number, y: number, owner: Character, spellClasses: any[]) {
+        super({x: x, y: y, owner: owner, spellClasses: spellClasses});
     }
 
-    cast(){
-        const spell = new this.spells[0](this);
+    cast(): Spell{
+        const spell = new this.spellClasses[0](this);
         addSpell(spell)
+        return spell;
     }
 }
 

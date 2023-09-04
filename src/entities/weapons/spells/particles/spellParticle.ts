@@ -2,6 +2,7 @@ import {Damageable} from "../../damageable";
 import {Spell} from "../spell";
 import {Sprite, Vector} from "kontra";
 import {centeredAnchor} from "../../../../utils/sprite";
+import {Character} from "../../../character";
 
 export class SpellParticle extends Damageable {
     spell: Spell;
@@ -28,17 +29,8 @@ export class SpellParticle extends Damageable {
         if (--this.lifeTime == 0) this.removeFlag = true;
     }
 
-    activate() {
+    activate(target?: Character) {
         this.isAttacking = true;
         this.destroyOnCollision = true;
-        this.moveToTarget();
-    }
-
-    moveToTarget() {
-        this.moveTo(this.vectorToTarget(), 2000);
-    }
-
-    vectorToTarget() {
-        return Vector(this.spell.target!.world.x - this.world.x, this.spell.target!.world.y - this.world.y);
     }
 }

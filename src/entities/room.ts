@@ -6,9 +6,9 @@ import {BigDagger, SmallDagger} from "./weapons/daggers";
 import {Mage} from "./enemies/mage";
 import {Staff} from "./weapons/staffs";
 import {Villager} from "./enemies/villager";
-import {cleanSpells, getSpells} from "../utils/utils";
 import {Enemy} from "./enemies/enemy";
 import Pope from "./enemies/pope";
+import {renderSpells, updateSpells} from "../utils/spellsCollection";
 
 export default class Room extends GameObjectClass {
     level: number = 1
@@ -80,7 +80,7 @@ export default class Room extends GameObjectClass {
         const randomMage = randInt(0, this.level + 1)
         for (let _ in Array.from(Array(randomMage).keys())) {
             const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
-            mage.handWeapon(new Staff())
+            mage.handWeapon(new Staff([]))
             mage.player = this.player;
             mage.room = this
             this.enemies.push(mage)
@@ -100,8 +100,7 @@ export default class Room extends GameObjectClass {
             !enemy.removeFlag && enemy.render()
         })
         !this.player.removeFlag && this.player.render()
-        getSpells().forEach(s => s.render())
-
+        renderSpells();
     }
 
     update() {
@@ -117,7 +116,6 @@ export default class Room extends GameObjectClass {
             this.nextLevel()
         }
         !this.player.removeFlag && this.player.update()
-        cleanSpells();
-        getSpells().forEach(s => s.update())
+        updateSpells();
     }
 }

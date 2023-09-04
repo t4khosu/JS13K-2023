@@ -1,11 +1,11 @@
 import {Sprite, Vector} from "kontra";
-import {Weapon} from "./weapons/weapon";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
 import Room from "./room";
 import {Damageable} from "./weapons/damageable";
 import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
+import {Weapon} from "./weapons/weapon";
 
 
 export class Character extends Entity {
