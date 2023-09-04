@@ -5,7 +5,8 @@ import {Timer} from "../timer";
 import {addSpell} from "../../utils/utils";
 import {Spell} from "./spells/spell";
 import {CircularSpell} from "./spells/circularSpell";
-import NormalSpell from "./spells/normalSpell";
+import SimpleSpell from "./spells/simpleSpell";
+import SpellCaster from "./spells/spellCaster";
 
 export class Staff extends Weapon {
     postCastTimer?: Timer;
@@ -13,16 +14,26 @@ export class Staff extends Weapon {
     width = 1;
     height = 4;
     standardDamage = 0;
-    constructor() {
+    spellCaster?: SpellCaster
+    constructor(spells: any[]) {
         super(5, 0, getSpriteById(7));
     }
 
+    setOwner(owner: Character) {
+        super.setOwner(owner);
+        this.spellCaster = new SpellCaster(-1.5, -3, this.owner, [SimpleSpell])
+        this.addChild(this.spellCaster)
+    }
+
     startAttack(target?: Character) {
+        if(this.spellCaster === undefined) return;
+
         super.startAttack(target);
-        this.currentSpell = new NormalSpell(this);
-        this.currentSpell.startCasting();
-        addSpell(this.currentSpell)
-        this.postCastTimer = new Timer(this.currentSpell.getCastTimeout(), () => this.endAttack()).start()
+        this.spellCaster.cast();
+        this.postCastTimer = new Timer(30, () => this.endAttack()).start()
+    }
+
+    createSpell(){
     }
 
     isCasting = () => this.currentSpell !== undefined && !this.currentSpell.finishedCasting;

@@ -16,12 +16,11 @@ export class SpellParticle extends Damageable {
 
     standardDamage = 1;
 
-
     constructor(x: number, y: number, color: string, spell: Spell) {
         super(x, y, Sprite({width: 1, height: 1, color: color, anchor: centeredAnchor}))
         this.lifeTime = spell.particleLifeTime();
         this.spell = spell;
-        this.owner = spell.staff.owner;
+        this.owner = spell.owner;
     }
 
     update() {
@@ -30,9 +29,9 @@ export class SpellParticle extends Damageable {
     }
 
     activate() {
-        this.moveToTarget();
         this.isAttacking = true;
         this.destroyOnCollision = true;
+        this.moveToTarget();
     }
 
     moveToTarget() {
@@ -40,6 +39,6 @@ export class SpellParticle extends Damageable {
     }
 
     vectorToTarget() {
-        return Vector(this.spell.staff.target!.world.x - this.world.x, this.spell.staff.target!.world.y - this.world.y);
+        return Vector(this.spell.target!.world.x - this.world.x, this.spell.target!.world.y - this.world.y);
     }
 }

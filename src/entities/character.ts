@@ -95,7 +95,7 @@ export class Character extends Entity {
 
     handWeapon(weapon: Weapon){
         this.weapon = weapon;
-        this.weapon.owner = this;
+        this.weapon.setOwner(this);
         this.addChild(weapon);
     }
 
