@@ -3,25 +3,28 @@ import {Spell} from "../spell";
 import {Sprite, Vector} from "kontra";
 import {centeredAnchor} from "../../../../utils/sprite";
 import {Character} from "../../../character";
+import {ParticleType} from "./particleTypes";
+import {getRotatedVector, getVectorBetweenGameObjects} from "../../../../utils/vectors";
 
 export class SpellParticle extends Damageable {
     spell: Spell;
     lifeTime: number;
-
     isAttacking = false;
     destroyOnCollision = false;
-
     width = 1;
     height = 1;
-    speed = 0.5;
+    direction?: Vector;
+    rotateDirectionRadiants: number;
 
-    standardDamage = 1;
-
-    constructor(x: number, y: number, color: string, spell: Spell) {
-        super(x, y, Sprite({width: 1, height: 1, color: color, anchor: centeredAnchor}))
-        this.lifeTime = spell.particleLifeTime();
+    constructor(x: number, y: number, particleType: ParticleType, spell: Spell, direction?: Vector, rotateDirectionRadiants: number = 0) {
+        super(x, y, Sprite({width: 1, height: 1, color: particleType.color, anchor: centeredAnchor}))
+        this.speed = particleType.speed;
+        this.standardDamage = particleType.damage;
+        this.lifeTime = spell.calculatedCastingTime() + particleType.lifetime;
         this.spell = spell;
         this.owner = spell.owner;
+        this.direction = direction;
+        this.rotateDirectionRadiants = rotateDirectionRadiants;
     }
 
     update() {
@@ -29,8 +32,11 @@ export class SpellParticle extends Damageable {
         if (--this.lifeTime == 0) this.removeFlag = true;
     }
 
+    getDirection = (target?: Character) => target ? getVectorBetweenGameObjects(this, target).normalize() : this.direction ??  Vector(0, 0);
+
     activate(target?: Character) {
         this.isAttacking = true;
         this.destroyOnCollision = true;
+        this.moveTo(getRotatedVector(this.getDirection(target), this.rotateDirectionRadiants), 2000);
     }
 }

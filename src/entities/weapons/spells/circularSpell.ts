@@ -1,23 +1,34 @@
 import {Spell} from "./spell";
 import {Vector} from "kontra";
-
-import {HolySpellParticle} from "./particles/holySpellParticle";
+import {SpellParticle} from "./particles/spellParticle";
+import SpellCaster from "./spellCaster";
+import {ParticleType} from "./particles/particleTypes";
+import {getRotatedVector} from "../../../utils/vectors";
 
 export class CircularSpell extends Spell {
     timer: number = 0;
-    distance: number = 6;
-    numParticles: number = 15;
-    spawnSpeed: number = 7;
 
-    getCastTime = () => this.numParticles * this.spawnSpeed;
+    distance: number;
+    numParticles: number;
+    spawnSpeed: number;
 
-    getCastTimeout = () => this.getCastTime() * 3
+    constructor(spellCaster: SpellCaster, particleType: ParticleType, distance: number, numParticles: number, spawnSpeed: number) {
+        super(spellCaster, particleType);
+        this.distance = distance;
+        this.numParticles = numParticles;
+        this.spawnSpeed = spawnSpeed;
+    }
 
-    updateSpell() {
-        super.updateSpell();
+    calculatedCastingTime = () => this.numParticles * this.spawnSpeed;
+
+    getCastTimeout = () => this.calculatedCastingTime() * 3
+
+    castingUpdate() {
+        super.castingUpdate();
         if (this.timer % this.spawnSpeed == 0) {
-            const direction = this.getRotatedDirection(2 * Math.PI * (this.timer / (this.spawnSpeed * this.numParticles)))
-            this.addChild(new HolySpellParticle(direction.x * this.distance, direction.y * this.distance, this));
+            const radiant = 2 * Math.PI * (this.timer / (this.spawnSpeed * this.numParticles));
+            const direction = getRotatedVector(Vector(1, 0), radiant);
+            this.addChild(new SpellParticle(direction.x * this.distance, direction.y * this.distance, this.particleType, this));
         }
         this.timer++;
     }

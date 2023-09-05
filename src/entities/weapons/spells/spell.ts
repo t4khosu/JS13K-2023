@@ -6,6 +6,7 @@ import {centeredAnchor} from "../../../utils/sprite";
 import {SpellParticle} from "./particles/spellParticle";
 import SpellCaster from "./spellCaster";
 import {Character} from "../../character";
+import {ParticleType} from "./particles/particleTypes";
 
 export class Spell extends GameObjectClass{
     spellCaster: SpellCaster
@@ -17,18 +18,26 @@ export class Spell extends GameObjectClass{
     castTime: number = 50;
     followsCaster: boolean = true;
     castTimer: Timer;
+    particleType: ParticleType;
 
-    constructor(spellCaster: SpellCaster) {
+    constructor(spellCaster: SpellCaster, particleType: ParticleType) {
         super({anchor: centeredAnchor, scaleX: 8, scaleY: 8})
         this.spellCaster = spellCaster;
+        this.particleType = particleType;
+
         this.owner = spellCaster.owner;
         this.targets = this.owner.targets();
-        this.doFollowSpellCaster();
 
         this.castTimer = new Timer(0, () => {
             this.isCasting = false;
-            this.getSpellParticles().forEach(c => c.activate());
-        }).start(this.getCastTime())
+            this.getSpellParticles().forEach(c => c.activate(this.findTarget()));
+        })
+    }
+
+    start(){
+        this.doFollowSpellCaster();
+        this.castTimer.start(this.calculatedCastingTime())
+        return this;
     }
 
     doFollowSpellCaster(){
@@ -40,11 +49,9 @@ export class Spell extends GameObjectClass{
         return this.owner.targets()[0] ?? null;
     }
 
-    particleLifeTime = () => 180;
+    calculatedCastingTime = () => this.castTime;
 
-    getCastTime = () => this.castTime;
-
-    getCastTimeout = () => Math.floor(this.getCastTime() * (5/3));
+    getCastTimeout = () => Math.floor(this.calculatedCastingTime() * (5/3));
 
     getSpellParticles = (): SpellParticle[] => this.children.filter(c => c instanceof SpellParticle).map(c => c as SpellParticle);
 

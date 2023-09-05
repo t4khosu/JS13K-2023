@@ -3,7 +3,6 @@ import {Weapon} from "./weapon";
 import {Character} from "../character";
 import {Timer} from "../timer";
 import {Spell} from "./spells/spell";
-import SimpleSpell from "./spells/simpleSpell";
 import SpellCaster from "./spells/spellCaster";
 
 export class Staff extends Weapon {
@@ -13,13 +12,16 @@ export class Staff extends Weapon {
     height = 4;
     standardDamage = 0;
     spellCaster?: SpellCaster
-    constructor(spells: any[]) {
+    spellFactories: any;
+
+    constructor(spellFactories: any[]) {
         super(5, 0, getSpriteById(7));
+        this.spellFactories = spellFactories;
     }
 
     setOwner(owner: Character) {
         super.setOwner(owner);
-        this.spellCaster = new SpellCaster(-1.5, -3, this.owner, [SimpleSpell])
+        this.spellCaster = new SpellCaster(-1.5, -3, this.owner, this.spellFactories)
         this.addChild(this.spellCaster);
     }
 

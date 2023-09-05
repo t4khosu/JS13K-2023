@@ -1,15 +1,17 @@
-import {GameObjectClass, Sprite} from "kontra";
+import {GameObjectClass, randInt, Sprite} from "kontra";
 import {Character} from "../../character";
 import {Spell} from "./spell";
 import {addSpell} from "../../../utils/spellsCollection";
+import ShotgunSpell from "./shotgunSpell";
+import {CircularSpell} from "./circularSpell";
 
 class SpellCaster extends GameObjectClass{
-    constructor(x: number, y: number, owner: Character, spellClasses: any[]) {
-        super({x: x, y: y, owner: owner, spellClasses: spellClasses});
+    constructor(x: number, y: number, owner: Character, spellFactories: any[]) {
+        super({x: x, y: y, owner: owner, spellFactories: spellFactories});
     }
 
     cast(): Spell{
-        const spell = new this.spellClasses[0](this);
+        const spell = this.spellFactories[randInt(0, this.spellFactories.length-1)](this).start();
         addSpell(spell)
         return spell;
     }
