@@ -1,14 +1,14 @@
 import {imageAssets, Sprite, SpriteSheet} from "kontra";
 import {colorizeImage, PenColor} from "./colorize";
 
-function getSpriteById(id: number, color: PenColor = PenColor.Green, additional: object = {}): Sprite {
+function getSpriteById(id: number, color: PenColor = PenColor.Green, additional: object = {}, asset = 'characters'): Sprite {
     return Sprite({
         anchor: centeredAnchor,
         ...additional,
         animations: SpriteSheet({
             frameHeight: 8,
             frameWidth: 8,
-            image: colorizeImage(imageAssets['characters'], color),
+            image: colorizeImage(imageAssets[asset], color),
             animations: {
                 i: {
                     frames: id

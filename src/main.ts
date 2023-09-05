@@ -11,17 +11,15 @@ initKeys()
 initMouse(canvas);
 
 load(
-    'characters.png', 'tiles.png',
+    'characters.png', 'tiles.png', 'icons.png'
 ).then(function () {
     const player = new Player(60, 60)
     const room = new Room(player)
     const gui = new Gui(player);
 
     GameLoop({
-        update: () => {
-            room.update()
-            cleanSpells();
-            getSpells().forEach(s => !s.removeFlag && s.update())
+        update: (dt) => {
+            room.update(dt)
             gui.update();
         },
         render: () => {
