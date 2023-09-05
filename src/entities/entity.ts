@@ -44,6 +44,12 @@ export class Entity extends GameObjectClass {
         }
     }
 
+    setPos = (x: number, y: number) => {
+        this.x = x;
+        this.y = y;
+        this.movingTo = Vector(x, y);
+    }
+
     canMove = () => true;
 
     updateLookingDirection(){

@@ -13,5 +13,6 @@ class ParticleType{
 
 const holyParticleType = new ParticleType("#ffffcc", 1.1, 2, 150);
 const iceParticleType = new ParticleType("#b5dedd", 0.4, 4, 90);
+const spawnParticleType = new ParticleType("#55ff55", 0, 0, 90);
 
-export {ParticleType, holyParticleType, iceParticleType}
+export {ParticleType, holyParticleType, iceParticleType, spawnParticleType}

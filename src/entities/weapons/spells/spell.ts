@@ -24,6 +24,7 @@ export class Spell extends GameObjectClass{
         super({anchor: centeredAnchor, scaleX: 8, scaleY: 8})
         this.spellCaster = spellCaster;
         this.particleType = particleType;
+        this.doFollowSpellCaster();
 
         this.owner = spellCaster.owner;
         this.targets = this.owner.targets();
@@ -35,7 +36,6 @@ export class Spell extends GameObjectClass{
     }
 
     start(){
-        this.doFollowSpellCaster();
         this.castTimer.start(this.calculatedCastingTime())
         return this;
     }
@@ -64,11 +64,14 @@ export class Spell extends GameObjectClass{
         this.castTimer.update();
 
         this.removeFlag = this.remove();
+        if(this.removeFlag) this.onRemove()
         this.children = this.children.filter(c => !(c as SpellParticle).removeFlag)
 
         if(this.isCasting) this.castingUpdate();
         else this.lifeTime--;
     }
 
-    remove = () => (!this.owner?.isAlive() && !this.isCasting) || (this.lifeTime <= 0 && this.isCasting && this.getSpellParticles().length == 0);
+    onRemove = () => {}
+
+    remove = () => (!this.owner?.isAlive() && !this.isCasting) || (this.lifeTime <= 0 && !this.isCasting && this.getSpellParticles().length == 0);
 }

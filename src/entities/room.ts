@@ -63,6 +63,7 @@ export default class Room extends GameObjectClass {
     }
 
     addBoss(boss: Enemy){
+        boss.room = this;
         this.enemies.push(boss);
     }
 
