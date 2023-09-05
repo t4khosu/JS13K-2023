@@ -3,6 +3,10 @@ import {randNumber} from "../../utils/utils";
 import {getSpriteById} from "../../utils/sprite";
 import {Staff} from "../weapons/staffs";
 import {Sprite} from "kontra";
+import SpellCaster from "../weapons/spells/spellCaster";
+import ShotgunSpell from "../weapons/spells/shotgunSpell";
+import {holyParticleType, iceParticleType} from "../weapons/spells/particles/particleTypes";
+import {CircularSpell} from "../weapons/spells/circularSpell";
 
 export class Mage extends Enemy {
     speed: number = randNumber(1.1);
@@ -16,6 +20,11 @@ export class Mage extends Enemy {
         this.attackTimeoutTimer.setMax(100);
 
         this.initHealth(10);
+
+        this.handWeapon(new Staff([
+            (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, iceParticleType, 3, 0.2),
+            (spellCaster: SpellCaster) => new CircularSpell(spellCaster, holyParticleType, 4, 8, 6)
+        ]))
     }
 
     canMove = () => !(this.weapon as Staff).isCasting();

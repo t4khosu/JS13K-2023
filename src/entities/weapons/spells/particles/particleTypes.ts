@@ -11,7 +11,7 @@ class ParticleType{
     }
 }
 
-const holyParticleType = new ParticleType("#ffffcc", 1.2, 2, 100);
-const iceParticleType = new ParticleType("#b5dedd", 0.4, 4, 50);
+const holyParticleType = new ParticleType("#ffffcc", 1.1, 2, 150);
+const iceParticleType = new ParticleType("#b5dedd", 0.4, 4, 90);
 
 export {ParticleType, holyParticleType, iceParticleType}

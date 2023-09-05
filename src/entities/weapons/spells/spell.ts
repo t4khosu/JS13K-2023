@@ -70,11 +70,5 @@ export class Spell extends GameObjectClass{
         else this.lifeTime--;
     }
 
-    getVectorTo(character: Character) {
-        return Vector(character.world.x - this.world.x, character.world.y - this.world.y).normalize();
-    }
-
-    getVectorToTarget = () => this.getVectorTo(this.findTarget())
-
     remove = () => (!this.owner?.isAlive() && !this.isCasting) || (this.lifeTime <= 0 && this.isCasting && this.getSpellParticles().length == 0);
 }
