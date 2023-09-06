@@ -41,6 +41,9 @@ export default defineConfig({
                 distance: true,
                 angle: true,
             },
+            text: {
+                align: true,
+            },
             debug: false
         }),
     ],

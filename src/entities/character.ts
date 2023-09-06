@@ -1,5 +1,4 @@
 import {Sprite, Vector} from "kontra";
-import {Weapon} from "./weapons/weapon";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
 import Room from "./room";
@@ -8,6 +7,7 @@ import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
 import {Reward, StatusReward} from "./reward";
 import {sumRewards} from "../utils/reward-util";
+import {Weapon} from "./weapons/weapon";
 
 
 export class Character extends Entity implements StatusAttributes {
@@ -168,7 +168,7 @@ export class Character extends Entity implements StatusAttributes {
 
     handWeapon(weapon: Weapon) {
         this.weapon = weapon;
-        this.weapon.owner = this;
+        this.weapon.setOwner(this);
         this.addChild(weapon);
     }
 

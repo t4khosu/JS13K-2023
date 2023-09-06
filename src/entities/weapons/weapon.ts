@@ -59,6 +59,10 @@ export class Weapon extends Damageable{
         this.target = undefined;
     }
 
+    setOwner(owner: Character){
+        this.owner = owner;
+    }
+
     runAttack(){}
 }
 

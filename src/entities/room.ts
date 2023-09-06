@@ -5,7 +5,9 @@ import {Character} from "./character";
 import {Mage} from "./enemies/mage";
 import {Staff} from "./weapons/staffs";
 import {Villager} from "./enemies/villager";
-import {cleanSpells, getSpells} from "../utils/utils";
+import {Enemy} from "./enemies/enemy";
+import Pope from "./enemies/pope";
+import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import {Reward, RewardSprite} from "./reward";
 import {getRewards} from "../utils/reward-util";
 
@@ -18,6 +20,7 @@ export default class Room extends GameObjectClass {
     tileEngine
 
     enemies: Character[] = []
+    boss?: Enemy
 
 
     inCombat = true
@@ -61,9 +64,17 @@ export default class Room extends GameObjectClass {
         });
 
         player.room = this;
-        this.addEnemies()
+        //this.addEnemies()
+        this.boss = new Pope(160,160);
+        this.boss.player = player;
+        this.addBoss(this.boss)
         this.player.dummyTargets = this.enemies
 
+    }
+
+    addBoss(boss: Enemy){
+        boss.room = this;
+        this.enemies.push(boss);
     }
 
     addEnemies() {
@@ -80,7 +91,7 @@ export default class Room extends GameObjectClass {
         const randomMage = randInt(0, this.level + 1)
         for (let _ in Array.from(Array(randomMage).keys())) {
             const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
-            mage.handWeapon(new Staff())
+            mage.handWeapon(new Staff([]))
             mage.player = this.player;
             mage.room = this
             this.enemies.push(mage)
@@ -124,7 +135,7 @@ export default class Room extends GameObjectClass {
             this.enemies.forEach((enemy) => {
                 !enemy.removeFlag && enemy.render()
             })
-            getSpells().forEach(s => s.render())
+            renderSpells();
         } else if (this.inReward) {
             this.rewardSprites.forEach((sprite) => {
                 sprite.render()
@@ -148,8 +159,7 @@ export default class Room extends GameObjectClass {
                 this.showRewards()
                 // this.nextLevel()
             }
-            cleanSpells();
-            getSpells().forEach(s => s.update())
+            updateSpells();
         } else if (this.inReward) {
             this.rewardSprites.forEach((sprite) => {
                 sprite.update()
