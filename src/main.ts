@@ -10,15 +10,15 @@ initKeys()
 initMouse(canvas);
 
 load(
-    'characters.png', 'tiles.png',
+    'characters.png', 'tiles.png', 'icons.png'
 ).then(function () {
     const player = new Player(60, 60)
     const room = new Room(player)
     const gui = new Gui(player, room);
 
     GameLoop({
-        update: () => {
-            room.update()
+        update: (dt) => {
+            room.update(dt)
             gui.update();
         },
         render: () => {

@@ -3,7 +3,7 @@ import {Vector} from "kontra";
 
 import {Spell} from "../entities/weapons/spells/spell";
 
-function getRandomVecDir(){
+function getRandomVecDir() {
     return Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
 }
 
