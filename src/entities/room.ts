@@ -62,24 +62,20 @@ export default class Room extends GameObjectClass {
             }
             ]
         });
-
         player.room = this;
-        //this.addEnemies()
-        this.boss = new Pope(160,160);
-        this.boss.player = player;
-        this.addBoss(this.boss)
-        this.player.dummyTargets = this.enemies
+        this.addEnemies()
 
-    }
-
-    addBoss(boss: Enemy){
-        boss.room = this;
-        this.enemies.push(boss);
     }
 
     addEnemies() {
-        // TODO add enemies based on room level
+        if (this.level === 10) {
+            this.boss = new Pope(160, 160);
+            this.boss.player = this.player;
+            this.boss.room = this
+            this.enemies.push(this.boss)
+        }
 
+        // TODO add enemies based on room level
         const randomVillager = randInt(1, this.level + 1)
         for (let _ in Array.from(Array(randomVillager).keys())) {
             const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 2);

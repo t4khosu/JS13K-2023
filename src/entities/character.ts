@@ -6,8 +6,8 @@ import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
 import {Reward, StatusReward} from "./reward";
-import {Weapon} from "./weapons/weapon";
 import {sumRewards} from "../utils/reward-util";
+import {Weapon} from "./weapons/weapon";
 
 
 export class Character extends Entity implements StatusAttributes {
