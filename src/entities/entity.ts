@@ -1,4 +1,4 @@
-import {GameObjectClass, Vector} from "kontra";
+import {GameObjectClass, getCanvas, Vector} from "kontra";
 import {centeredAnchor} from "../utils/sprite";
 import Room from "./room";
 
@@ -9,7 +9,14 @@ export class Entity extends GameObjectClass {
     lookingDirection: number = 1;
     moving: boolean = false;
     anchor = centeredAnchor;
-    room?: Room
+
+    inbound: boolean = false;
+
+    protected room?: Room
+
+    setRoom(room: Room) {
+        this.room = room
+    }
 
     update() {
         super.update();
@@ -33,14 +40,6 @@ export class Entity extends GameObjectClass {
             const direction = this.vectorTo(this.movingTo.x, this.movingTo.y).normalize();
             this.x += direction.x * distance;
             this.y += direction.y * distance;
-        }
-
-        if (this.room) {
-            collision = this.room.tileEngine.layerCollidesWith('walls', this)
-        }
-        if (collision) {
-            this.x = prevX
-            this.y = prevY
         }
     }
 
@@ -66,6 +65,13 @@ export class Entity extends GameObjectClass {
         distance = distance == 0 ? this.currentSpeed() : distance;
         this.movingTo.x = this.x + direction.x * distance;
         this.movingTo.y = this.y + direction.y * distance;
+
+        var xDelta = this.width*Math.abs(this.scaleX)/2
+        var yDelta = this.height*Math.abs(this.scaleY)/2
+        if(this.inbound){
+            this.movingTo.x = Math.min(Math.max(xDelta, this.movingTo.x), getCanvas().width - xDelta)
+            this.movingTo.y = Math.min(Math.max(yDelta, this.movingTo.y), getCanvas().height - yDelta)
+        }
     }
 
     getLookingDirection(): number{

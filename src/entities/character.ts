@@ -25,12 +25,12 @@ export class Character extends Entity implements StatusAttributes {
     //rewards to add to the stats
     protected rewards: Map<keyof StatusReward, Reward[]> = new Map<keyof StatusReward, Reward[]>()
 
-
     dashing: boolean = false;
     dashRefillTimer: Timer = new Timer();
     invincibleTimer: Timer = new Timer(15);
     attackTimeoutTimer: Timer = new Timer();
     weapon: Weapon | undefined = undefined;
+    inbound: boolean = true;
 
     // hopping values
     z: number = 0;

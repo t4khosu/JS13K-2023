@@ -43,6 +43,7 @@ export default defineConfig({
             },
             text: {
                 align: true,
+                newline: true,
             },
             debug: false
         }),

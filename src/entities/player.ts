@@ -1,16 +1,22 @@
 import {
     keyMap,
-    keyPressed,
+    keyPressed, Text,
     Vector,
 } from "kontra";
 import {Character} from "./character";
 import {mousePosition, mousePressed} from "../utils/mouse";
-import {getSpriteById} from "../utils/sprite";
+import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
-import {SmallDagger} from "./weapons/daggers";
+import Interactable from "./interactable";
+import {Weapon} from "./weapons/weapon";
+import {getVectorBetweenGameObjects} from "../utils/vectors";
+
 export class Player extends Character {
+    interactText: Text;
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(4));
+        this.interactText = Text({x: 1, y: -7, text: "!", color: "red", font: "5px Arial", textAlign: "center", opacity: 0, anchor: centeredAnchor});
+        this.addChild(this.interactText)
         this.reset();
     }
 
@@ -22,15 +28,15 @@ export class Player extends Character {
         this.dashTimeout = 60;
         this.dashDistance = 60;
         this.initHealth(20);
-        this.handWeapon(new SmallDagger());
     }
 
     update() {
         super.update();
+        this.updateInteractables();
         this.updatePlayerMovement();
         if(mousePressed(0) && this.canAttack()) {
             this.attack();
-            playSound(STAB)
+            if(this.weapon !== undefined) playSound(STAB)
         }
     }
 
@@ -54,6 +60,16 @@ export class Player extends Character {
         if(!this.armCanRotate) return super.pointDaggerDirection()
         const mouse = mousePosition();
         return Vector(mouse.x - this.world.x, mouse.y - this.world.y).normalize();
+    }
+
+    updateInteractables(){
+        this.interactText.opacity = 0;
+        this.room.interactables.forEach(i => {
+            if(getVectorBetweenGameObjects(this, i).length() > 30) return;
+
+            this.interactText.opacity = 1;
+            if (keyPressed("e")) i.interactWith(this);
+        })
     }
 
     getLookingDirection(){
