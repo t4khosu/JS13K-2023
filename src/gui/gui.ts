@@ -8,7 +8,7 @@ class Gui extends GameObjectClass{
     constructor(player: Player, room: Room) {
         super();
         this.addChild(new PlayerHealthBar(player))
-        this.addChild(new BossBar(room.boss))
+        this.addChild(new BossBar(room))
     }
 }
 
