@@ -10,6 +10,7 @@ import Pope from "./enemies/pope";
 import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import {Reward, RewardSprite} from "./reward";
 import {getRewards} from "../utils/reward-util";
+import {Timer} from "./timer";
 
 export default class Room extends GameObjectClass {
     level: number = 1
@@ -22,6 +23,7 @@ export default class Room extends GameObjectClass {
     enemies: Character[] = []
     boss?: Enemy
 
+    rewardLocking = new Timer(60)
 
     inCombat = true
     inReward = false
@@ -64,7 +66,6 @@ export default class Room extends GameObjectClass {
         });
         player.room = this;
         this.addEnemies()
-
     }
 
     addEnemies() {
@@ -90,7 +91,7 @@ export default class Room extends GameObjectClass {
             mage.handWeapon(new Staff([]))
             mage.player = this.player;
             mage.room = this
-            this.enemies.push(mage)
+            // this.enemies.push(mage)
         }
     }
 
@@ -121,6 +122,7 @@ export default class Room extends GameObjectClass {
             sprite.y = this.height / 2
             this.rewardSprites.push(sprite)
         }
+        this.rewardLocking.start()
     }
 
 
@@ -153,13 +155,13 @@ export default class Room extends GameObjectClass {
             })
             if (this.enemies.length === removeCount) {
                 this.showRewards()
-                // this.nextLevel()
             }
             updateSpells();
         } else if (this.inReward) {
+            this.rewardLocking.update()
             this.rewardSprites.forEach((sprite) => {
                 sprite.update()
-                if (sprite.checkPlayerCollision(this.player)) {
+                if (sprite.checkPlayerCollision(this.player) && !this.rewardLocking.isActive) {
                     this.nextLevel()
                 }
             })

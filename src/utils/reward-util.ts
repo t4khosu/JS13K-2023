@@ -2,12 +2,12 @@ import {Reward, RewardSprite, StatusReward} from "../entities/reward";
 import {randInt} from "kontra";
 
 const rewardList = [
-    new Reward({maxHealth: 1}, 0),
-    new Reward({health: 1}, 1),
-    new Reward({strength: 1}, 2),
-    new Reward({attackSpeed: 1}, 4),
-    new Reward({dashTimeout: 1}, 5),
-    new Reward({dashDistance: 1}, 6),
+    new Reward({maxHealth: 4, health: 4}, 0),
+    new Reward({health: 8}, 1),
+    new Reward({strength: 0.25}, 2),
+    new Reward({attackSpeed: 3}, 4),
+    new Reward({dashTimeout: 3}, 5),
+    new Reward({dashDistance: 4}, 6),
 ]
 
 export function sumRewards(map: Map<keyof StatusReward, Reward[]>, key: keyof StatusReward) {
@@ -29,12 +29,10 @@ export function getRewards(level: number) {
     const rewardAmount = randInt(1, 3)
     const rewardPool = [...rewardList]
     for (let i = 0; i < rewardAmount; i++) {
-        debugger
         const reward = rewardPool.splice(randInt(0, rewardPool.length - 1), 1)[0]
         //TODO modify reward based on level?
         rewards.push(reward)
     }
-    console.log(rewards)
     return rewards
 }
 

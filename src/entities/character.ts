@@ -46,11 +46,14 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get health(): number {
-        return this._health + sumRewards(this.rewards, 'health')
+        return this._health
     }
 
     set health(number) {
-        this._health = number
+        if (this.maxHealth < number)
+            this._health = this.maxHealth
+        else
+            this._health = number
     }
 
     get strength(): number {
@@ -62,7 +65,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get attackSpeed(): number {
-        return this._attackSpeed + sumRewards(this.rewards, 'attackSpeed')
+        return this._attackSpeed - sumRewards(this.rewards, 'attackSpeed')
     }
 
     set attackSpeed(number) {
@@ -70,7 +73,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get dashTimeout(): number {
-        return this._dashTimeout + sumRewards(this.rewards, 'dashTimeout')
+        return this._dashTimeout - sumRewards(this.rewards, 'dashTimeout')
     }
 
     set dashTimeout(number) {
@@ -78,7 +81,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get dashDistance(): number {
-        return this._dashDistance + sumRewards(this.rewards, 'dashDistance')
+        return this._dashDistance - sumRewards(this.rewards, 'dashDistance')
     }
 
     set dashDistance(number) {
@@ -98,12 +101,16 @@ export class Character extends Entity implements StatusAttributes {
         rewards.forEach((reward) => {
             const keys = Object.keys(reward.status) as Array<keyof StatusAttributes>
             keys.forEach((key) => {
-                let list = this.rewards.get(key)
-                if (!list) {
-                    list = []
+                if (key === 'health' && reward.status['health']) {
+                    this.health = this.health + reward.status['health']
+                } else {
+                    let list = this.rewards.get(key)
+                    if (!list) {
+                        list = []
+                    }
+                    list.push(reward)
+                    this.rewards.set(key, list)
                 }
-                list.push(reward)
-                this.rewards.set(key, list)
             })
         })
     }
@@ -111,8 +118,8 @@ export class Character extends Entity implements StatusAttributes {
     isAlive = () => this.health > 0;
 
     initHealth(maxHealth: number) {
-        this.health = maxHealth;
         this.maxHealth = maxHealth;
+        this.health = maxHealth;
     }
 
     update() {
