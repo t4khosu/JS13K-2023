@@ -1,6 +1,7 @@
 import {GameObjectClass, getCanvas, Vector} from "kontra";
 import {centeredAnchor} from "../utils/sprite";
 import Room from "../rooms/room";
+import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
 
 export class Entity extends GameObjectClass {
     movingTo: Vector = Vector(this.x, this.y);
@@ -69,8 +70,8 @@ export class Entity extends GameObjectClass {
         var xDelta = this.width*Math.abs(this.scaleX)/2
         var yDelta = this.height*Math.abs(this.scaleY)/2
         if(this.inbound){
-            this.movingTo.x = Math.min(Math.max(xDelta, this.movingTo.x), getCanvas().width - xDelta)
-            this.movingTo.y = Math.min(Math.max(yDelta, this.movingTo.y), getCanvas().height - yDelta)
+            this.movingTo.x = Math.min(Math.max(xDelta, this.movingTo.x), getCanvasWidth() - xDelta)
+            this.movingTo.y = Math.min(Math.max(yDelta, this.movingTo.y), getCanvasHeight() - yDelta)
         }
     }
 

@@ -1,8 +1,9 @@
-import {Text} from "kontra";
+import {Sprite, Text} from "kontra";
 import {Player} from "../entities/player";
 import {SmallDagger} from "../entities/weapons/daggers";
 import Interactable from "../entities/interactable";
 import Room from "./room";
+import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
 
 class StartRoom extends Room{
     constructor(player: Player) {
@@ -10,7 +11,7 @@ class StartRoom extends Room{
         this.addChild(Text({x: 12, y: 12
             , text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nTake: e", font: '16px Arial', color: "white"}))
         this.addChild(player);
-        this.addInteractable(new Interactable(player.x, player.y - 200, new SmallDagger()))
+        this.addInteractable(new Interactable(getCanvasWidth()/2, getCanvasHeight()/2, new SmallDagger()))
     }
 
     update(dt: number){
