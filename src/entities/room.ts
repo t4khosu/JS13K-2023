@@ -3,7 +3,6 @@ import {getBackGroundTileMap, getWallTileMap} from "../utils/tile-maps";
 import {Player} from "./player";
 import {Character} from "./character";
 import {Mage} from "./enemies/mage";
-import {Staff} from "./weapons/staffs";
 import {Villager} from "./enemies/villager";
 import {Reward, RewardSprite} from "./reward";
 import {getRewards} from "../utils/reward-util";
@@ -11,6 +10,7 @@ import {Enemy} from "./enemies/enemy";
 import Pope from "./enemies/pope";
 import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import Interactable from "./interactable";
+import {Timer} from "./timer";
 
 export default class Room extends GameObjectClass {
     level: number = 1
@@ -22,6 +22,8 @@ export default class Room extends GameObjectClass {
 
     enemies: Character[] = []
     boss?: Enemy
+
+    rewardLocking = new Timer(60)
 
     inCombat = true
     inReward = false
@@ -126,48 +128,48 @@ export default class Room extends GameObjectClass {
             sprite.y = this.height / 2
             this.rewardSprites.push(sprite)
         }
+        this.rewardLocking.start()
     }
 
 
-    // render() {
-    //     this.tileEngine.render();
-    //     !this.player.removeFlag && this.player.render()
-    //     if (this.inCombat) {
-    //         this.enemies.forEach((enemy) => {
-    //             !enemy.removeFlag && enemy.render()
-    //         })
-    //         renderSpells();
-    //     } else if (this.inReward) {
-    //         this.rewardSprites.forEach((sprite) => {
-    //             sprite.render()
-    //         })
-    //     }
-    // }
-    //
-    // update(dt: number) {
-    //     super.update(dt)
-    //     !this.player.removeFlag && this.player.update()
-    //     if (this.inCombat) {
-    //         let removeCount = 0
-    //         this.enemies.forEach((enemy) => {
-    //             if (enemy.removeFlag) {
-    //                 removeCount++
-    //             } else {
-    //                 enemy.update()
-    //             }
-    //         })
-    //         if (this.enemies.length === removeCount) {
-    //             this.showRewards()
-    //             // this.nextLevel()
-    //         }
-    //         updateSpells();
-    //     } else if (this.inReward) {
-    //         this.rewardSprites.forEach((sprite) => {
-    //             sprite.update()
-    //             if (sprite.checkPlayerCollision(this.player)) {
-    //                 this.nextLevel()
-    //             }
-    //         })
-    //     }
-    // }
+    render() {
+        // this.tileEngine.render();
+        !this.player.removeFlag && this.player.render()
+        if (this.inCombat) {
+            this.enemies.forEach((enemy) => {
+                !enemy.removeFlag && enemy.render()
+            })
+            renderSpells();
+        } else if (this.inReward) {
+            this.rewardSprites.forEach((sprite) => {
+                sprite.render()
+            })
+        }
+    }
+
+    update(dt: number) {
+        super.update(dt)
+        if (this.inCombat) {
+            let removeCount = 0
+            this.enemies.forEach((enemy) => {
+                if (enemy.removeFlag) {
+                    removeCount++
+                } else {
+                    enemy.update()
+                }
+            })
+            if (this.enemies.length === removeCount) {
+                this.showRewards()
+            }
+            updateSpells();
+        } else if (this.inReward) {
+            this.rewardLocking.update()
+            this.rewardSprites.forEach((sprite) => {
+                sprite.update()
+                if (sprite.checkPlayerCollision(this.player) && !this.rewardLocking.isActive) {
+                    this.nextLevel()
+                }
+            })
+        }
+    }
 }
