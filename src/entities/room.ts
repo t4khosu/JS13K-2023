@@ -18,11 +18,10 @@ export default class Room extends GameObjectClass {
     width: number
     height: number
 
-    tileEngine
+    tileEngine?: TileEngine
 
     enemies: Character[] = []
     boss?: Enemy
-
 
     inCombat = true
     inReward = false
@@ -31,52 +30,54 @@ export default class Room extends GameObjectClass {
     rewardSprites: RewardSprite[] = []
     interactables: Interactable[] = [];
 
-
     constructor(player: Player) {
         super({player: player})
+        player.setRoom(this);
 
         let {width, height} = getCanvas();
         this.width = width
         this.height = height
-        const xDim = Math.ceil(width / 8)
-        const yDim = Math.ceil(height / 8)
+    }
 
-        player.setRoom(this);
+    initTiles(){
+        const xDim = Math.ceil(this.width / 8)
+        const yDim = Math.ceil(this.height / 8)
 
-        const wallScale = 2
-        // this.tileEngine = TileEngine({
-        //     tilewidth: 8,
-        //     tileheight: 8,
-        //
-        //     width: xDim,
-        //     height: yDim,
-        //
-        //     // tileset object
-        //     tilesets: [{
-        //         firstgid: 1,
-        //         image: imageAssets['tiles']
-        //     }],
-        //
-        //     // layer object
-        //     layers: [{
-        //         name: 'ground',
-        //         data: getBackGroundTileMap(xDim, yDim)
-        //     }, {
-        //         name: 'walls',
-        //         data: getWallTileMap().flat(),
-        //     }
-        //     ]
-        // });
+        this.tileEngine = TileEngine({
+            tilewidth: 8,
+            tileheight: 8,
 
-        // this.addEnemies()
+            width: xDim,
+            height: yDim,
 
+            // tileset object
+            tilesets: [{
+                firstgid: 1,
+                image: imageAssets['tiles']
+            }],
+
+            // layer object
+            layers: [{
+                name: 'ground',
+                data: getBackGroundTileMap(xDim, yDim)
+            }, {
+                name: 'walls',
+                data: getWallTileMap().flat(),
+            }
+            ]
+        });
+    }
+
+    addInteractable(interactable: Interactable){
+        interactable.setRoom(this);
+        this.interactables.push(interactable);
     }
 
     addEnemies() {
         if (this.level === 10) {
             this.boss = new Pope(160, 160);
             this.boss.player = this.player;
-            this.boss.room = this
+            this.boss.setRoom(this)
             this.enemies.push(this.boss)
         }
 
@@ -85,7 +86,7 @@ export default class Room extends GameObjectClass {
         for (let _ in Array.from(Array(randomVillager).keys())) {
             const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 2);
             villager.player = this.player;
-            villager.room = this
+            villager.setRoom(this)
             this.enemies.push(villager)
         }
 
@@ -93,7 +94,7 @@ export default class Room extends GameObjectClass {
         for (let _ in Array.from(Array(randomMage).keys())) {
             const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
             mage.player = this.player;
-            mage.room = this
+            mage.setRoom(this)
             this.enemies.push(mage)
         }
     }

@@ -13,11 +13,6 @@ class StartRoom extends Room{
         this.addInteractable(new Interactable(player.x, player.y - 200, new SmallDagger()))
     }
 
-    addInteractable(interactable: Interactable){
-        interactable.setRoom(this);
-        this.interactables.push(interactable);
-    }
-
     update(dt: number){
         this.interactables = this.interactables.filter(i => {
             i.update();
