@@ -3,7 +3,7 @@ import SpellCaster from "./spellCaster";
 import {spawnParticleType} from "./particles/particleTypes";
 import {SpellParticle} from "./particles/spellParticle";
 import {Vector} from "kontra";
-import Room from "../../room";
+import Room from "../../../rooms/room";
 import {Enemy} from "../../enemies/enemy";
 
 class SpawnSpell extends Spell{

@@ -1,7 +1,7 @@
 import {GameObjectClass} from "kontra";
 import {Player} from "../entities/player";
 import PlayerHealthBar from "./components/playerHealthBar";
-import Room from "../entities/room";
+import Room from "../rooms/room";
 import BossBar from "./components/bossBar";
 import StageDisplay from "./components/stage-display";
 

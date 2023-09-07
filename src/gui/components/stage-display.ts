@@ -1,6 +1,6 @@
 import {GameObjectClass, Sprite, Text} from "kontra";
 import {Player} from "../../entities/player";
-import Room from "../../entities/room";
+import Room from "../../rooms/room";
 
 export default class StageDisplay extends GameObjectClass {
     text: Text

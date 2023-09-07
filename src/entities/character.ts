@@ -1,7 +1,7 @@
 import {Sprite, Vector} from "kontra";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
-import Room from "./room";
+import Room from "../rooms/room";
 import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";

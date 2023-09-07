@@ -1,16 +1,16 @@
 import {GameObjectClass, getCanvas, imageAssets, randInt, TileEngine} from "kontra";
 import {getBackGroundTileMap, getWallTileMap} from "../utils/tile-maps";
-import {Player} from "./player";
-import {Character} from "./character";
-import {Mage} from "./enemies/mage";
-import {Villager} from "./enemies/villager";
-import {Reward, RewardSprite} from "./reward";
+import {Player} from "../entities/player";
+import {Character} from "../entities/character";
+import {Mage} from "../entities/enemies/mage";
+import {Villager} from "../entities/enemies/villager";
+import {Reward, RewardSprite} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
-import {Enemy} from "./enemies/enemy";
-import Pope from "./enemies/pope";
+import {Enemy} from "../entities/enemies/enemy";
+import Pope from "../entities/enemies/pope";
 import {renderSpells, updateSpells} from "../utils/spellsCollection";
-import Interactable from "./interactable";
-import {Timer} from "./timer";
+import Interactable from "../entities/interactable";
+import {Timer} from "../entities/timer";
 
 export default class Room extends GameObjectClass {
     level: number = 1

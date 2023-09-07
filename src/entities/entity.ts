@@ -1,6 +1,6 @@
 import {GameObjectClass, getCanvas, Vector} from "kontra";
 import {centeredAnchor} from "../utils/sprite";
-import Room from "./room";
+import Room from "../rooms/room";
 
 export class Entity extends GameObjectClass {
     movingTo: Vector = Vector(this.x, this.y);

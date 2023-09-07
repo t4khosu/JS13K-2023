@@ -1,6 +1,6 @@
 import {init, GameLoop, initKeys, load} from 'kontra'
 import {Player} from "./entities/player";
-import Room from "./entities/room";
+import Room from "./rooms/room";
 import {initMouse} from "./utils/mouse";
 import Gui from "./gui/gui";
 import StartRoom from "./rooms/startRoom";

@@ -2,7 +2,7 @@ import {Text} from "kontra";
 import {Player} from "../entities/player";
 import {SmallDagger} from "../entities/weapons/daggers";
 import Interactable from "../entities/interactable";
-import Room from "../entities/room";
+import Room from "./room";
 
 class StartRoom extends Room{
     constructor(player: Player) {
