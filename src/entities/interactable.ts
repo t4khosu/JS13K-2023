@@ -2,6 +2,7 @@ import {Entity} from "./entity";
 import {centeredAnchor} from "../utils/sprite";
 import {Player} from "./player";
 import {Weapon} from "./weapons/weapon";
+import {Reward} from "./reward";
 
 class Interactable extends Entity{
     constructor(x: number, y: number, entity: Entity) {
@@ -12,6 +13,9 @@ class Interactable extends Entity{
     interactWith(player: Player){
         if(this.entity instanceof Weapon){
             player.handWeapon(this.entity)
+            this.removeFlag = true;
+        }
+        if(this.entity instanceof Reward){
             this.removeFlag = true;
         }
     }
