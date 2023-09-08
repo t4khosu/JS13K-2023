@@ -7,8 +7,6 @@ import {Character} from "./character";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
-import Interactable from "./interactable";
-import {Weapon} from "./weapons/weapon";
 import {getVectorBetweenGameObjects} from "../utils/vectors";
 
 export class Player extends Character {
@@ -64,7 +62,7 @@ export class Player extends Character {
 
     updateInteractables(){
         this.interactText.opacity = 0;
-        this.room.interactables.forEach(i => {
+        this.room?.components.interactables.forEach(i => {
             if(getVectorBetweenGameObjects(this, i).length() > 30) return;
 
             this.interactText.opacity = 1;

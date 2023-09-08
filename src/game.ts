@@ -11,7 +11,7 @@ class Game extends GameObjectClass{
     constructor() {
         super();
         this.player = new Player(0, 0);
-        this.startRoom = new StartRoom(this.player);
+        this.startRoom = new StartRoom(this.player, this);
         this.goToStartRoom();
     }
 
@@ -21,6 +21,9 @@ class Game extends GameObjectClass{
 
     goToRoom(room: Room){
         this.currentRoom = room;
+        if(! (room instanceof StartRoom)){
+            room.spawnTimer.start()
+        }
         this.player.setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
     }
 

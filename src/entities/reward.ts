@@ -1,19 +1,22 @@
 import {GameObjectClass, Sprite} from "kontra";
-import {getSpriteById} from "../utils/sprite";
+import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {PenColor} from "../utils/colorize";
 import {easeOutSine} from "../utils/easing";
 import {Player} from "./player";
 import {StatusAttributes} from "./status-attributes";
+import {Entity} from "./entity";
 
 export type StatusReward = Partial<StatusAttributes>;
 
-export class Reward {
-    status: StatusReward
-    iconID: number
-
+export class Reward extends Entity {
     constructor(status: StatusReward, iconId: number) {
-        this.status = status
-        this.iconID = iconId
+        super({status: status, iconId: iconId, anchor: centeredAnchor})
+    }
+
+    update(){
+        if(!this.sprite){
+            this.addChild(getSpriteById(this.iconId, PenColor.None, {}, 'icons'));
+        }
     }
 }
 

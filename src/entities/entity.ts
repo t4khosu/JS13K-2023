@@ -30,10 +30,6 @@ export class Entity extends GameObjectClass {
         this.moving = distance != 0 && this.canMove();
         if(!this.moving) return;
 
-        let collision = false
-        const prevX = this.x
-        const prevY = this.y
-
         if(distance < this.currentSpeed()){
             this.x = this.movingTo.x;
             this.y = this.movingTo.y;

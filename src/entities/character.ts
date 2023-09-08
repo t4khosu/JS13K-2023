@@ -214,6 +214,6 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     targets(): Character[] {
-        return this.room?.enemies ?? []
+        return this.room?.components.enemies ?? []
     }
 }
