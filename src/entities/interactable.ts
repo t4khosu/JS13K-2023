@@ -5,7 +5,7 @@ import {Weapon} from "./weapons/weapon";
 
 class Interactable extends Entity{
     constructor(x: number, y: number, entity: Entity) {
-        super({x: x, y: y, entity: entity, anchor: centeredAnchor, scaleX: 5, scaleY: 5});
+        super({x: x, y: y, entity: entity, anchor: centeredAnchor, scaleX: 4, scaleY: 4});
         this.addChild(entity);
     }
 

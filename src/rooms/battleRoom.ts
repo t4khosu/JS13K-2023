@@ -72,7 +72,11 @@ class BattleRoom extends Room{
     }
 
     spawnReward(){
-        if(this.reward) this.interactables.push(new Interactable(getCanvasWidth()/2, getCanvasHeight()/2, this.reward))
+        if(this.reward) {
+            const interactable = new Interactable(getCanvasWidth()/2, getCanvasHeight()/2, this.reward);
+            interactable.setScale(2.5, 2.5);
+            this.interactables.push(interactable)
+        }
     }
 
     spawnPortals(){
