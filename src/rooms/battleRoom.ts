@@ -129,19 +129,11 @@ class BattleRoom extends Room{
         this.inCombat = true;
     }
 
-    nextLevel() {
-        this.level++
-        this.components.enemies = []
-        this.inReward = false
-        this.inCombat = true
-        this.spawnEnemies()
-    }
-
     showRewards() {
         // this.inReward = true
         // this.inCombat = false
         // //apply old rewards
-        // this.player.addReward(this.levelRewards)
+        this.player.addReward(this.levelRewards)
         // //roll new ones
         // this.rewardSprites = []
         // this.levelRewards = getRewards(this.level)
