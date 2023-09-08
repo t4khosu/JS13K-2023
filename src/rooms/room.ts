@@ -7,13 +7,11 @@ import {Villager} from "../entities/enemies/villager";
 import {Reward, RewardSprite} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
 import {Enemy} from "../entities/enemies/enemy";
-import Pope from "../entities/enemies/pope";
 import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import Interactable from "../entities/interactable";
-import {Timer} from "../entities/timer";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Game from "../game";
-import Gui from "../gui/gui";
+import PlayerHealthBar from "../gui/components/playerHealthBar";
 
 type SortedComponents = {
     interactables: Interactable[],
@@ -21,6 +19,7 @@ type SortedComponents = {
     enemies: Enemy[],
     rewards: Reward[],
     player: Player[],
+    gui: GameObject[],
 }
 
 export default class Room extends GameObjectClass {
@@ -34,18 +33,22 @@ export default class Room extends GameObjectClass {
         enemies: [],
         rewards: [],
         player: [],
+        gui: [],
     }
-
-    gui: Gui
 
     constructor(player: Player, game: Game) {
         super({player: player, game:game})
         this.width = getCanvasWidth()
         this.height = getCanvasHeight()
         this.components.player = [player]
-        this.gui = new Gui(player, this);
+
+        this.gui.push(new PlayerHealthBar(player))
 
         this.components.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
+    }
+
+    get gui(){
+        return this.components.gui;
     }
 
     get interactables(){
@@ -74,11 +77,9 @@ export default class Room extends GameObjectClass {
         );
 
         renderSpells();
-        this.gui.render();
     }
 
     update() {
-        this.gui.update();
         Object.entries(this.components).forEach(
             ([key, value]) => {
                 // @ts-ignore

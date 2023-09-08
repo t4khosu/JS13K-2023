@@ -6,7 +6,7 @@ export default class StageDisplay extends GameObjectClass {
     text: Text
 
     constructor(room: Room) {
-        super({room: room, x: 700, y: 520});
+        super({room: room, x: 700, y: 20});
         this.text = Text({text: `Stage ${room.level}`, font: '17px Verdana', color: "black"})
 
         this.addChild(this.text)
