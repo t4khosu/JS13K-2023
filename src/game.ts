@@ -20,6 +20,9 @@ class Game extends GameObjectClass{
     }
 
     goToRoom(room: Room){
+        room.reset();
+
+        this.player.setRoom(room);
         this.currentRoom = room;
         if(! (room instanceof StartRoom)){
             room.spawnTimer.start()

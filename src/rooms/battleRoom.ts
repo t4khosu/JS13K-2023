@@ -8,7 +8,8 @@ import Room from "./room";
 import {Player} from "../entities/player";
 import Game from "../game";
 import Interactable from "../entities/interactable";
-import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
+import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
+import Teleporter from "../entities/teleporter";
 
 class BattleRoom extends Room{
     level: number = 1
@@ -48,10 +49,11 @@ class BattleRoom extends Room{
             layers: [{
                 name: 'ground',
                 data: getBackGroundTileMap(xDim, yDim)
-            }, {
-                name: 'walls',
-                data: getWallTileMap().flat(),
-            }
+            },
+            //     {
+            //     name: 'walls',
+            //     data: getWallTileMap().flat(),
+            // }
             ]
         });
     }
@@ -80,7 +82,9 @@ class BattleRoom extends Room{
     }
 
     spawnPortals(){
-
+        this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/4, this, this.player, getRewards(0)[0]))
+        this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, this, this.player, getRewards(0)[0]))
+        this.components.backgroundObjects.push(new Teleporter(3*getCanvasWidth()/4, this, this.player, getRewards(0)[0]))
     }
 
     spawnEnemies() {

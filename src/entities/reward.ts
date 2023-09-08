@@ -9,13 +9,15 @@ import {Entity} from "./entity";
 export type StatusReward = Partial<StatusAttributes>;
 
 export class Reward extends Entity {
+    sprite?: Sprite;
     constructor(status: StatusReward, iconId: number) {
         super({status: status, iconId: iconId, anchor: centeredAnchor})
     }
 
     update(){
         if(!this.sprite){
-            this.addChild(getSpriteById(this.iconId, PenColor.None, {}, 'icons'));
+            this.sprite = getSpriteById(this.iconId, PenColor.None, {}, 'icons');
+            this.addChild(this.sprite);
         }
     }
 }

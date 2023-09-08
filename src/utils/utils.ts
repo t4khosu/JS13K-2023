@@ -17,6 +17,8 @@ function setCanvasBoundaries(canvas: HTMLCanvasElement){
     canvasHeight = canvas.height;
 }
 
+const wallHeight = 60;
+
 const randNumber = (num: number) => 0.7 * num + Math.random() * 0.6 * num;
 
-export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight}
+export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, wallHeight}

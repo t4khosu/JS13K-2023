@@ -1,4 +1,4 @@
-import {GameObject, GameObjectClass, getCanvas, imageAssets, randInt, TileEngine} from "kontra";
+import {GameObject, GameObjectClass, getCanvas, imageAssets, randInt, Sprite, TileEngine} from "kontra";
 import {getBackGroundTileMap, getWallTileMap} from "../utils/tile-maps";
 import {Player} from "../entities/player";
 import {Character} from "../entities/character";
@@ -11,7 +11,7 @@ import Pope from "../entities/enemies/pope";
 import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import Interactable from "../entities/interactable";
 import {Timer} from "../entities/timer";
-import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
+import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Game from "../game";
 
 type SortedComponents = {
@@ -37,10 +37,11 @@ export default class Room extends GameObjectClass {
 
     constructor(player: Player, game: Game) {
         super({player: player, game:game})
-        player.setRoom(this);
         this.width = getCanvasWidth()
         this.height = getCanvasHeight()
         this.components.player = [player]
+
+        this.components.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
     }
 
     get interactables(){
@@ -51,10 +52,16 @@ export default class Room extends GameObjectClass {
         return this.components.enemies;
     }
 
+    comeHere(){
+        this.game.goToRoom(this);
+    }
+
     addInteractable(interactable: Interactable){
         interactable.setRoom(this);
         this.interactables.push(interactable);
     }
+
+    reset(){}
 
     render() {
         this.tileEngine?.render();
@@ -77,7 +84,6 @@ export default class Room extends GameObjectClass {
         );
 
         updateSpells();
-
 
     //     if (this.inCombat) {
 
