@@ -85,37 +85,41 @@ class BattleRoom extends Room{
     }
 
     spawnPortals(){
-        this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/4, this, this.player, getRewards(0)[0]))
-        this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, this, this.player, getRewards(0)[0]))
-        this.components.backgroundObjects.push(new Teleporter(3*getCanvasWidth()/4, this, this.player, getRewards(0)[0]))
+        const positions = [getCanvasWidth()/4, getCanvasWidth()/2, 3*getCanvasWidth()/4]
+        const rewards = getRewards(0, 3);
+
+        for(let i = 0; i < positions.length; i++){
+            const battleRoom = new BattleRoom(this.player, this.game, rewards[i])
+            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player, rewards[i]))
+        }
     }
 
     spawnEnemies() {
-        if (this.level === 10) {
-            this.boss = new Pope(160, 160);
-            this.boss.player = this.player;
-            this.boss.setRoom(this)
-            this.components.enemies.push(this.boss)
-        }
-
-        // TODO add enemies based on room level
-        const randomVillager = randInt(1, this.level + 1)
-        for (let _ in Array.from(Array(randomVillager).keys())) {
-            const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 0);
-            villager.player = this.player;
-            villager.setRoom(this)
-            console.log(villager)
-            console.log(this.enemies)
-            this.components.enemies.push(villager)
-        }
-
-        const randomMage = randInt(0, this.level + 1)
-        for (let _ in Array.from(Array(randomMage).keys())) {
-            const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
-            mage.player = this.player;
-            mage.setRoom(this)
-            this.components.enemies.push(mage)
-        }
+        // if (this.level === 10) {
+        //     this.boss = new Pope(160, 160);
+        //     this.boss.player = this.player;
+        //     this.boss.setRoom(this)
+        //     this.components.enemies.push(this.boss)
+        // }
+        //
+        // // TODO add enemies based on room level
+        // const randomVillager = randInt(1, this.level + 1)
+        // for (let _ in Array.from(Array(randomVillager).keys())) {
+        //     const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 0);
+        //     villager.player = this.player;
+        //     villager.setRoom(this)
+        //     console.log(villager)
+        //     console.log(this.enemies)
+        //     this.components.enemies.push(villager)
+        // }
+        //
+        // const randomMage = randInt(0, this.level + 1)
+        // for (let _ in Array.from(Array(randomMage).keys())) {
+        //     const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
+        //     mage.player = this.player;
+        //     mage.setRoom(this)
+        //     this.components.enemies.push(mage)
+        // }
 
         this.inCombat = true;
     }
@@ -129,22 +133,22 @@ class BattleRoom extends Room{
     }
 
     showRewards() {
-        this.inReward = true
-        this.inCombat = false
-        //apply old rewards
-        this.player.addReward(this.levelRewards)
-        //roll new ones
-        this.rewardSprites = []
-        this.levelRewards = getRewards(this.level)
-        const partWidth = this.width / this.levelRewards.length
-        for (let i = 0; i < this.levelRewards.length; i++) {
-            const reward = this.levelRewards[i]
-            const sprite = new RewardSprite(reward)
-            sprite.x = (i * partWidth) + partWidth / 2
-            sprite.y = this.height / 2
-            this.rewardSprites.push(sprite)
-        }
-        this.rewardLocking.start()
+        // this.inReward = true
+        // this.inCombat = false
+        // //apply old rewards
+        // this.player.addReward(this.levelRewards)
+        // //roll new ones
+        // this.rewardSprites = []
+        // this.levelRewards = getRewards(this.level)
+        // const partWidth = this.width / this.levelRewards.length
+        // for (let i = 0; i < this.levelRewards.length; i++) {
+        //     const reward = this.levelRewards[i]
+        //     const sprite = new RewardSprite(reward)
+        //     sprite.x = (i * partWidth) + partWidth / 2
+        //     sprite.y = this.height / 2
+        //     this.rewardSprites.push(sprite)
+        // }
+        // this.rewardLocking.start()
     }
 }
 

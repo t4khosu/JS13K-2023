@@ -24,11 +24,10 @@ export function sumRewards(map: Map<keyof StatusReward, Reward[]>, key: keyof St
     return sum
 }
 
-export function getRewards(level: number) {
+export function getRewards(level: number, num: number) {
     const rewards: Reward[] = []
-    const rewardAmount = randInt(1, 3)
     const rewardPool = [...rewardList]
-    for (let i = 0; i < rewardAmount; i++) {
+    for (let i = 0; i < num; i++) {
         const reward = rewardPool.splice(randInt(0, rewardPool.length - 1), 1)[0]
         //TODO modify reward based on level?
         rewards.push(reward)
