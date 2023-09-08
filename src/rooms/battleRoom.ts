@@ -1,4 +1,4 @@
-import {imageAssets, TileEngine} from "kontra";
+import {imageAssets, randInt, TileEngine} from "kontra";
 import {getBackGroundTileMap, getWallTileMap} from "../utils/tile-maps";
 import {Enemy} from "../entities/enemies/enemy";
 import {Timer} from "../entities/timer";
@@ -10,6 +10,9 @@ import Game from "../game";
 import Interactable from "../entities/interactable";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
+import Pope from "../entities/enemies/pope";
+import {Villager} from "../entities/enemies/villager";
+import {Mage} from "../entities/enemies/mage";
 
 class BattleRoom extends Room{
     level: number = 1
@@ -88,31 +91,31 @@ class BattleRoom extends Room{
     }
 
     spawnEnemies() {
-        // if (this.level === 10) {
-        //     this.boss = new Pope(160, 160);
-        //     this.boss.player = this.player;
-        //     this.boss.setRoom(this)
-        //     this.components.enemies.push(this.boss)
-        // }
-        //
-        // // TODO add enemies based on room level
-        // const randomVillager = randInt(1, this.level + 1)
-        // for (let _ in Array.from(Array(randomVillager).keys())) {
-        //     const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 2);
-        //     villager.player = this.player;
-        //     villager.setRoom(this)
-        //     console.log(villager)
-        //     console.log(this.enemies)
-        //     this.components.enemies.push(villager)
-        // }
-        //
-        // const randomMage = randInt(0, this.level + 1)
-        // for (let _ in Array.from(Array(randomMage).keys())) {
-        //     const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
-        //     mage.player = this.player;
-        //     mage.setRoom(this)
-        //     this.components.enemies.push(mage)
-        // }
+        if (this.level === 10) {
+            this.boss = new Pope(160, 160);
+            this.boss.player = this.player;
+            this.boss.setRoom(this)
+            this.components.enemies.push(this.boss)
+        }
+
+        // TODO add enemies based on room level
+        const randomVillager = randInt(1, this.level + 1)
+        for (let _ in Array.from(Array(randomVillager).keys())) {
+            const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 0);
+            villager.player = this.player;
+            villager.setRoom(this)
+            console.log(villager)
+            console.log(this.enemies)
+            this.components.enemies.push(villager)
+        }
+
+        const randomMage = randInt(0, this.level + 1)
+        for (let _ in Array.from(Array(randomMage).keys())) {
+            const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
+            mage.player = this.player;
+            mage.setRoom(this)
+            this.components.enemies.push(mage)
+        }
 
         this.inCombat = true;
     }

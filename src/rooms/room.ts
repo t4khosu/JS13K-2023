@@ -13,6 +13,7 @@ import Interactable from "../entities/interactable";
 import {Timer} from "../entities/timer";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Game from "../game";
+import Gui from "../gui/gui";
 
 type SortedComponents = {
     interactables: Interactable[],
@@ -35,11 +36,14 @@ export default class Room extends GameObjectClass {
         player: [],
     }
 
+    gui: Gui
+
     constructor(player: Player, game: Game) {
         super({player: player, game:game})
         this.width = getCanvasWidth()
         this.height = getCanvasHeight()
         this.components.player = [player]
+        this.gui = new Gui(player, this);
 
         this.components.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
     }
@@ -70,9 +74,11 @@ export default class Room extends GameObjectClass {
         );
 
         renderSpells();
+        this.gui.render();
     }
 
     update() {
+        this.gui.update();
         Object.entries(this.components).forEach(
             ([key, value]) => {
                 // @ts-ignore
