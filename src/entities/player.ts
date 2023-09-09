@@ -11,6 +11,7 @@ import {getVectorBetweenGameObjects} from "../utils/vectors";
 
 export class Player extends Character {
     interactText: Text;
+
     constructor(x: number, y: number) {
         super(x, y, getSpriteById(4));
         this.interactText = Text({x: 1, y: -7, text: "!", color: "red", font: "5px Arial", textAlign: "center", opacity: 0, anchor: centeredAnchor});

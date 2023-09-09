@@ -20,12 +20,7 @@ class BattleRoom extends Room{
     level: number = 1
     boss?: Enemy
 
-    rewardLocking = new Timer(60)
-
     inCombat = false
-    inReward = false
-
-    rewardSprites: RewardSprite[] = []
     reward?: Reward
 
     spawnTimer: Timer = new Timer(60, () => this.spawnEnemies()).start();
@@ -100,52 +95,33 @@ class BattleRoom extends Room{
     }
 
     spawnEnemies() {
-        if (this.level === 10) {
-            this.boss = new Pope(160, 160);
-            this.boss.player = this.player;
-            this.boss.setRoom(this)
-            this.components.enemies.push(this.boss)
-        }
-
-        // TODO add enemies based on room level
-        const randomVillager = randInt(1, this.level + 1)
-        for (let _ in Array.from(Array(randomVillager).keys())) {
-            const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 0);
-            villager.player = this.player;
-            villager.setRoom(this)
-            console.log(villager)
-            console.log(this.enemies)
-            this.components.enemies.push(villager)
-        }
-
-        const randomMage = randInt(0, this.level + 1)
-        for (let _ in Array.from(Array(randomMage).keys())) {
-            const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
-            mage.player = this.player;
-            mage.setRoom(this)
-            this.components.enemies.push(mage)
-        }
+        // if (this.level === 10) {
+        //     this.boss = new Pope(160, 160);
+        //     this.boss.player = this.player;
+        //     this.boss.setRoom(this)
+        //     this.components.enemies.push(this.boss)
+        // }
+        //
+        // // TODO add enemies based on room level
+        // const randomVillager = randInt(1, this.level + 1)
+        // for (let _ in Array.from(Array(randomVillager).keys())) {
+        //     const villager = new Villager(randInt(20, this.width - 20), randInt(20, this.height - 20), 0);
+        //     villager.player = this.player;
+        //     villager.setRoom(this)
+        //     console.log(villager)
+        //     console.log(this.enemies)
+        //     this.components.enemies.push(villager)
+        // }
+        //
+        // const randomMage = randInt(0, this.level + 1)
+        // for (let _ in Array.from(Array(randomMage).keys())) {
+        //     const mage = new Mage(randInt(0, this.width), randInt(0, this.height));
+        //     mage.player = this.player;
+        //     mage.setRoom(this)
+        //     this.components.enemies.push(mage)
+        // }
 
         this.inCombat = true;
-    }
-
-    showRewards() {
-        // this.inReward = true
-        // this.inCombat = false
-        // //apply old rewards
-        this.player.addReward(this.levelRewards)
-        // //roll new ones
-        // this.rewardSprites = []
-        // this.levelRewards = getRewards(this.level)
-        // const partWidth = this.width / this.levelRewards.length
-        // for (let i = 0; i < this.levelRewards.length; i++) {
-        //     const reward = this.levelRewards[i]
-        //     const sprite = new RewardSprite(reward)
-        //     sprite.x = (i * partWidth) + partWidth / 2
-        //     sprite.y = this.height / 2
-        //     this.rewardSprites.push(sprite)
-        // }
-        // this.rewardLocking.start()
     }
 }
 

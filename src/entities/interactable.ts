@@ -16,7 +16,7 @@ class Interactable extends Entity{
             this.removeFlag = true;
         }
         if(this.entity instanceof Reward){
-            player.addReward([this.entity])
+            player.collectReward(this.entity)
             this.removeFlag = true;
         }
     }

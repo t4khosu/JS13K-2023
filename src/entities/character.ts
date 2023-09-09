@@ -22,15 +22,14 @@ export class Character extends Entity implements StatusAttributes {
     private _dashTimeout: number = 60;
     private _dashDistance: number = 60;
 
-    //rewards to add to the stats
-    protected rewards: Map<keyof StatusReward, Reward[]> = new Map<keyof StatusReward, Reward[]>()
-
     dashing: boolean = false;
     dashRefillTimer: Timer = new Timer();
     invincibleTimer: Timer = new Timer(15);
     attackTimeoutTimer: Timer = new Timer();
     weapon: Weapon | undefined = undefined;
     inbound: boolean = true;
+
+    protected rewards: Map<keyof StatusReward, Reward[]> = new Map<keyof StatusReward, Reward[]>()
 
     // hopping values
     z: number = 0;
@@ -97,21 +96,19 @@ export class Character extends Entity implements StatusAttributes {
         this.addChild(this.sprite);
     }
 
-    addReward(rewards: Reward[]) {
-        rewards.forEach((reward) => {
-            const keys = Object.keys(reward.status) as Array<keyof StatusAttributes>
-            keys.forEach((key) => {
-                if (key === 'health' && reward.status['health']) {
-                    this.health = this.health + reward.status['health']
-                } else {
-                    let list = this.rewards.get(key)
-                    if (!list) {
-                        list = []
-                    }
-                    list.push(reward)
-                    this.rewards.set(key, list)
+    collectReward(reward: Reward) {
+        const keys = Object.keys(reward.status) as Array<keyof StatusAttributes>
+        keys.forEach((key) => {
+            if (key === 'health' && reward.status['health']) {
+                this.health = this.health + reward.status['health']
+            } else {
+                let list = this.rewards.get(key)
+                if (!list) {
+                    list = []
                 }
-            })
+                list.push(reward)
+                this.rewards.set(key, list)
+            }
         })
     }
 
@@ -214,6 +211,6 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     targets(): Character[] {
-        return this.room?.components.enemies ?? []
+        return this.room?.enemies ?? []
     }
 }
