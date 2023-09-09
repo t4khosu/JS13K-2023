@@ -8,22 +8,26 @@ import Game from "./game";
 class IntroRoom extends Room{
     text: Text
     texts: string[] = [
-        "Italy, 1327",
-        // "The Cathar"
+        "Inquisition in Toulouse, 1233",
+        "By the order of Pope Innocent III, all Cathars must die",
+        "Their belief in two gods",
+        "A cruel god form the old testament",
+        "A good god from the new testament",
+        "Is considered heresy",
+        "Your life as a Cathar",
+        "Just ended"
     ]
     textId: number = 0
 
-    fadeInTimer: Timer = new Timer(200, () => {
+    fadeInTimer: Timer = new Timer(140, () => this.fateOutTimer.start()).start()
+
+    fateOutTimer: Timer = new Timer(60, () => {
         if(!this.isShowingLastText()){
-            this.fateOutTimer.start()
+            this.fadeInTimer.start();
+            this.text.text = this.texts[++this.textId]
         }else{
             this.game.goToStartRoom()
         }
-    }).start()
-
-    fateOutTimer: Timer = new Timer(60, () => {
-        this.fadeInTimer.start();
-        this.text.text = this.texts[++this.textId]
     })
 
     constructor(game: Game) {
@@ -38,10 +42,10 @@ class IntroRoom extends Room{
         this.fateOutTimer.update();
 
         if(this.fadeInTimer.isActive){
-            this.text.opacity = Math.min(1, this.text.opacity + 0.01)
+            this.text.opacity = Math.min(1, this.text.opacity + 0.015)
         }
         if(this.fateOutTimer.isActive){
-            this.text.opacity = Math.min(1, this.text.opacity - 0.03)
+            this.text.opacity = Math.min(1, this.text.opacity - 0.035)
         }
     }
 
