@@ -14,7 +14,7 @@ class Game extends GameObjectClass{
         this.player = new Player(0, 0);
         this.introRoom = new IntroRoom(this);
         this.startRoom = new StartRoom(this, this.player);
-        this.goToRoom(this.introRoom)
+        this.goToRoom(this.startRoom)
     }
 
     goToStartRoom(){

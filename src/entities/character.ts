@@ -25,6 +25,7 @@ export class Character extends Entity implements StatusAttributes {
     dashing: boolean = false;
     dashRefillTimer: Timer = new Timer();
     invincibleTimer: Timer = new Timer(15);
+    deathTimer: Timer = new Timer(60, () => this.removeFlag = true)
     attackTimeoutTimer: Timer = new Timer();
     weapon: Weapon | undefined = undefined;
     inbound: boolean = true;
@@ -96,6 +97,10 @@ export class Character extends Entity implements StatusAttributes {
         this.addChild(this.sprite);
     }
 
+    canMove(){
+        return super.canMove() && !this.deathTimer.isActive
+    }
+
     collectReward(reward: Reward) {
         const keys = Object.keys(reward.status) as Array<keyof StatusAttributes>
         keys.forEach((key) => {
@@ -126,6 +131,7 @@ export class Character extends Entity implements StatusAttributes {
         this.invincibleTimer.update();
         this.dashRefillTimer.update();
         this.attackTimeoutTimer.update();
+        this.deathTimer.update();
 
         this.sprite.opacity = this.invincibleTimer.isActive ? 0.5 : 1;
 
@@ -197,17 +203,14 @@ export class Character extends Entity implements StatusAttributes {
     isInvincible = () => this.invincibleTimer.isActive || this.dashing;
 
     die() {
-        this.sprite.rotation = -0.5 * Math.PI;
+        this.rotation = -0.5 * Math.PI;
         this.weapon && this.removeChild(this.weapon)
         this.weapon = undefined;
+        this.deathTimer.start();
+    }
 
-        const deathTimer = new Timer(60, () => {
-            this.removeFlag = true;
-        }).start();
-
-        this.update = () => {
-            deathTimer.update();
-        };
+    updateDeath(deathTimer: Timer){
+        deathTimer.update();
     }
 
     targets(): Character[] {

@@ -8,6 +8,7 @@ import {mousePosition, mousePressed} from "../utils/mouse";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
 import {getVectorBetweenGameObjects} from "../utils/vectors";
+import {Timer} from "./timer";
 
 export class Player extends Character {
     interactText: Text;
@@ -20,6 +21,7 @@ export class Player extends Character {
     }
 
     reset(){
+        this.removeFlag = false;
         this.speed = 2.5
         this.armCanRotate = true;
         this.strength = 1;
@@ -36,6 +38,12 @@ export class Player extends Character {
         if(mousePressed(0) && this.canAttack()) {
             this.attack();
             if(this.weapon !== undefined) playSound(STAB)
+        }
+
+        if(this.removeFlag){
+            this.room?.game.goToStartRoom()
+            this.reset();
+            this.rotation = 0;
         }
     }
 

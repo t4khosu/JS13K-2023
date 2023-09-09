@@ -46,7 +46,9 @@ export class Entity extends GameObjectClass {
         this.movingTo = Vector(x, y);
     }
 
-    canMove = () => true;
+    canMove(){
+        return true;
+    }
 
     updateLookingDirection(){
         if(this.getLookingDirection() == 0 || this.getLookingDirection() == this.lookingDirection) return;

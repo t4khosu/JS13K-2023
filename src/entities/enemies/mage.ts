@@ -27,7 +27,9 @@ export class Mage extends Enemy {
         ]))
     }
 
-    canMove = () => !(this.weapon as Staff).isCasting();
+    canMove(){
+        return super.canMove() && !(this.weapon as Staff).isCasting();
+    }
 
     inAttackRange = () => this.distanceToPlayer() <= this.attackDistance && this.distanceToPlayer() >= this.attackDistance * 0.5;
 
