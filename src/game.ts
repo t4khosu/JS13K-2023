@@ -3,16 +3,19 @@ import Room from "./rooms/room";
 import StartRoom from "./rooms/startRoom";
 import {Player} from "./entities/player";
 import {getCanvasHeight, getCanvasWidth} from "./utils/utils";
+import IntroRoom from "./introRoom";
 
 class Game extends GameObjectClass{
+    introRoom: IntroRoom;
     startRoom: Room;
     currentRoom!: Room;
     player: Player;
     constructor() {
         super();
         this.player = new Player(0, 0);
-        this.startRoom = new StartRoom(this.player, this);
-        this.goToStartRoom();
+        this.startRoom = new StartRoom(this, this.player);
+        this.introRoom = new IntroRoom(this);
+        this.goToRoom(this.introRoom)
     }
 
     goToStartRoom(){
@@ -20,23 +23,13 @@ class Game extends GameObjectClass{
     }
 
     goToRoom(room: Room){
-        room.reset();
-
-        this.player.setRoom(room);
+        room.init();
         this.currentRoom = room;
-        if(! (room instanceof StartRoom)){
-            room.spawnTimer.start()
-        }
-        this.player.setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
     }
 
-    update(){
-        this.currentRoom.update();
-    }
+    update = () => this.currentRoom.update();
 
-    render(){
-        this.currentRoom.render();
-    }
+    render = () => this.currentRoom.render();
 }
 
 export default Game;

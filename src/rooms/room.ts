@@ -23,9 +23,9 @@ type SortedComponents = {
 }
 
 export default class Room extends GameObjectClass {
-    width: number
-    height: number
+    game: Game
     tileEngine?: TileEngine
+    player?: Player
 
     components: SortedComponents = {
         interactables: [],
@@ -36,19 +36,18 @@ export default class Room extends GameObjectClass {
         gui: [],
     }
 
-    constructor(player: Player, game: Game) {
-        super({player: player, game:game})
-        this.width = getCanvasWidth()
-        this.height = getCanvasHeight()
-        this.components.player = [player]
-
-        this.gui.push(new PlayerHealthBar(player))
-
+    constructor(game: Game) {
+        super()
+        this.game = game;
         this.components.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
     }
 
     get gui(){
         return this.components.gui;
+    }
+
+    get backgroundObjects(){
+        return this.components.backgroundObjects;
     }
 
     get interactables(){
@@ -57,6 +56,12 @@ export default class Room extends GameObjectClass {
 
     get enemies(){
         return this.components.enemies;
+    }
+
+    setPlayer(player: Player){
+        this.player = player;
+        this.components.player = [player]
+        this.gui.push(new PlayerHealthBar(player))
     }
 
     comeHere(){
@@ -68,7 +73,10 @@ export default class Room extends GameObjectClass {
         this.interactables.push(interactable);
     }
 
-    reset(){}
+    init(){
+        this.player?.setRoom(this);
+        this.player?.setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
+    }
 
     render() {
         this.tileEngine?.render();

@@ -1,14 +1,14 @@
-import {imageAssets, randInt, TileEngine} from "kontra";
-import {getBackGroundTileMap, getWallTileMap} from "../utils/tile-maps";
+import {imageAssets, TileEngine} from "kontra";
+import {getBackGroundTileMap} from "../utils/tile-maps";
 import {Enemy} from "../entities/enemies/enemy";
 import {Timer} from "../entities/timer";
-import {Reward, RewardSprite} from "../entities/reward";
+import {Reward} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
 import Room from "./room";
 import {Player} from "../entities/player";
 import Game from "../game";
 import Interactable from "../entities/interactable";
-import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
+import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
 import BossBar from "../gui/bossBar";
 import StageDisplay from "../gui/stage-display";
@@ -26,11 +26,12 @@ class BattleRoom extends Room{
     spawnTimer: Timer = new Timer(60, () => this.spawnEnemies()).start();
 
     constructor(player: Player, game: Game, reward: Reward | undefined = undefined) {
-        super(player, game);
+        super(game);
+        this.setPlayer(player)
         this.reward = reward;
 
-        const xDim = Math.ceil(this.width / 8)
-        const yDim = Math.ceil(this.height / 8)
+        const xDim = Math.ceil(getCanvasWidth() / 8)
+        const yDim = Math.ceil(getCanvasHeight() / 8)
 
         this.gui.push(new BossBar(this))
         this.gui.push(new StageDisplay(this))
@@ -61,6 +62,7 @@ class BattleRoom extends Room{
         });
     }
 
+
     update(){
         super.update();
         this.spawnTimer.update();
@@ -89,8 +91,8 @@ class BattleRoom extends Room{
         const rewards = getRewards(0, 3);
 
         for(let i = 0; i < positions.length; i++){
-            const battleRoom = new BattleRoom(this.player, this.game, rewards[i])
-            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player, rewards[i]))
+            const battleRoom = new BattleRoom(this.player!, this.game, rewards[i])
+            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player!, rewards[i]))
         }
     }
 
