@@ -1,5 +1,5 @@
 import {GameObjectClass, Sprite, Text} from "kontra";
-import {Player} from "../../entities/player";
+import {Player} from "../entities/player";
 
 class PlayerHealthBar extends GameObjectClass{
     healthBar: Sprite

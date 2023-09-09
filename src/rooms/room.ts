@@ -11,7 +11,7 @@ import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import Interactable from "../entities/interactable";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Game from "../game";
-import PlayerHealthBar from "../gui/components/playerHealthBar";
+import PlayerHealthBar from "../gui/playerHealthBar";
 
 type SortedComponents = {
     interactables: Interactable[],

@@ -1,7 +1,7 @@
 import {GameObjectClass, Sprite, Text} from "kontra";
-import {Enemy} from "../../entities/enemies/enemy";
-import {centeredAnchor} from "../../utils/sprite";
-import Room from "../../rooms/room";
+import {Enemy} from "../entities/enemies/enemy";
+import {centeredAnchor} from "../utils/sprite";
+import Room from "../rooms/room";
 
 class BossBar extends GameObjectClass {
     healthBar: Sprite;
