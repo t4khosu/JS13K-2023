@@ -11,8 +11,8 @@ class IntroRoom extends Room{
         "Inquisition in Toulouse, 1233",
         "By the order of Pope Innocent III, all Cathars must die",
         "Their belief in two gods",
-        "A cruel god form the old testament",
-        "A good god from the new testament",
+        "A cruel god of the old testament",
+        "A good god of the new testament",
         "Is considered heresy",
         "Your life as a Cathar",
         "Just ended"
