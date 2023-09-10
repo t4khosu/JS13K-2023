@@ -5,9 +5,6 @@ import { getCanvasCenter, getCanvasWidth } from "../utils/utils";
 import { centeredAnchor } from "../utils/sprite";
 
 class BossHealthBar extends HealthBar {
-    healthBarWidth: number = 200;
-    bossName?: string
-
     constructor(y: number, boss: Enemy) {
         super(getCanvasCenter().x -100, y, 200, 4, boss)
         this.addChild(Text({y: -20, text: boss.name, font: '16px Verdana', textAlign: 'center', width: this.width}))

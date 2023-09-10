@@ -4,6 +4,8 @@ import {Player} from "./player";
 import {Weapon} from "./weapons/weapon";
 import {Reward} from "./reward";
 import {getVectorBetweenGameObjects} from "../utils/vectors";
+import Npc from "./npc";
+import Game from "../game";
 
 class Interactable extends Entity{
     entity: Entity
@@ -27,6 +29,9 @@ class Interactable extends Entity{
         if(this.entity instanceof Reward){
             player.collectReward(this.entity)
             this.removeFlag = true;
+        }
+        if(this.entity instanceof Npc){
+            Game.getInstance().startChat(this.entity.monolog)
         }
     }
 }
