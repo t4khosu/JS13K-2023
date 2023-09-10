@@ -55,6 +55,10 @@ export default class Room {
         this.interactables.push(interactable);
     }
 
+    addSpell(spell: Spell){
+        this.components.spells.push(spell);
+    }
+
     init(){
 
     }

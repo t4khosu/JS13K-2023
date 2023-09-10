@@ -1,15 +1,17 @@
 import {Text} from "kontra";
 import HealthBar from "./healthBar";
 import { Enemy } from "../entities/enemies/enemy";
+import { getCanvasCenter, getCanvasWidth } from "../utils/utils";
+import { centeredAnchor } from "../utils/sprite";
 
-class BossBar extends HealthBar {
+class BossHealthBar extends HealthBar {
     healthBarWidth: number = 200;
     bossName?: string
 
-    constructor(x: number, y: number, boss: Enemy) {
-        super(x, y, 200, 4, boss)
-        this.addChild(Text({text: boss.name, font: '16px Verdana', textAlign: 'center', width: this.width}))
+    constructor(y: number, boss: Enemy) {
+        super(getCanvasCenter().x -100, y, 200, 4, boss)
+        this.addChild(Text({y: -20, text: boss.name, font: '16px Verdana', textAlign: 'center', width: this.width}))
     }
 }
 
-export default BossBar;
+export default BossHealthBar;

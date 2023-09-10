@@ -13,14 +13,12 @@ import {Mage} from "../entities/enemies/mage";
 import {Villager} from "../entities/enemies/villager";
 import Pope from "../entities/enemies/pope";
 import GameRoom from "./gameRoom";
+import BossHealthBar from "../gui/bossHealthBar";
 
 class BattleRoom extends GameRoom{
     level: number = 1
-    boss?: Enemy
-
     inCombat = false
     reward?: Reward
-
     spawnTimer: Timer = new Timer(60, () => this.spawnEnemies()).start();
 
     constructor(player: Player, reward: Reward | undefined = undefined) {
@@ -30,7 +28,6 @@ class BattleRoom extends GameRoom{
         const xDim = Math.ceil(getCanvasWidth() / 8)
         const yDim = Math.ceil(getCanvasHeight() / 8)
 
-        //this.gui.push(new BossBar(this))
         this.gui.push(new StageDisplay(this))
 
         this.tileEngine = TileEngine({
@@ -84,13 +81,19 @@ class BattleRoom extends GameRoom{
     }
 
     spawnPortals(){
+        if(this.level === 1){
+            const room = new BossRoom(this.player, new Pope(getCanvasWidth()/2, getCanvasHeight()/2))
+            this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, room, this.player))
+            return;
+        }
+
         const positions = [getCanvasWidth()/4, getCanvasWidth()/2, 3*getCanvasWidth()/4]
         const rewards = getRewards(0, 3);
 
         for(let i = 0; i < positions.length; i++){
-            const battleRoom = new BattleRoom(this.player!, rewards[i])
+            const battleRoom = new BattleRoom(this.player, rewards[i])
             battleRoom.level = this.level + 1;
-            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player!, rewards[i]))
+            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player, rewards[i]))
         }
     }
 
@@ -100,13 +103,6 @@ class BattleRoom extends GameRoom{
     )
 
     spawnEnemies() {
-        if (this.level === 10) {
-            this.boss = new Pope(160, 160);
-            this.boss.player = this.player!;
-            this.boss.setRoom(this)
-            this.enemies.push(this.boss)
-        }
-
         // TODO add enemies based on room level
         const randomVillager = randInt(1, this.level + 1)
         for (let _ in Array.from(Array(randomVillager).keys())) {
@@ -127,6 +123,23 @@ class BattleRoom extends GameRoom{
         }
 
         this.inCombat = true;
+    }
+}
+
+class BossRoom extends BattleRoom{
+    boss: Enemy;
+    constructor(player: Player, boss: Enemy){
+        super(player, undefined)
+
+        boss.setRoom(this);
+        boss.player = player;
+        this.gui.push(new BossHealthBar(50, boss))
+        
+        this.boss = boss;
+    }
+
+    spawnEnemies(): void {
+        this.enemies.push(this.boss);
     }
 }
 

@@ -1,7 +1,7 @@
 import Room from "./room";
 import {Text} from "kontra";
 import {centeredAnchor} from "../utils/sprite";
-import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
+import {getCanvasCenter, getCanvasHeight, getCanvasWidth} from "../utils/utils";
 import {Timer} from "../entities/timer";
 import Game from "../game";
 
@@ -32,7 +32,7 @@ class IntroRoom extends Room{
 
     constructor() {
         super();
-        this.text = Text({opacity:0, x: getCanvasWidth()/2, y: getCanvasHeight()/2, text: this.texts[this.textId], color: "white", font: "20px Arial", textAlign: "center", anchor: centeredAnchor});
+        this.text = Text({opacity:0, x: getCanvasCenter().x, y: getCanvasCenter().y, text: this.texts[this.textId], color: "white", font: "20px Arial", textAlign: "center", anchor: centeredAnchor});
         this.backgroundObjects.push(this.text);
     }
 
