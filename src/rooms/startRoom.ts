@@ -5,16 +5,16 @@ import Interactable from "../entities/interactable";
 import Room from "./room";
 import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
-import Game from "../game";
 import BattleRoom from "./battleRoom";
 import {getRewards} from "../utils/reward-util";
+import GameRoom from "./gameRoom";
+import Game from "../game";
 
-class StartRoom extends Room{
+class StartRoom extends GameRoom{
     teleporter: Teleporter
     nextRoom!: Room
-    constructor(game: Game, player: Player) {
-        super(game);
-        this.setPlayer(player);
+    constructor(player: Player) {
+        super(player);
 
         this.teleporter = new Teleporter(getCanvasWidth()/2, this.nextRoom, player);
         this.components.backgroundObjects.push(this.teleporter);
@@ -24,13 +24,13 @@ class StartRoom extends Room{
 
     init(){
         super.init();
-        this.nextRoom = new BattleRoom(this.player!, this.game, getRewards(0, 1)[0]);
+        this.nextRoom = new BattleRoom(this.player!, getRewards(0, 1)[0]);
     }
 
     update(){
         super.update();
         if(collides(this.player!, this.teleporter)){
-            this.game.goToRoom(this.nextRoom)
+            Game.getInstance().goToRoom(this.nextRoom)
         }
     }
 }

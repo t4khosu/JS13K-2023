@@ -1,9 +1,9 @@
-import Room from "./rooms/room";
+import Room from "./room";
 import {Text} from "kontra";
-import {centeredAnchor} from "./utils/sprite";
-import {getCanvasHeight, getCanvasWidth} from "./utils/utils";
-import {Timer} from "./entities/timer";
-import Game from "./game";
+import {centeredAnchor} from "../utils/sprite";
+import {getCanvasHeight, getCanvasWidth} from "../utils/utils";
+import {Timer} from "../entities/timer";
+import Game from "../game";
 
 class IntroRoom extends Room{
     text: Text
@@ -26,12 +26,12 @@ class IntroRoom extends Room{
             this.fadeInTimer.start();
             this.text.text = this.texts[++this.textId]
         }else{
-            this.game.goToStartRoom()
+            Game.getInstance().goToStartRoom()
         }
     })
 
-    constructor(game: Game) {
-        super(game);
+    constructor() {
+        super();
         this.text = Text({opacity:0, x: getCanvasWidth()/2, y: getCanvasHeight()/2, text: this.texts[this.textId], color: "white", font: "20px Arial", textAlign: "center", anchor: centeredAnchor});
         this.backgroundObjects.push(this.text);
     }

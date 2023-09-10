@@ -1,17 +1,11 @@
-import {GameObject, GameObjectClass, getCanvas, imageAssets, randInt, Sprite, TileEngine} from "kontra";
-import {getBackGroundTileMap, getWallTileMap} from "../utils/tile-maps";
+import {GameObject, Sprite, TileEngine} from "kontra";
 import {Player} from "../entities/player";
-import {Character} from "../entities/character";
-import {Mage} from "../entities/enemies/mage";
-import {Villager} from "../entities/enemies/villager";
-import {Reward, RewardSprite} from "../entities/reward";
-import {getRewards} from "../utils/reward-util";
+import {Reward} from "../entities/reward";
 import {Enemy} from "../entities/enemies/enemy";
-import {renderSpells, updateSpells} from "../utils/spellsCollection";
 import Interactable from "../entities/interactable";
-import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
+import {getCanvasWidth, wallHeight} from "../utils/utils";
 import Game from "../game";
-import PlayerHealthBar from "../gui/playerHealthBar";
+import { Spell } from "../entities/weapons/spells/spell";
 
 type SortedComponents = {
     interactables: Interactable[],
@@ -19,13 +13,12 @@ type SortedComponents = {
     enemies: Enemy[],
     rewards: Reward[],
     player: Player[],
+    spells: Spell[],
     gui: GameObject[],
 }
 
-export default class Room extends GameObjectClass {
-    game: Game
+export default class Room {
     tileEngine?: TileEngine
-    player?: Player
 
     components: SortedComponents = {
         interactables: [],
@@ -33,13 +26,8 @@ export default class Room extends GameObjectClass {
         enemies: [],
         rewards: [],
         player: [],
+        spells: [],
         gui: [],
-    }
-
-    constructor(game: Game) {
-        super()
-        this.game = game;
-        this.components.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
     }
 
     get gui(){
@@ -58,14 +46,8 @@ export default class Room extends GameObjectClass {
         return this.components.enemies;
     }
 
-    setPlayer(player: Player){
-        this.player = player;
-        this.components.player = [player]
-        this.gui.push(new PlayerHealthBar(player))
-    }
-
     comeHere(){
-        this.game.goToRoom(this);
+        Game.getInstance().goToRoom(this);
     }
 
     addInteractable(interactable: Interactable){
@@ -74,8 +56,7 @@ export default class Room extends GameObjectClass {
     }
 
     init(){
-        this.player?.setRoom(this);
-        this.player?.setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
+
     }
 
     render() {
@@ -83,8 +64,6 @@ export default class Room extends GameObjectClass {
         Object.entries(this.components).forEach(
             ([key, value]) => value.forEach(c => c.render())
         );
-
-        renderSpells();
     }
 
     update() {
@@ -97,23 +76,5 @@ export default class Room extends GameObjectClass {
                 });
             }
         );
-
-        updateSpells();
-
-    //     if (this.inCombat) {
-
-    //         // if (this.enemies.length === removeCount) {
-    //         //     this.showRewards()
-    //         // }
-    //
-    //     } else if (this.inReward) {
-    //         this.rewardLocking.update()
-    //         this.rewardSprites.forEach((sprite) => {
-    //             sprite.update()
-    //             if (sprite.checkPlayerCollision(this.player) && !this.rewardLocking.isActive) {
-    //                 this.nextLevel()
-    //             }
-    //         })
-    //     }
     }
 }

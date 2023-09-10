@@ -15,8 +15,9 @@ import StageDisplay from "../gui/stage-display";
 import {Mage} from "../entities/enemies/mage";
 import {Villager} from "../entities/enemies/villager";
 import Pope from "../entities/enemies/pope";
+import GameRoom from "./gameRoom";
 
-class BattleRoom extends Room{
+class BattleRoom extends GameRoom{
     level: number = 1
     boss?: Enemy
 
@@ -25,9 +26,8 @@ class BattleRoom extends Room{
 
     spawnTimer: Timer = new Timer(60, () => this.spawnEnemies()).start();
 
-    constructor(player: Player, game: Game, reward: Reward | undefined = undefined) {
-        super(game);
-        this.setPlayer(player)
+    constructor(player: Player, reward: Reward | undefined = undefined) {
+        super(player);
         this.reward = reward;
 
         const xDim = Math.ceil(getCanvasWidth() / 8)
@@ -91,7 +91,7 @@ class BattleRoom extends Room{
         const rewards = getRewards(0, 3);
 
         for(let i = 0; i < positions.length; i++){
-            const battleRoom = new BattleRoom(this.player!, this.game, rewards[i])
+            const battleRoom = new BattleRoom(this.player!, rewards[i])
             battleRoom.level = this.level + 1;
             this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player!, rewards[i]))
         }

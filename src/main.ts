@@ -15,9 +15,8 @@ load(
 ).then(function () {
     initRewards();
 
-    const game = new Game();
     GameLoop({
-        update: () => game.update(),
-        render: () => game.render()
+        update: () => Game.getInstance().update(),
+        render: () => Game.getInstance().render()
     }).start()
 });
