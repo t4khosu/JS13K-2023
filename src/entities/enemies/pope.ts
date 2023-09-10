@@ -17,14 +17,10 @@ class Pope extends Mage{
             (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, iceParticleType, 5, 0.2),
             (spellCaster: SpellCaster) => new CircularSpell(spellCaster, holyParticleType, 20, 20, 2),
             (spellCaster: SpellCaster) => {
-                return new SpawnSpell(spellCaster, this.room!, () => {
-                    const v = new Villager(0, 0, 0);
-                    v.player = this.player;
-                    return v;
-                });
+                return new SpawnSpell(spellCaster, this.room!, () => new Villager(0, 0, 0));
             }
         ]))
-        this.initHealth(100)
+        this.initHealth(1)
         this.healthBar.opacity = 0;
     }
 

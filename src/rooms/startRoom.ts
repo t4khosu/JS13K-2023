@@ -9,28 +9,28 @@ import BattleRoom from "./battleRoom";
 import {getRewards} from "../utils/reward-util";
 import GameRoom from "./gameRoom";
 import Game from "../game";
+import Npc from "../entities/npc";
 
 class StartRoom extends GameRoom{
     teleporter: Teleporter
     nextRoom!: Room
-    constructor(player: Player) {
-        super(player);
+    constructor() {
+        super();
 
-        this.teleporter = new Teleporter(getCanvasWidth()/2, this.nextRoom, player);
-        this.components.backgroundObjects.push(this.teleporter);
-        this.components.backgroundObjects.push(Text({x: 12, y: 72, text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nTake: e", font: '16px Arial', color: "white"}))
-        
+        this.teleporter = new Teleporter(getCanvasWidth()/2, this.nextRoom);
+        this.backgroundObjects.push(this.teleporter);
+        this.backgroundObjects.push(Text({x: 12, y: 72, text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nTake: e", font: '16px Arial', color: "white"}))
     }
 
     init(){
         super.init();
         this.addInteractable(new Interactable(getCanvasWidth()/2, getCanvasHeight()/2, new SmallDagger()))
-        this.nextRoom = new BattleRoom(this.player!, getRewards(0, 1)[0]);
+        this.nextRoom = new BattleRoom(getRewards(0, 1)[0]);
     }
 
     update(){
         super.update();
-        if(collides(this.player!, this.teleporter)){
+        if(collides(Player.getInstance(), this.teleporter)){
             Game.getInstance().goToRoom(this.nextRoom)
         }
     }

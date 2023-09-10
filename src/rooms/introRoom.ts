@@ -1,7 +1,7 @@
 import Room from "./room";
 import {Text} from "kontra";
 import {centeredAnchor} from "../utils/sprite";
-import {getCanvasCenter, getCanvasHeight, getCanvasWidth} from "../utils/utils";
+import {getCanvasCenter} from "../utils/utils";
 import {Timer} from "../entities/timer";
 import Game from "../game";
 

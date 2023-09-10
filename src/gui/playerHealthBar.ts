@@ -5,8 +5,8 @@ import HealthBar from "./healthBar";
 class PlayerHealthBar extends HealthBar{
     text: Text
 
-    constructor(x: number, y: number, player: Player) {
-        super(x, y, 132, 12, player);
+    constructor(x: number, y: number) {
+        super(x, y, 132, 12, Player.getInstance());
         this.text = Text({width: this.width, text: '', font: '11px Verdana', color: "white", textAlign: "center"})
         this.addChild(this.text)
     }

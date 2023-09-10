@@ -6,8 +6,8 @@ import {wallHeight} from "../utils/utils";
 import {Player} from "./player";
 
 class Teleporter extends GameObjectClass{
-    constructor(x: number, toRoom: Room, player: Player, reward?: Reward) {
-        super({toRoom: toRoom, player: player, reward: reward, x: x, y: wallHeight, anchor: centeredAnchor, width: 80, height: 4});
+    constructor(x: number, toRoom: Room, reward?: Reward) {
+        super({toRoom: toRoom, reward: reward, x: x, y: wallHeight, anchor: centeredAnchor, width: 80, height: 4});
         this.addChild(Sprite({width: 80, height: 4, color: "white", anchor: centeredAnchor}));
 
         if(reward){
@@ -19,7 +19,7 @@ class Teleporter extends GameObjectClass{
 
     update(){
         super.update();
-        if(collides(this, this.player)){
+        if(collides(this, Player.getInstance())){
             this.toRoom.comeHere();
         }
     }

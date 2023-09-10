@@ -7,6 +7,7 @@ import SpellCaster from "../weapons/spells/spellCaster";
 import ShotgunSpell from "../weapons/spells/shotgunSpell";
 import {holyParticleType, iceParticleType} from "../weapons/spells/particles/particleTypes";
 import {CircularSpell} from "../weapons/spells/circularSpell";
+import {Player} from "../player";
 
 export class Mage extends Enemy {
     speed: number = randNumber(1.1);
@@ -34,7 +35,7 @@ export class Mage extends Enemy {
     inAttackRange = () => this.distanceToPlayer() <= this.attackDistance && this.distanceToPlayer() >= this.attackDistance * 0.5;
 
     moveToPlayer() {
-        const v = this.vectorTo(this.player.x, this.player.y)
+        const v = this.vectorTo(Player.getInstance().x, Player.getInstance().y)
         const distance = v.length() - this.rangeToPlayer
         if (Math.abs(distance) > 12) this.moveTo(v, distance)
     }

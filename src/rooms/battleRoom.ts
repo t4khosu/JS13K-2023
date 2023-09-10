@@ -4,16 +4,14 @@ import {Enemy} from "../entities/enemies/enemy";
 import {Timer} from "../entities/timer";
 import {Reward} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
-import {Player} from "../entities/player";
 import Interactable from "../entities/interactable";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
 import StageDisplay from "../gui/stage-display";
-import {Mage} from "../entities/enemies/mage";
-import {Villager} from "../entities/enemies/villager";
 import Pope from "../entities/enemies/pope";
 import GameRoom from "./gameRoom";
 import BossHealthBar from "../gui/bossHealthBar";
+import WinRoom from "./winRoom";
 
 class BattleRoom extends GameRoom{
     level: number = 1
@@ -21,8 +19,8 @@ class BattleRoom extends GameRoom{
     reward?: Reward
     spawnTimer: Timer = new Timer(60, () => this.spawnEnemies()).start();
 
-    constructor(player: Player, reward: Reward | undefined = undefined) {
-        super(player);
+    constructor(reward: Reward | undefined = undefined) {
+        super();
         this.reward = reward;
 
         const xDim = Math.ceil(getCanvasWidth() / 8)
@@ -81,9 +79,9 @@ class BattleRoom extends GameRoom{
     }
 
     spawnPortals(){
-        if(this.level === 10){
-            const room = new BossRoom(this.player, new Pope(getCanvasWidth()/2, getCanvasHeight()/2))
-            this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, room, this.player))
+        if(this.level === 1){
+            const room = new BossRoom(new Pope(getCanvasWidth()/2, getCanvasHeight()/2))
+            this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, room))
             return;
         }
 
@@ -91,9 +89,9 @@ class BattleRoom extends GameRoom{
         const rewards = getRewards(0, 3);
 
         for(let i = 0; i < positions.length; i++){
-            const battleRoom = new BattleRoom(this.player, rewards[i])
+            const battleRoom = new BattleRoom(rewards[i])
             battleRoom.level = this.level + 1;
-            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, this.player, rewards[i]))
+            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, rewards[i]))
         }
     }
 
@@ -104,23 +102,23 @@ class BattleRoom extends GameRoom{
 
     spawnEnemies() {
         // TODO add enemies based on room level
-        const randomVillager = randInt(1, this.level + 1)
-        for (let _ in Array.from(Array(randomVillager).keys())) {
-            const pos = this.randomPosition();
-            const villager = new Villager(pos.x, pos.y, 0);
-            villager.player = this.player!;
-            villager.setRoom(this)
-            this.enemies.push(villager)
-        }
-
-        const randomMage = randInt(0, this.level + 1)
-        for (let _ in Array.from(Array(randomMage).keys())) {
-            const pos = this.randomPosition();
-            const mage = new Mage(pos.x, pos.y);
-            mage.player = this.player!;
-            mage.setRoom(this)
-            this.enemies.push(mage)
-        }
+        // const randomVillager = randInt(1, this.level + 1)
+        // for (let _ in Array.from(Array(randomVillager).keys())) {
+        //     const pos = this.randomPosition();
+        //     const villager = new Villager(pos.x, pos.y, 0);
+        //     villager.player = this.player!;
+        //     villager.setRoom(this)
+        //     this.enemies.push(villager)
+        // }
+        //
+        // const randomMage = randInt(0, this.level + 1)
+        // for (let _ in Array.from(Array(randomMage).keys())) {
+        //     const pos = this.randomPosition();
+        //     const mage = new Mage(pos.x, pos.y);
+        //     mage.player = this.player!;
+        //     mage.setRoom(this)
+        //     this.enemies.push(mage)
+        // }
 
         this.inCombat = true;
     }
@@ -128,11 +126,10 @@ class BattleRoom extends GameRoom{
 
 class BossRoom extends BattleRoom{
     boss: Enemy;
-    constructor(player: Player, boss: Enemy){
-        super(player, undefined)
+    constructor(boss: Enemy){
+        super(undefined)
 
         boss.setRoom(this);
-        boss.player = player;
         this.gui.push(new BossHealthBar(50, boss))
         
         this.boss = boss;
@@ -140,6 +137,12 @@ class BossRoom extends BattleRoom{
 
     spawnEnemies(): void {
         this.enemies.push(this.boss);
+        this.inCombat = true;
+    }
+
+    spawnPortals(){
+        const winRoom = new WinRoom()
+        this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, winRoom))
     }
 }
 

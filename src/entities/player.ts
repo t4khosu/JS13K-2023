@@ -7,19 +7,21 @@ import {Character} from "./character";
 import {mousePosition, mousePressed} from "../utils/mouse";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
-import {getVectorBetweenGameObjects} from "../utils/vectors";
-import {Timer} from "./timer";
 import Game from "../game";
 
 export class Player extends Character {
     interactText: Text;
 
-    constructor(x: number, y: number) {
+    private static _instance: Player;
+
+    private constructor(x: number, y: number) {
         super(x, y, getSpriteById(4));
         this.interactText = Text({x: 1, y: -7, text: "!", color: "red", font: "5px Arial", textAlign: "center", opacity: 0, anchor: centeredAnchor});
         this.addChild(this.interactText)
         this.reset();
     }
+
+    public static getInstance = () => Player._instance ??= new Player(0, 0);
 
     reset(){
         this.removeFlag = false;
@@ -72,8 +74,8 @@ export class Player extends Character {
 
     updateInteractables(){
         this.interactText.opacity = 0;
-        this.room?.components.interactables.forEach(i => {
-            if(getVectorBetweenGameObjects(this, i).length() > 30) return;
+        this.room?.interactables.forEach(i => {
+            if(i.entityDistanceFrom(this) > 30) return;
 
             this.interactText.opacity = 1;
             if (keyPressed("e")) i.interactWith(this);

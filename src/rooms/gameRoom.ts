@@ -5,19 +5,17 @@ import { getCanvasHeight, getCanvasWidth, wallHeight } from "../utils/utils";
 import Room from "./room";
 
 class GameRoom extends Room{
-    player: Player
 
-    constructor(player: Player){
+    constructor(){
         super();
-        this.player = player;
-        this.components.player = [player]
-        this.gui.push(new PlayerHealthBar(20, getCanvasHeight() - 30, player))
+        this.components.player = [Player.getInstance()]
+        this.gui.push(new PlayerHealthBar(20, getCanvasHeight() - 30))
         this.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
     }
 
     init(){
-        this.player.setRoom(this);
-        this.player.setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
+        Player.getInstance().setRoom(this);
+        Player.getInstance().setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
     }
 }
 

@@ -5,10 +5,7 @@ import {Timer} from "../timer";
 import {getRandomVecDir, randNumber} from "../../utils/utils";
 import {centeredAnchor} from "../../utils/sprite";
 
-import {Damageable} from "../weapons/damageable";
-
 export class Enemy extends Character {
-    player!: Player;
     healthBar: Sprite;
     healthBarWidth: number = 6;
     seeDistance: number = 100;
@@ -20,7 +17,7 @@ export class Enemy extends Character {
         this.moveTo(getRandomVecDir(), randNumber(60));
     }, true).start();
 
-    loadAttackTimer = new Timer(40, () => this.attack(this.player));
+    loadAttackTimer = new Timer(40, () => this.attack(Player.getInstance()));
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
@@ -68,18 +65,18 @@ export class Enemy extends Character {
         }
     }
 
-    distanceToPlayer = () => this.distanceTo(this.player);
+    distanceToPlayer = () => this.distanceTo(Player.getInstance());
 
     targets(): Character[] {
-        return [this.player!]
+        return [Player.getInstance()]
     }
 
     moveToPlayer() {
-        this.movingTo = Vector(this.player.x - this.playerDirection() * 38, this.player.y)
+        this.movingTo = Vector(Player.getInstance().x - this.playerDirection() * 38, Player.getInstance().y)
     }
 
     playerDirection() {
-        return Math.sign(this.player!.x - this.x);
+        return Math.sign(Player.getInstance().x - this.x);
     }
 
     getLookingDirection() {
@@ -93,6 +90,6 @@ export class Enemy extends Character {
 
     pointDaggerDirection() {
         if (!this.armCanRotate || !this.aggro) return super.pointDaggerDirection()
-        return Vector(this.player.world.x - this.world.x, this.player.world.y - this.world.y).normalize();
+        return Vector(Player.getInstance().world.x - this.world.x, Player.getInstance().world.y - this.world.y).normalize();
     }
 }
