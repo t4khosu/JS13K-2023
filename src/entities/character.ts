@@ -177,6 +177,7 @@ export class Character extends Entity implements StatusAttributes {
     currentSpeed = () => this.dashing ? this.speed * 4 : this.speed;
 
     handWeapon(weapon: Weapon) {
+        if(this.weapon) this.removeChild(this.weapon);
         this.weapon = weapon;
         this.weapon.setOwner(this);
         this.addChild(weapon);

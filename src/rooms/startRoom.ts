@@ -19,11 +19,12 @@ class StartRoom extends GameRoom{
         this.teleporter = new Teleporter(getCanvasWidth()/2, this.nextRoom, player);
         this.components.backgroundObjects.push(this.teleporter);
         this.components.backgroundObjects.push(Text({x: 12, y: 72, text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nTake: e", font: '16px Arial', color: "white"}))
-        this.addInteractable(new Interactable(getCanvasWidth()/2, getCanvasHeight()/2, new SmallDagger()))
+        
     }
 
     init(){
         super.init();
+        this.addInteractable(new Interactable(getCanvasWidth()/2, getCanvasHeight()/2, new SmallDagger()))
         this.nextRoom = new BattleRoom(this.player!, getRewards(0, 1)[0]);
     }
 
