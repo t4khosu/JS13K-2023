@@ -4,13 +4,10 @@ import {Enemy} from "../entities/enemies/enemy";
 import {Timer} from "../entities/timer";
 import {Reward} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
-import Room from "./room";
 import {Player} from "../entities/player";
-import Game from "../game";
 import Interactable from "../entities/interactable";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
-import BossBar from "../gui/bossBar";
 import StageDisplay from "../gui/stage-display";
 import {Mage} from "../entities/enemies/mage";
 import {Villager} from "../entities/enemies/villager";
@@ -33,7 +30,7 @@ class BattleRoom extends GameRoom{
         const xDim = Math.ceil(getCanvasWidth() / 8)
         const yDim = Math.ceil(getCanvasHeight() / 8)
 
-        this.gui.push(new BossBar(this))
+        //this.gui.push(new BossBar(this))
         this.gui.push(new StageDisplay(this))
 
         this.tileEngine = TileEngine({

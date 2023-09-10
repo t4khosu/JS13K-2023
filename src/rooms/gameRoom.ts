@@ -11,9 +11,8 @@ class GameRoom extends Room{
         super();
         this.player = player;
         this.components.player = [player]
-        this.gui.push(new PlayerHealthBar(player))
+        this.gui.push(new PlayerHealthBar(20, getCanvasHeight() - 30, player))
         this.backgroundObjects.push(Sprite({width: getCanvasWidth(), height: wallHeight, color: "#555"}))
-
     }
 
     init(){

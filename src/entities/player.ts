@@ -9,6 +9,7 @@ import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
 import {getVectorBetweenGameObjects} from "../utils/vectors";
 import {Timer} from "./timer";
+import Game from "../game";
 
 export class Player extends Character {
     interactText: Text;
@@ -41,7 +42,7 @@ export class Player extends Character {
         }
 
         if(this.removeFlag){
-            this.room?.game.goToStartRoom()
+            Game.getInstance().goToStartRoom()
             this.reset();
             this.rotation = 0;
         }

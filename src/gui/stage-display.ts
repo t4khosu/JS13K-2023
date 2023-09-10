@@ -1,11 +1,10 @@
-import {GameObjectClass, Sprite, Text} from "kontra";
-import {Player} from "../entities/player";
-import Room from "../rooms/room";
+import {GameObjectClass, Text} from "kontra";
+import BattleRoom from "../rooms/battleRoom";
 
 export default class StageDisplay extends GameObjectClass {
     text: Text
 
-    constructor(room: Room) {
+    constructor(room: BattleRoom) {
         super({room: room, x: 700, y: 20});
         this.text = Text({text: `Stage ${room.level}`, font: '17px Verdana', color: "black"})
 
