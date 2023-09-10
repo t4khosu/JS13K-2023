@@ -1,12 +1,10 @@
 import {init, GameLoop, initKeys, load} from 'kontra'
-import {Player} from "./entities/player";
 import {initMouse} from "./utils/mouse";
-import StartRoom from "./rooms/startRoom";
 import Game from "./game";
 import {setCanvasBoundaries} from "./utils/utils";
 import {initRewards} from "./utils/reward-util";
 
-let {canvas} = init();
+const {canvas} = init();
 setCanvasBoundaries(canvas)
 
 initKeys()
@@ -19,7 +17,7 @@ load(
 
     const game = new Game();
     GameLoop({
-        update: (dt: number) => game.update(),
+        update: () => game.update(),
         render: () => game.render()
     }).start()
 });

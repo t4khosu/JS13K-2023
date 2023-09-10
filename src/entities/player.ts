@@ -52,7 +52,7 @@ export class Player extends Character {
     updatePlayerMovement(){
         if(this.dashing) return;
 
-        let direction: Vector = Vector(0, 0);
+        const direction: Vector = Vector(0, 0);
         if (keyPressed('w')) direction.y = -1;
         if (keyPressed('a')) direction.x = -1;
         if (keyPressed('d')) direction.x = 1;

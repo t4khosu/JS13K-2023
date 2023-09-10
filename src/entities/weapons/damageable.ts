@@ -2,7 +2,7 @@ import {Entity} from "../entity";
 import {Sprite} from "kontra";
 import {Character} from "../character";
 import {centeredAnchor} from "../../utils/sprite";
-import {collidesWithRotation} from "../../utils/collision";
+import {collidesWithRotation} from "../../utils/sat-collision";
 
 export class Damageable extends Entity {
     isAttacking: boolean = false;

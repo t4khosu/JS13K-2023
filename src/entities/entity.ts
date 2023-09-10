@@ -65,8 +65,8 @@ export class Entity extends GameObjectClass {
         this.movingTo.x = this.x + direction.x * distance;
         this.movingTo.y = this.y + direction.y * distance;
 
-        var xDelta = this.width*Math.abs(this.scaleX)/2
-        var yDelta = this.height*Math.abs(this.scaleY)/2
+        const xDelta = this.width*Math.abs(this.scaleX)/2
+        const yDelta = this.height*Math.abs(this.scaleY)/2
         if(this.inbound){
             this.movingTo.x = Math.min(Math.max(xDelta, this.movingTo.x), getCanvasWidth() - xDelta)
             this.movingTo.y = Math.min(Math.max(yDelta + wallHeight, this.movingTo.y), getCanvasHeight()  - yDelta)

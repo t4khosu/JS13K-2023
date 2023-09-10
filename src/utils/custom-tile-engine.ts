@@ -47,14 +47,14 @@ class CustomTileEngine extends TileEngineClass {
     layerMap: Record<string, TileLayer>
 
     layerCollidesWith(name: string, object: any) {
-        let {tilewidth, tileheight, layerMap} = this;
-        let {x, y, width, height} = getWorldRect(object);
-        let layer = layerMap[name];
+        const {tilewidth, tileheight, layerMap} = this;
+        const {x, y, width, height} = getWorldRect(object);
+        const layer = layerMap[name];
 
-        let row = getRow(y, tileheight * layer.scale);
-        let col = getCol(x, tilewidth * layer.scale);
-        let endRow = getRow(y + height, tileheight * layer.scale);
-        let endCol = getCol(x + width, tilewidth * layer.scale);
+        const row = getRow(y, tileheight * layer.scale);
+        const col = getCol(x, tilewidth * layer.scale);
+        const endRow = getRow(y + height, tileheight * layer.scale);
+        const endCol = getCol(x + width, tilewidth * layer.scale);
 
 
         // check all tiles
@@ -70,8 +70,8 @@ class CustomTileEngine extends TileEngineClass {
     }
 
     _r(layer: TileLayer, context: CanvasRenderingContext2D) {
-        let {opacity, data = [], scale = 1} = layer;
-        let {tilesets, width, tilewidth, tileheight} = this;
+        const {opacity, data = [], scale = 1} = layer;
+        const {tilesets, width, tilewidth, tileheight} = this;
 
         context.save();
         context.globalAlpha = opacity;
@@ -94,15 +94,15 @@ class CustomTileEngine extends TileEngineClass {
             }
 
             // @ts-ignore
-            let {image, margin = 0, firstgid, columns} = tileset;
-            let offset = tile - firstgid;
-            let cols = columns ?? (image.width / (tilewidth + margin)) | 0;
-            let scaleOffset = scale
+            const {image, margin = 0, firstgid, columns} = tileset;
+            const offset = tile - firstgid;
+            const cols = columns ?? (image.width / (tilewidth + margin)) | 0;
+            const scaleOffset = scale
 
-            let x = (index % width) * tilewidth;
-            let y = ((index / width) | 0) * tileheight;
-            let sx = (offset % cols) * (tilewidth + margin);
-            let sy = ((offset / cols) | 0) * (tileheight + margin);
+            const x = (index % width) * tilewidth;
+            const y = ((index / width) | 0) * tileheight;
+            const sx = (offset % cols) * (tilewidth + margin);
+            const sy = ((offset / cols) | 0) * (tileheight + margin);
 
             context.drawImage(
                 image,

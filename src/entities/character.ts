@@ -151,7 +151,7 @@ export class Character extends Entity implements StatusAttributes {
                 this.zDir *= -1
                 if (this.z <= 0) this.playHopSound();
             }
-            ;
+            
         } else {
             this.z = 0;
             this.zDir = 1;

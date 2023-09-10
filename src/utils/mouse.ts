@@ -1,6 +1,6 @@
 function getElementPosition(el: any) {
-    var xPos = 0;
-    var yPos = 0;
+    let xPos = 0;
+    let yPos = 0;
 
     while (el) {
         xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);

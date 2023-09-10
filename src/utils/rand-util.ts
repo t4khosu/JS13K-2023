@@ -5,7 +5,7 @@ export function weightedRandNumber(weights: Map<number, number>): number | undef
     }
 
     let sum = 0
-    let r = Math.random()
+    const r = Math.random()
     for (const key of weights.keys()) {
         const weight = weights.get(key)
         if (weight) {

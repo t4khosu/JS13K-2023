@@ -34,8 +34,8 @@ export class Mage extends Enemy {
     inAttackRange = () => this.distanceToPlayer() <= this.attackDistance && this.distanceToPlayer() >= this.attackDistance * 0.5;
 
     moveToPlayer() {
-        let v = this.vectorTo(this.player.x, this.player.y)
-        let distance = v.length() - this.rangeToPlayer
+        const v = this.vectorTo(this.player.x, this.player.y)
+        const distance = v.length() - this.rangeToPlayer
         if (Math.abs(distance) > 12) this.moveTo(v, distance)
     }
 }

@@ -26,9 +26,9 @@ class CollRect {
             this.x - this.obj.anchor.x * this.width,
             this.y - this.obj.anchor.y * this.height,
         )
-        let topRight = Vector(topLeft.x + this.width, topLeft.y);
-        let bottomLeft = Vector(topLeft.x, topLeft.y + this.height);
-        let bottomRight = Vector(topLeft.x + this.width, topLeft.y + this.height);
+        const topRight = Vector(topLeft.x + this.width, topLeft.y);
+        const bottomLeft = Vector(topLeft.x, topLeft.y + this.height);
+        const bottomRight = Vector(topLeft.x + this.width, topLeft.y + this.height);
 
         this.vertices = [
             this.rotatedCoordFromPivot(topRight),
@@ -53,8 +53,8 @@ class CollRect {
     initEdges(){
         let i = 0;
         while(i < this.vertices.length){
-            let a = this.vertices[i]
-            let b = this.vertices[(i+1) % this.vertices.length]
+            const a = this.vertices[i]
+            const b = this.vertices[(i+1) % this.vertices.length]
 
             this.edges.push(Vector(a.x - b.x, a.y - b.y))
             i++;
@@ -63,13 +63,13 @@ class CollRect {
 }
 
 function sat(rect1: CollRect, rect2: CollRect){
-    var perpendicularLine = null;
-    var dot = 0;
-    var perpendicularStack = [];
-    var amin = null;
-    var amax = null;
-    var bmin = null;
-    var bmax = null;
+    let perpendicularLine = null;
+    let dot = 0;
+    const perpendicularStack = [];
+    let amin = null;
+    let amax = null;
+    let bmin = null;
+    let bmax = null;
 
     //Work out all perpendicular vectors on each edge for polygonA
     for(var i = 0; i < rect1.edges.length; i++){

@@ -23,7 +23,7 @@ export function getBackGroundTileMap(xTiles: number, yTiles: number) {
 }
 
 export function getWallTileMap() {
-    let {width, height} = getCanvas();
+    const {width, height} = getCanvas();
     const wallScale = 2
     // TODO something in the kontra tile engine breaks when both values are multiplied resulting in wrong coordinates
     const xDimScale = Math.ceil(width / (8))
