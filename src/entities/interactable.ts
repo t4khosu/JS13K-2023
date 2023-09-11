@@ -4,7 +4,7 @@ import {Player} from "./player";
 import {Weapon} from "./weapons/weapon";
 import {Reward} from "./reward";
 import {getVectorBetweenGameObjects} from "../utils/vectors";
-import Npc from "./npc";
+import CatharPerfect from "./npcs/catharPerfect";
 import Game from "../game";
 
 class Interactable extends Entity{
@@ -30,8 +30,8 @@ class Interactable extends Entity{
             player.collectReward(this.entity)
             this.removeFlag = true;
         }
-        if(this.entity instanceof Npc){
-            Game.getInstance().startChat(this.entity.monolog)
+        if(this.entity instanceof CatharPerfect){
+            this.entity.talk();
         }
     }
 }

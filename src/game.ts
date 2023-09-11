@@ -3,14 +3,14 @@ import Room from "./rooms/room";
 import StartRoom from "./rooms/startRoom";
 import IntroRoom from "./rooms/introRoom";
 import ChatBox from "./entities/chatBox";
-import WinRoom from "./rooms/winRoom";
+import EndRoom from "./rooms/winRoom";
 
 class Game extends GameObjectClass{
     introRoom: IntroRoom;
     startRoom: Room;
     currentRoom!: Room;
-
     currentChatBox?: ChatBox;
+    deaths: number = 0;
 
     public static _game: Game;
 
@@ -40,6 +40,9 @@ class Game extends GameObjectClass{
 
     endChat(){
         this.currentChatBox = undefined;
+        if(this.currentRoom instanceof EndRoom){
+            this.currentRoom.startEnd();
+        }
     }
 
     update = () => {

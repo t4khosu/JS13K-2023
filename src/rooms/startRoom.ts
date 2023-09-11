@@ -9,7 +9,7 @@ import BattleRoom from "./battleRoom";
 import {getRewards} from "../utils/reward-util";
 import GameRoom from "./gameRoom";
 import Game from "../game";
-import Npc from "../entities/npc";
+import CatharPerfect from "../entities/npcs/catharPerfect";
 
 class StartRoom extends GameRoom{
     teleporter: Teleporter
@@ -19,7 +19,8 @@ class StartRoom extends GameRoom{
 
         this.teleporter = new Teleporter(getCanvasWidth()/2, this.nextRoom);
         this.backgroundObjects.push(this.teleporter);
-        this.backgroundObjects.push(Text({x: 12, y: 72, text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nTake: e", font: '16px Arial', color: "white"}))
+        this.backgroundObjects.push(Text({x: 12, y: 72, text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nInteract: e", font: '16px Arial', color: "white"}))
+        this.interactables.push(new Interactable(getCanvasWidth()/2.5, getCanvasHeight()/4, new CatharPerfect(0, 0, this)))
     }
 
     init(){

@@ -8,6 +8,8 @@ import {mousePosition, mousePressed} from "../utils/mouse";
 import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {HOP, playSound, STAB} from "../utils/sound";
 import Game from "../game";
+import Room from "../rooms/room";
+import StartRoom from "../rooms/startRoom";
 
 export class Player extends Character {
     interactText: Text;
@@ -18,6 +20,7 @@ export class Player extends Character {
         super(x, y, getSpriteById(4));
         this.interactText = Text({x: 1, y: -7, text: "!", color: "red", font: "5px Arial", textAlign: "center", opacity: 0, anchor: centeredAnchor});
         this.addChild(this.interactText)
+        this.sprite.opacity = 0.5
         this.reset();
     }
 
@@ -36,6 +39,11 @@ export class Player extends Character {
 
     update() {
         super.update();
+
+        if(this.room instanceof StartRoom){
+            this.sprite.opacity = 0.5
+        }
+
         this.updateInteractables();
         this.updatePlayerMovement();
         if(mousePressed(0) && this.canAttack()) {
@@ -44,6 +52,7 @@ export class Player extends Character {
         }
 
         if(this.removeFlag){
+            Game.getInstance().deaths++;
             Game.getInstance().goToStartRoom()
             this.reset();
             this.rotation = 0;
