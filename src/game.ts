@@ -7,7 +7,6 @@ import ChatBox from "./entities/chatBox";
 
 class Game extends GameObjectClass{
     introRoom: IntroRoom;
-    startRoom: Room;
     currentRoom!: Room;
     currentChatBox?: ChatBox;
     deaths: number = 0;
@@ -17,8 +16,7 @@ class Game extends GameObjectClass{
     private constructor() {
         super();
         this.introRoom = new IntroRoom();
-        this.startRoom = new StartRoom();
-        this.goToRoom(this.startRoom)
+        this.goToStartRoom()
     }
 
     public static getInstance(): Game{
@@ -26,7 +24,7 @@ class Game extends GameObjectClass{
     }
 
     goToStartRoom(){
-        this.goToRoom(this.startRoom)
+        this.goToRoom(new StartRoom())
     }
 
     goToRoom(room: Room){
