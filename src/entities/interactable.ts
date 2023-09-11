@@ -6,6 +6,7 @@ import {Reward} from "./reward";
 import {getVectorBetweenGameObjects} from "../utils/vectors";
 import CatharPerfect from "./npcs/catharPerfect";
 import Game from "../game";
+import {playSound, POWERUP} from "../utils/sound";
 
 class Interactable extends Entity{
     entity: Entity
@@ -27,6 +28,7 @@ class Interactable extends Entity{
             this.removeFlag = true;
         }
         if(this.entity instanceof Reward){
+            playSound(POWERUP)
             player.collectReward(this.entity)
             this.removeFlag = true;
         }
