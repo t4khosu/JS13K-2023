@@ -21,7 +21,9 @@ class Game extends GameObjectClass{
         this.goToRoom(this.introRoom)
     }
 
-    public static getInstance = (): Game => Game._game ??= new Game();
+    public static getInstance(): Game{
+        return Game._game ??= new Game();
+    }
 
     goToStartRoom(){
         this.goToRoom(this.startRoom)
