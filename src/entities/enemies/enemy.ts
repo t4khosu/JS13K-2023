@@ -4,6 +4,7 @@ import {Sprite, Vector} from "kontra";
 import {Timer} from "../timer";
 import {getRandomVecDir, randNumber} from "../../utils/utils";
 import {centeredAnchor} from "../../utils/sprite";
+import BattleRoom from "../../rooms/battleRoom";
 
 export class Enemy extends Character {
     healthBar: Sprite;
@@ -19,14 +20,16 @@ export class Enemy extends Character {
 
     loadAttackTimer = new Timer(40, () => this.attack(Player.getInstance()));
 
-    constructor(x: number, y: number, sprite: Sprite) {
-        super(x, y, sprite);
+    constructor(x: number, y: number, sprite: Sprite, room: BattleRoom) {
+        super(x, y, sprite, room);
         this.healthBar = Sprite({anchor: centeredAnchor, y: -5, height: 1, color: "#ff000099"})
         this.addChild(this.healthBar)
     }
 
     update() {
         super.update();
+        if(this.dashing) return;
+
         if (this.aggro) this.updateAggro();
         else this.updateIdle();
     }
@@ -75,11 +78,16 @@ export class Enemy extends Character {
         this.movingTo = Vector(Player.getInstance().x - this.playerDirection() * 38, Player.getInstance().y)
     }
 
+    dashToPlayer(){
+        this.dashTo(this.vectorTo(Player.getInstance().x, Player.getInstance().y));
+    }
+
     playerDirection() {
         return Math.sign(Player.getInstance().x - this.x);
     }
 
     getLookingDirection() {
+        if(this.health == 0) return 1;
         return this.aggro ? this.playerDirection() : super.getLookingDirection();
     }
 

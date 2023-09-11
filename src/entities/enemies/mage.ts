@@ -8,13 +8,14 @@ import ShotgunSpell from "../weapons/spells/shotgunSpell";
 import {holyParticleType, iceParticleType} from "../weapons/spells/particles/particleTypes";
 import {CircularSpell} from "../weapons/spells/circularSpell";
 import {Player} from "../player";
+import BattleRoom from "../../rooms/battleRoom";
 
 export class Mage extends Enemy {
     speed: number = randNumber(1.1);
     rangeToPlayer: number
 
-    constructor(x: number, y: number, sprite?: Sprite) {
-        super(x, y, sprite ?? getSpriteById(2));
+    constructor(x: number, y: number, room: BattleRoom, sprite?: Sprite) {
+        super(x, y, sprite ?? getSpriteById(2), room);
         this.seeDistance = randNumber(350);
         this.rangeToPlayer = this.seeDistance * 0.6;
         this.attackDistance = this.rangeToPlayer + 5

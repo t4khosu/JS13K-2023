@@ -26,6 +26,13 @@ export class Entity extends GameObjectClass {
     }
 
     updateMoving(){
+        if(this.inbound){
+            const xDelta = this.width*Math.abs(this.scaleX)/2
+            const yDelta = this.height*Math.abs(this.scaleY)/2
+            this.movingTo.x = Math.min(Math.max(xDelta, this.movingTo.x), getCanvasWidth() - xDelta)
+            this.movingTo.y = Math.min(Math.max(yDelta + wallHeight, this.movingTo.y), getCanvasHeight()  - yDelta)
+        }
+
         const distance = Math.min(this.movingTo.distance(Vector(this.x, this.y)), this.currentSpeed());
         this.moving = distance != 0 && this.canMove();
         if(!this.moving) return;
@@ -64,13 +71,6 @@ export class Entity extends GameObjectClass {
         distance = distance == 0 ? this.currentSpeed() : distance;
         this.movingTo.x = this.x + direction.x * distance;
         this.movingTo.y = this.y + direction.y * distance;
-
-        const xDelta = this.width*Math.abs(this.scaleX)/2
-        const yDelta = this.height*Math.abs(this.scaleY)/2
-        if(this.inbound){
-            this.movingTo.x = Math.min(Math.max(xDelta, this.movingTo.x), getCanvasWidth() - xDelta)
-            this.movingTo.y = Math.min(Math.max(yDelta + wallHeight, this.movingTo.y), getCanvasHeight()  - yDelta)
-        }
     }
 
     getLookingDirection(): number{

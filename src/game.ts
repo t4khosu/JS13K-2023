@@ -2,8 +2,8 @@ import {GameObjectClass} from "kontra";
 import Room from "./rooms/room";
 import StartRoom from "./rooms/startRoom";
 import IntroRoom from "./rooms/introRoom";
-import ChatBox from "./entities/chatBox";
 import EndRoom from "./rooms/winRoom";
+import ChatBox from "./entities/chatBox";
 
 class Game extends GameObjectClass{
     introRoom: IntroRoom;
@@ -18,7 +18,7 @@ class Game extends GameObjectClass{
         super();
         this.introRoom = new IntroRoom();
         this.startRoom = new StartRoom();
-        this.goToRoom(this.introRoom)
+        this.goToRoom(this.startRoom)
     }
 
     public static getInstance(): Game{

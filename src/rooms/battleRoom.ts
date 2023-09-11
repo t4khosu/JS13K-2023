@@ -12,6 +12,21 @@ import Pope from "../entities/enemies/pope";
 import GameRoom from "./gameRoom";
 import BossHealthBar from "../gui/bossHealthBar";
 import WinRoom from "./winRoom";
+import {Villager} from "../entities/enemies/villager";
+import {Mage} from "../entities/enemies/mage";
+
+// [villager num, mage num]
+const enemiesPerLevel = [
+    [1],
+    [3],
+    [2, 1],
+    [2, 2],
+    [4],
+    [1, 4],
+    [1],
+    [1],
+    [1]
+]
 
 class BattleRoom extends GameRoom{
     level: number = 1
@@ -79,8 +94,8 @@ class BattleRoom extends GameRoom{
     }
 
     spawnPortals(){
-        if(this.level === 1){
-            const room = new BossRoom(new Pope(getCanvasWidth()/2, getCanvasHeight()/2))
+        if(this.level == enemiesPerLevel.length){
+            const room = new BossRoom(new Pope(getCanvasWidth()/2, getCanvasHeight()/2, this))
             this.components.backgroundObjects.push(new Teleporter(getCanvasWidth()/2, room))
             return;
         }
@@ -91,7 +106,7 @@ class BattleRoom extends GameRoom{
         for(let i = 0; i < positions.length; i++){
             const battleRoom = new BattleRoom(rewards[i])
             battleRoom.level = this.level + 1;
-            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom, rewards[i]))
+            this.components.backgroundObjects.push(new Teleporter(positions[i], battleRoom))
         }
     }
 
@@ -101,24 +116,16 @@ class BattleRoom extends GameRoom{
     )
 
     spawnEnemies() {
-        // TODO add enemies based on room level
-        // const randomVillager = randInt(1, this.level + 1)
-        // for (let _ in Array.from(Array(randomVillager).keys())) {
-        //     const pos = this.randomPosition();
-        //     const villager = new Villager(pos.x, pos.y, 0);
-        //     villager.player = this.player!;
-        //     villager.setRoom(this)
-        //     this.enemies.push(villager)
-        // }
-        //
-        // const randomMage = randInt(0, this.level + 1)
-        // for (let _ in Array.from(Array(randomMage).keys())) {
-        //     const pos = this.randomPosition();
-        //     const mage = new Mage(pos.x, pos.y);
-        //     mage.player = this.player!;
-        //     mage.setRoom(this)
-        //     this.enemies.push(mage)
-        // }
+        const enemies = enemiesPerLevel[this.level-1]
+        const enemyTypes = [Villager, Mage]
+
+        enemies.forEach((num, i) => {
+            const enemyClass = enemyTypes[i%2];
+            for(let j = 0; j < num; j++){
+                const pos = this.randomPosition();
+                this.enemies.push(new enemyClass(pos.x, pos.y, this))
+            }
+        })
 
         this.inCombat = true;
     }

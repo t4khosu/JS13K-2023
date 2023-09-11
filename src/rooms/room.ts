@@ -46,10 +46,6 @@ export default class Room {
         return this.components.enemies;
     }
 
-    comeHere(){
-        Game.getInstance().goToRoom(this);
-    }
-
     addInteractable(interactable: Interactable){
         interactable.setRoom(this);
         this.interactables.push(interactable);

@@ -1,41 +1,36 @@
 import {Enemy} from "./enemy";
-import {randNumber} from "../../utils/utils";
+import {levelToColor, randNumber} from "../../utils/utils";
 import {getSpriteById} from "../../utils/sprite";
-import {PenColor} from "../../utils/colorize";
 import {BigDagger, SmallDagger} from "../weapons/daggers";
-
-const levelToColor: any = {
-    0: PenColor.Green,
-    1: PenColor.Blue,
-    2: PenColor.Red,
-}
+import BattleRoom from "../../rooms/battleRoom";
 
 export class Villager extends Enemy {
-    params: any = {
-        speed: [2.1, 2.3, 2.5],
-        attackTimeout: [90, 70, 50],
-        health: [15, 20, 30],
-        seeDistance: [160, 180, 250]
+    constructor(x: number, y: number, room: BattleRoom) {
+        super(x, y, getSpriteById(0, levelToColor(room.level)), room);
+        const lvl = room.level;
+
+        this.strength = 0.5 + lvl * 0.3
+        this.speed = randNumber(2 + lvl * 0.2);
+        this.seeDistance = 100 + lvl * 12;
+        this.attackTimeoutTimer.setMax(100 - lvl * 6);
+        this.initHealth(6 + lvl * 7);
+        this.armCanRotate = lvl >= 4;
+
+        const weapon = lvl > 6 ? new BigDagger() : new SmallDagger();
+        weapon.holdingDistance = 3 + lvl * 0.2
+        weapon.stabbingDistance = 6 + lvl * 0.3
+        weapon.speed = 0.5 + lvl * 0.05
+
+        this.dashSpeed = 3;
+        this.dashDistance = 40 + lvl * 2;
+        this.dashTimeout = 120 - lvl * 2;
+        this.handWeapon(weapon)
     }
 
-    constructor(x: number, y: number, level: number = 0) {
-        super(x, y, getSpriteById(0, levelToColor[level]));
-
-        this.speed = randNumber(this.params.speed[level]);
-        this.seeDistance = randNumber(this.params.seeDistance[level]);
-
-        this.attackTimeoutTimer.setMax(this.params.attackTimeout[level]);
-        this.initHealth(this.params.health[level]);
-
-        this.armCanRotate = level > 0;
-
-        const weapon = level == 2 ? new BigDagger() : new SmallDagger();
-
-        if(level > 0) {
-            weapon.holdingDistance = 5;
-            weapon.stabbingDistance = 8;
+    updateAggro(){
+        super.updateAggro();
+        if((this.room as BattleRoom).level > 8 && this.distanceToPlayer() <= this.seeDistance && this.distanceToPlayer() >= 0.5 * this.seeDistance){
+            this.dashToPlayer();
         }
-
-        this.handWeapon(weapon)
     }
 }

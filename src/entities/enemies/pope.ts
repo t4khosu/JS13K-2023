@@ -7,17 +7,18 @@ import {holyParticleType, iceParticleType} from "../weapons/spells/particles/par
 import {CircularSpell} from "../weapons/spells/circularSpell";
 import SpawnSpell from "../weapons/spells/spawnSpell";
 import {Villager} from "./villager";
+import BattleRoom from "../../rooms/battleRoom";
 
 class Pope extends Mage{
     name: string = "Pope Innocent III"
     speed: number = 2.3
-    constructor(x: number, y: number) {
-        super(x, y, getSpriteById(1));
+    constructor(x: number, y: number, room: BattleRoom) {
+        super(x, y, room, getSpriteById(1));
         this.handWeapon(new Staff([
             (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, iceParticleType, 5, 0.2),
             (spellCaster: SpellCaster) => new CircularSpell(spellCaster, holyParticleType, 20, 20, 2),
             (spellCaster: SpellCaster) => {
-                return new SpawnSpell(spellCaster, this.room!, () => new Villager(0, 0, 0));
+                return new SpawnSpell(spellCaster, this.room!, () => new Villager(0, 0, room));
             }
         ]))
         this.initHealth(1)

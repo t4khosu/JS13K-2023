@@ -41,7 +41,7 @@ export class Player extends Character {
         super.update();
 
         if(this.room instanceof StartRoom){
-            this.sprite.opacity = 0.5
+            this.sprite.opacity = 0.3
         }
 
         this.updateInteractables();

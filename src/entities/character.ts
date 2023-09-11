@@ -22,6 +22,8 @@ export class Character extends Entity implements StatusAttributes {
     private _dashTimeout: number = 60;
     private _dashDistance: number = 60;
 
+    dashSpeed: number = 4;
+
     dashing: boolean = false;
     dashRefillTimer: Timer = new Timer();
     invincibleTimer: Timer = new Timer(15);
@@ -174,7 +176,7 @@ export class Character extends Entity implements StatusAttributes {
         }
     }
 
-    currentSpeed = () => this.dashing ? this.speed * 4 : this.speed;
+    currentSpeed = () => this.dashing ? this.speed * this.dashSpeed : this.speed;
 
     handWeapon(weapon: Weapon) {
         if(this.weapon) this.removeChild(this.weapon);
@@ -193,7 +195,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     takeDamage(damage: number) {
-        if (this.isInvincible() || damage == 0) return;
+        if (this.isInvincible() || damage == 0 || this.health == 0) return;
         this.invincibleTimer.start();
 
         this.health = Math.max(0, this.health - damage);
@@ -208,10 +210,6 @@ export class Character extends Entity implements StatusAttributes {
         this.weapon && this.removeChild(this.weapon)
         this.weapon = undefined;
         this.deathTimer.start();
-    }
-
-    updateDeath(deathTimer: Timer){
-        deathTimer.update();
     }
 
     targets(): Character[] {

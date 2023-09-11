@@ -1,4 +1,5 @@
 import {Vector} from "kontra";
+import {PenColor} from "./colorize";
 
 function getRandomVecDir() {
     return Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
@@ -19,6 +20,12 @@ function setCanvasBoundaries(canvas: HTMLCanvasElement){
 
 const wallHeight = 60;
 
-const randNumber = (num: number) => 0.7 * num + Math.random() * 0.6 * num;
+const randNumber = (num: number) => 0.9 * num + Math.random() * 0.1 * num;
 
-export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, getCanvasCenter, wallHeight}
+function levelToColor(lvl: number){
+    if(lvl <= 3) return PenColor.Green;
+    if(lvl <= 6) return PenColor.Blue;
+    return PenColor.Red;
+}
+
+export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, getCanvasCenter, wallHeight, levelToColor}
