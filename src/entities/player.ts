@@ -21,6 +21,7 @@ export class Player extends Character {
         this.interactText = Text({x: 1, y: -7, text: "!", color: "red", font: "5px Arial", textAlign: "center", opacity: 0, anchor: centeredAnchor});
         this.addChild(this.interactText)
         this.sprite.opacity = 0.5
+        this.deathTimer.setMax(160)
         this.reset();
     }
 
