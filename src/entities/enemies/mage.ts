@@ -1,36 +1,54 @@
 import {Enemy} from "./enemy";
-import {randNumber} from "../../utils/utils";
+import {levelToColor, randNumber} from "../../utils/utils";
 import {getSpriteById} from "../../utils/sprite";
 import {Staff} from "../weapons/staffs";
 import {Sprite} from "kontra";
 import SpellCaster from "../weapons/spells/spellCaster";
 import ShotgunSpell from "../weapons/spells/shotgunSpell";
-import {holyParticleType, iceParticleType} from "../weapons/spells/particles/particleTypes";
+import {
+    yellowParticleType,
+    blueParticleType,
+    orangeParticleType,
+    redParticleType
+} from "../weapons/spells/particles/particleTypes";
 import {CircularSpell} from "../weapons/spells/circularSpell";
 import {Player} from "../player";
 import BattleRoom from "../../rooms/battleRoom";
 
 export class Mage extends Enemy {
-    speed: number = randNumber(1.1);
     rangeToPlayer: number
 
     constructor(x: number, y: number, room: BattleRoom, sprite?: Sprite) {
-        super(x, y, sprite ?? getSpriteById(2), room);
-        this.seeDistance = randNumber(350);
+        super(x, y, sprite ?? getSpriteById(2, levelToColor(room.level)), room);
+        const lvl = room.level;
+
+        this.speed = randNumber(1.0 + lvl * 0.05);
+        this.seeDistance = 300 + lvl * 12;
         this.rangeToPlayer = this.seeDistance * 0.6;
         this.attackDistance = this.rangeToPlayer + 5
-        this.attackTimeoutTimer.setMax(100);
+        this.attackTimeoutTimer.setMax(100 - lvl * 5);
 
-        this.initHealth(10);
+        this.initHealth(10 + lvl * 3);
 
-        this.handWeapon(new Staff([
-            (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, iceParticleType, 3, 0.2),
-            (spellCaster: SpellCaster) => new CircularSpell(spellCaster, holyParticleType, 4, 8, 6)
-        ]))
+        const spellFactories = [
+            (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, orangeParticleType, Math.min(8, lvl), 0.06),
+        ]
+
+        if(lvl > 3){
+            const particle = lvl > 7 ? yellowParticleType : blueParticleType;
+            spellFactories.push( (spellCaster: SpellCaster) => new CircularSpell(spellCaster, particle, 3 + lvl, 8 + lvl, Math.max(4, 12 - lvl)))
+        }
+
+        if(lvl > 5){
+            const particle = lvl > 9 ? redParticleType : blueParticleType;
+            spellFactories.push((spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, particle, 40, 0.2))
+        }
+
+        this.handWeapon(new Staff(spellFactories))
     }
 
     canMove(){
-        return super.canMove() && !(this.weapon as Staff).isCasting();
+        return super.canMove() && ((this.room as BattleRoom).level > 7 || !(this.weapon as Staff).isCasting());
     }
 
     inAttackRange = () => this.distanceToPlayer() <= this.attackDistance && this.distanceToPlayer() >= this.attackDistance * 0.5;

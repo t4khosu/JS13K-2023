@@ -11,8 +11,13 @@ class ParticleType{
     }
 }
 
-const holyParticleType = new ParticleType("#ffffcc", 1.1, 2, 150);
-const iceParticleType = new ParticleType("#b5dedd", 0.4, 4, 90);
+const blueParticleType = new ParticleType("#b5dedd", 0.4, 4, 90);
+const yellowParticleType = new ParticleType("#ffffcc", 1.1, 4, 150);
+
+const orangeParticleType = new ParticleType("#ecb653", 0.6, 2, 130);
+
+const redParticleType = new ParticleType("#dd2222", 0.2, 10, 40);
+
 const spawnParticleType = new ParticleType("#55ff55", 0, 0, 90);
 
-export {ParticleType, holyParticleType, iceParticleType, spawnParticleType}
+export {ParticleType, yellowParticleType, blueParticleType, spawnParticleType, orangeParticleType, redParticleType}
