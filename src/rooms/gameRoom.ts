@@ -3,7 +3,6 @@ import {Player} from "../entities/player";
 import PlayerHealthBar from "../gui/playerHealthBar";
 import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
 import Room from "./room";
-import {getbgm} from "../utils/sound/catharian";
 
 
 class GameRoom extends Room {
