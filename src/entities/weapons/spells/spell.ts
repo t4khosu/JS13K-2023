@@ -51,7 +51,7 @@ export class Spell extends GameObjectClass{
 
     calculatedCastingTime = () => this.castTime;
 
-    getCastTimeout = () => Math.floor(this.calculatedCastingTime() * (5/3));
+    getCastTimeout = () => Math.floor(this.calculatedCastingTime() * (5/4));
 
     getSpellParticles = (): SpellParticle[] => this.children.filter(c => c instanceof SpellParticle).map(c => c as SpellParticle);
 
