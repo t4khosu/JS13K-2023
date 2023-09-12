@@ -4,6 +4,7 @@ import {getSpriteById} from "../../utils/sprite";
 import {Player} from "../player";
 import WinRoom from "../../rooms/winRoom";
 import Game from "../../game";
+import {PenColor} from "../../utils/colorize";
 
 class CatharPerfect extends Character{
     startMonologs: string[][] = [
@@ -27,7 +28,7 @@ class CatharPerfect extends Character{
     ]
 
     constructor(x: number, y: number, room?: Room) {
-        super(x, y, getSpriteById(3), room);
+        super(x, y, getSpriteById(3, PenColor.Blue), room);
         this.inbound = false;
     }
 
