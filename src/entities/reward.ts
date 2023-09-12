@@ -32,6 +32,7 @@ class Reward extends GameObjectClass {
 class HealthReward extends Reward{
     constructor() {
         super(undefined, 10)
+        this.text = "Heal 50 life points"
     }
 
     apply(character: Character){

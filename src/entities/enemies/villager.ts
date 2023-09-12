@@ -13,7 +13,7 @@ export class Villager extends Enemy {
         this.speed = randNumber(2 + Math.min(7, lvl) * 0.18);
         this.seeDistance = 100 + lvl * 12;
         this.attackTimeoutTimer.setMax(100 - lvl * 6);
-        this.initHealth(6 + lvl * 7);
+        this.initHealth(6 + lvl * 9);
         this.armCanRotate = lvl >= 4;
 
         const weapon = lvl > 6 ? new BigDagger() : new SmallDagger();

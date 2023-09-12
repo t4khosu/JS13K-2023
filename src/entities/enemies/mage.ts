@@ -28,7 +28,7 @@ export class Mage extends Enemy {
         this.attackDistance = this.rangeToPlayer + 5
         this.attackTimeoutTimer.setMax(100 - lvl * 5);
 
-        this.initHealth(10 + lvl * 3);
+        this.initHealth(10 + lvl * 4);
 
         const spellFactories = [
             (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, orangeParticleType, Math.min(8, lvl), 0.06, 800),
