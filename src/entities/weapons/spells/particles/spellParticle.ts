@@ -16,7 +16,7 @@ export class SpellParticle extends Damageable {
     direction?: Vector;
     rotateDirectionRadiants: number;
 
-    constructor(x: number, y: number, particleType: ParticleType, spell: Spell, direction?: Vector, rotateDirectionRadiants: number = 0) {
+    constructor(x: number, y: number, particleType: ParticleType, spell: Spell, direction?: Vector, rotateDirectionRadiants: number = 0, slowDown: boolean = false) {
         super(x, y, Sprite({width: 1, height: 1, color: particleType.color, anchor: centeredAnchor}))
         this.speed = particleType.speed;
         this.standardDamage = particleType.damage;
@@ -25,6 +25,11 @@ export class SpellParticle extends Damageable {
         this.owner = spell.owner;
         this.direction = direction;
         this.rotateDirectionRadiants = rotateDirectionRadiants;
+        if(slowDown){
+            this.currentSpeed = () => {
+                return this.speed * (this.lifeTime/120)
+            };
+        }
     }
 
     update() {

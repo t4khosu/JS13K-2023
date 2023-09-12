@@ -73,5 +73,5 @@ export class Spell extends GameObjectClass{
 
     onRemove = () => {}
 
-    remove = () => (!this.owner?.isAlive() && !this.isCasting) || (this.lifeTime <= 0 && !this.isCasting && this.getSpellParticles().length == 0);
+    remove = () => (!this.owner?.isAlive() && !this.isCasting) || (this.lifeTime <= 0 && !this.isCasting) || (!this.isCasting && this.getSpellParticles().length == 0);
 }

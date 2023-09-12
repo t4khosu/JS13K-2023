@@ -23,7 +23,7 @@ export class Mage extends Enemy {
         const lvl = room.level;
 
         this.speed = randNumber(1.0 + lvl * 0.05);
-        this.seeDistance = 300 + lvl * 12;
+        this.seeDistance = 240 + lvl * 8;
         this.rangeToPlayer = this.seeDistance * 0.6;
         this.attackDistance = this.rangeToPlayer + 5
         this.attackTimeoutTimer.setMax(100 - lvl * 5);
@@ -31,7 +31,7 @@ export class Mage extends Enemy {
         this.initHealth(10 + lvl * 3);
 
         const spellFactories = [
-            (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, orangeParticleType, Math.min(8, lvl), 0.06),
+            (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, orangeParticleType, Math.min(8, lvl), 0.06, 800),
         ]
 
         if(lvl > 3){
@@ -41,7 +41,7 @@ export class Mage extends Enemy {
 
         if(lvl > 5){
             const particle = lvl > 9 ? redParticleType : blueParticleType;
-            spellFactories.push((spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, particle, 30, 0.3))
+            spellFactories.push((spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, particle, 30, 0.3, 120))
         }
 
         this.handWeapon(new Staff(spellFactories))
