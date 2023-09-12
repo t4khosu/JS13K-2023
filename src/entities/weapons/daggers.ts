@@ -11,6 +11,7 @@ export class Dagger extends Weapon {
     speed: number = 0.5;
     returnDagger: boolean = false;
     direction = Vector(1, 0);
+    wiggleX: number = 0.5;
 
     update() {
         super.update();

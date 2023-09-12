@@ -18,7 +18,7 @@ import RewardDisplay from "../gui/reward-display";
 
 // [villager num, mage num]
 const enemiesPerLevel = [
-    [1, 1],
+    [1],
     [3],
     [2, 1],
     [2, 2],

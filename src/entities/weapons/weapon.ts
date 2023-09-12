@@ -6,15 +6,18 @@ export class Weapon extends Damageable{
     originX: number;
     originY: number;
     spriteOriginY: number;
+    spriteOriginX: number;
     doesWiggle: boolean = false;
     wiggleTime: number = 0;
     wiggleDir: number = 0.8;
+    wiggleX: number = 0;
 
     constructor(x: number, y: number, sprite: Sprite) {
         super(x, y, sprite);
         this.originX = x;
         this.originY = y;
         this.spriteOriginY = sprite.y;
+        this.spriteOriginX = sprite.x;
     }
 
     update() {
@@ -31,11 +34,13 @@ export class Weapon extends Damageable{
     endWiggle(){
         this.doesWiggle = false;
         this.sprite.y = this.spriteOriginY;
+        this.sprite.x = this.spriteOriginX;
     }
 
     wiggle(){
         if(++this.wiggleTime % 7 == 0){
             this.sprite.y += this.wiggleDir;
+            this.sprite.x -= this.wiggleX;
             this.wiggleDir *= -1;
         }
     }
