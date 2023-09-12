@@ -3,8 +3,8 @@ import {randInt} from "kontra";
 
 function rewardFactory() {
     return [
-        () => new Reward({maxHealth: 8, health: 8}, 0),
-        () => new Reward({health: 16}, 1),
+        () => new Reward({maxHealth: 10, health: 5}, 0),
+        () => new Reward({health: 50}, 1),
         () => new Reward({strength: 2}, 2),
         () => new Reward({attackSpeed: 5}, 4),
         () => new Reward({dashTimeout: 14}, 5),
