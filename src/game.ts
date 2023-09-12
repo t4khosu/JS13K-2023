@@ -21,7 +21,8 @@ class Game extends GameObjectClass {
         super();
         this.bgm = getbgm()
         this.introRoom = new IntroRoom();
-        this.goToStartRoom()
+        // this.goToStartRoom()
+        this.goToRoom(this.introRoom)
     }
 
     public static getInstance(): Game {
@@ -33,11 +34,11 @@ class Game extends GameObjectClass {
     }
 
     goToRoom(room: Room) {
-        if(room instanceof BattleRoom){
+        if (room instanceof BattleRoom) {
             if (!this.audioBufferSourceNode) {
                 this.audioBufferSourceNode = playbgm(this.bgm)
             }
-        }else{
+        } else {
             if (this.audioBufferSourceNode) {
                 this.audioBufferSourceNode?.stop();
                 this.audioBufferSourceNode = undefined

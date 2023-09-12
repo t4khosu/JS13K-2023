@@ -32,6 +32,7 @@ export default defineConfig({
                 group: true,
                 anchor: true,
                 rotation: true,
+                opacity: true
             },
             sprite: {
                 animation: true,
@@ -44,6 +45,7 @@ export default defineConfig({
             text: {
                 align: true,
                 newline: true,
+                autoNewline: true,
             },
             debug: false
         }),

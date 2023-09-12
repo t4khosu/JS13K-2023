@@ -9,9 +9,10 @@ import SpawnSpell from "../weapons/spells/spawnSpell";
 import {Villager} from "./villager";
 import BattleRoom from "../../rooms/battleRoom";
 
-class Pope extends Mage{
+class Pope extends Mage {
     name: string = "Pope Innocent III"
     speed: number = 2.3
+
     constructor(x: number, y: number, room: BattleRoom) {
         super(x, y, room, getSpriteById(1));
         this.handWeapon(new Staff([
