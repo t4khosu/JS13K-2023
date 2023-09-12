@@ -15,19 +15,10 @@ import WinRoom from "./winRoom";
 import {Villager} from "../entities/enemies/villager";
 import {Mage} from "../entities/enemies/mage";
 import RewardDisplay from "../gui/reward-display";
+import {spawningPattern} from "../entities/enemies/spawning-pattern";
 
 // [villager num, mage num]
-const enemiesPerLevel = [
-    [1],
-    [3],
-    [2, 1],
-    [2, 2],
-    [4],
-    [1, 4],
-    [1],
-    [1],
-    [1]
-]
+
 
 class BattleRoom extends GameRoom {
     level: number = 1
@@ -96,7 +87,7 @@ class BattleRoom extends GameRoom {
     }
 
     spawnPortals() {
-        if (this.level == enemiesPerLevel.length) {
+        if (this.level == spawningPattern.length) {
             const room = new BossRoom(new Pope(getCanvasWidth() / 2, getCanvasHeight() / 2, this))
             this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 2, room))
             return;
@@ -118,7 +109,7 @@ class BattleRoom extends GameRoom {
     )
 
     spawnEnemies() {
-        const enemies = enemiesPerLevel[this.level - 1]
+        const enemies = spawningPattern[this.level - 1]
         const enemyTypes = [Villager, Mage]
 
         enemies.forEach((num, i) => {
