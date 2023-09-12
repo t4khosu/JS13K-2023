@@ -89,16 +89,16 @@ class BattleRoom extends GameRoom {
             return;
         }
 
-        if(this.level == 5){
+        if(this.level == 4){
             const dagger = new BigDagger();
             dagger.stabbingDistance = 8;
             const battleRoom1 = new BattleRoom(new WeaponReward(dagger));
             battleRoom1.level = this.level + 1;
-            this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 4, battleRoom1))
+            this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 3, battleRoom1))
 
             const battleRoom2 = new BattleRoom(new WeaponReward(new Sword()));
             battleRoom2.level = this.level + 1;
-            this.components.backgroundObjects.push(new Teleporter(3 * getCanvasWidth() / 4, battleRoom2))
+            this.components.backgroundObjects.push(new Teleporter(2 * getCanvasWidth() / 3, battleRoom2))
             return;
         }
 
