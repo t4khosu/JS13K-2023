@@ -24,7 +24,6 @@ export default class RewardDisplay extends GameObjectClass {
                 const text = Text({text: `x 0`, font: '12px Verdana', color: "white", x: 10 + (40 * i)})
                 this.addChild(text)
                 i = i + 1
-                debugger
                 // @ts-ignore
                 this.rewardMap.set(keys[0], text)
             }
@@ -32,7 +31,6 @@ export default class RewardDisplay extends GameObjectClass {
     }
 
     updateRewardMap() {
-        debugger
         this.player.rewards.forEach((value, key) => {
             const text = this.rewardMap.get(key)
             if (text)
