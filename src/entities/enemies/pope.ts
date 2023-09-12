@@ -21,7 +21,7 @@ class Pope extends Mage{
                 return new SpawnSpell(spellCaster, this.room!, () => new Villager(0, 0, room));
             }
         ]))
-        this.initHealth(1)
+        this.initHealth(200)
         this.healthBar.opacity = 0;
     }
 

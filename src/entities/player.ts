@@ -35,7 +35,7 @@ export class Player extends Character {
         this.attackSpeed = 30;
         this.dashTimeout = 60;
         this.dashDistance = 60;
-        this.initHealth(20);
+        this.initHealth(25);
     }
 
     update() {
