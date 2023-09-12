@@ -83,7 +83,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get dashDistance(): number {
-        return this._dashDistance - sumRewards(this.rewards, 'dashDistance')
+        return this._dashDistance + sumRewards(this.rewards, 'dashDistance')
     }
 
     set dashDistance(number) {
