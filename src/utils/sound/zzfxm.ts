@@ -33,7 +33,7 @@ export const zzfxG = (q = 1, k = .05, c = 220, e = 0, t = 0, u = .1, r = 0, F = 
 }
 
 // zzfxV - global volume
-export const zzfxV = .1
+export const zzfxV = .03
 
 // zzfxR - global sample rate
 export const zzfxR = 44100
