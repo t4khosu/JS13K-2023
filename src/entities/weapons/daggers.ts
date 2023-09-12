@@ -2,6 +2,7 @@ import {Vector} from "kontra";
 import {Weapon} from "./weapon";
 import {getSpriteById} from "../../utils/sprite";
 import {PenColor} from "../../utils/colorize";
+import {img2} from "../../utils/utils";
 
 export class Dagger extends Weapon {
     stabbingDistance: number = 6;
@@ -54,6 +55,16 @@ export class BigDagger extends Dagger {
         super(0, 2, getSpriteById(6));
         this.width = 4;
         this.height = 2;
+        this.standardDamage = 6;
+    }
+}
+
+export class Sword extends Dagger {
+    constructor() {
+        super(0, 2, getSpriteById(0, PenColor.None, {}, img2));
+        this.width = 5;
+        this.height = 1;
+        this.holdingDistance = 2;
         this.standardDamage = 5;
     }
 }
@@ -63,7 +74,7 @@ export class SmallDagger extends Dagger {
         super(0, 1, getSpriteById(8, PenColor.None, {y: -0.5}));
         this.width = 4;
         this.height = 1;
-        this.standardDamage = 4;
+        this.standardDamage = 3.5;
 
         this.stabbingDistance = 6;
         this.holdingDistance = 3;

@@ -32,4 +32,7 @@ const imageSrc = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABz
 const img = document.createElement("img");
 img.src = imageSrc;
 
-export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, getCanvasCenter, wallHeight, levelToColor, img}
+const imageSrc2 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAACVJREFUGJVjYKAPKHBk+I9LjmVKCETy3vVzGIqUNI0YCZpAOQAAe4QJTDUodxAAAAAASUVORK5CYII="
+const img2 = document.createElement("img");
+img2.src = imageSrc2;
+export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, getCanvasCenter, wallHeight, levelToColor, img, img2}

@@ -2,7 +2,7 @@ import {imageAssets, randInt, TileEngine, Vector} from "kontra";
 import {getBackGroundTileMap} from "../utils/tile-maps";
 import {Enemy} from "../entities/enemies/enemy";
 import {Timer} from "../entities/timer";
-import {Reward} from "../entities/reward";
+import {Reward, WeaponReward} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
 import Interactable from "../entities/interactable";
 import {getCanvasHeight, getCanvasWidth, img, wallHeight} from "../utils/utils";
@@ -17,6 +17,7 @@ import {Mage} from "../entities/enemies/mage";
 import RewardDisplay from "../gui/reward-display";
 import {spawningPattern} from "../entities/enemies/spawning-pattern";
 import {Player} from "../entities/player";
+import {BigDagger, Sword} from "../entities/weapons/daggers";
 
 class BattleRoom extends GameRoom {
     level: number = 1
@@ -85,6 +86,19 @@ class BattleRoom extends GameRoom {
         if (this.level == spawningPattern.length - 1) {
             const room = new BossRoom(new Pope(getCanvasWidth() / 2, getCanvasHeight() / 2, this))
             this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 2, room))
+            return;
+        }
+
+        if(this.level == 5){
+            const dagger = new BigDagger();
+            dagger.stabbingDistance = 8;
+            const battleRoom1 = new BattleRoom(new WeaponReward(dagger));
+            battleRoom1.level = this.level + 1;
+            this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 4, battleRoom1))
+
+            const battleRoom2 = new BattleRoom(new WeaponReward(new Sword()));
+            battleRoom2.level = this.level + 1;
+            this.components.backgroundObjects.push(new Teleporter(3 * getCanvasWidth() / 4, battleRoom2))
             return;
         }
 

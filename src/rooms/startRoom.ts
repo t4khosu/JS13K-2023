@@ -1,16 +1,12 @@
-import {collides, Text} from "kontra";
-import {Player} from "../entities/player";
+import {Text} from "kontra";
 import {SmallDagger} from "../entities/weapons/daggers";
 import Interactable from "../entities/interactable";
-import Room from "./room";
 import {getCanvasCenter, getCanvasHeight, getCanvasWidth} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
 import BattleRoom from "./battleRoom";
 import {getRewards} from "../utils/reward-util";
 import GameRoom from "./gameRoom";
-import Game from "../game";
 import CatharPerfect from "../entities/npcs/catharPerfect";
-import {getbgm} from "../utils/sound/catharian";
 import RewardDisplay from "../gui/reward-display";
 
 class StartRoom extends GameRoom {

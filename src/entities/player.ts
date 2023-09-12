@@ -11,6 +11,7 @@ import Game from "../game";
 import Room from "../rooms/room";
 import StartRoom from "../rooms/startRoom";
 import {Reward, StatusReward} from "./reward";
+import {Sword} from "./weapons/daggers";
 
 export class Player extends Character {
     interactText: Text;
@@ -39,7 +40,7 @@ export class Player extends Character {
 
     reset() {
         this.removeFlag = false;
-        this.speed = 2.5
+        this.speed = 2.7
         this.armCanRotate = true;
         this.strength = 1;
         this.attackSpeed = 30;

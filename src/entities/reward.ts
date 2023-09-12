@@ -5,20 +5,23 @@ import {StatusAttributes} from "./status-attributes";
 import {Entity} from "./entity";
 import {MAX_HEALTH_REWARD, RewardStatus} from "../utils/reward-util";
 import {Character} from "./character";
+import {Weapon} from "./weapons/weapon";
 
 export type StatusReward = Partial<StatusAttributes>;
 
 
 class Reward extends GameObjectClass {
-    sprite?: Sprite;
+    sprite: Sprite;
     oldGod: boolean;
     text?: string;
 
     constructor(status?: RewardStatus, iconId?: number, text?: string, oldGod: boolean = false) {
         super({status: status, anchor: centeredAnchor})
-        this.addChild(getSpriteById(iconId!, PenColor.None));
+        this.sprite = getSpriteById(iconId!, PenColor.None);
         this.text = text;
         this.oldGod = oldGod;
+
+        this.addChild(this.sprite);
     }
 
     getText(){
@@ -36,4 +39,20 @@ class HealthReward extends Reward{
     }
 }
 
-export { Reward, HealthReward }
+class WeaponReward extends Reward{
+    weapon: Weapon;
+    constructor(weapon: Weapon) {
+        super(undefined, 0);
+        this.setScale(1.5, 1.5)
+        this.removeChild(this.sprite);
+        this.sprite = weapon.sprite;
+        this.weapon = weapon;
+        this.addChild(this.sprite)
+    }
+
+    getText(){
+        return `You received a new Weapon.`
+    }
+}
+
+export { Reward, HealthReward, WeaponReward }

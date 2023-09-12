@@ -5,7 +5,7 @@ import Room from "../rooms/room";
 import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
-import {HealthReward, Reward} from "./reward";
+import {HealthReward, Reward, WeaponReward} from "./reward";
 import {
     ATTACK_SPEED_REWARD, DASH_DISTANCE_REWARD,
     DASH_TIMEOUT_REWARD,
@@ -111,6 +111,11 @@ export class Character extends Entity implements StatusAttributes {
     collectReward(reward: Reward) {
         if(reward instanceof HealthReward){
             reward.apply(this);
+            return;
+        }
+
+        if(reward instanceof WeaponReward){
+            this.handWeapon(reward.weapon);
             return;
         }
 
