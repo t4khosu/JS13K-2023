@@ -36,12 +36,12 @@ export class Mage extends Enemy {
 
         if(lvl > 3){
             const particle = lvl > 7 ? yellowParticleType : blueParticleType;
-            spellFactories.push( (spellCaster: SpellCaster) => new CircularSpell(spellCaster, particle, 3 + lvl, 8 + lvl, Math.max(4, 12 - lvl)))
+            spellFactories.push( (spellCaster: SpellCaster) => new CircularSpell(spellCaster, particle, 1 + lvl, 3 + lvl, Math.max(4, 12 - lvl)))
         }
 
         if(lvl > 5){
             const particle = lvl > 9 ? redParticleType : blueParticleType;
-            spellFactories.push((spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, particle, 40, 0.2))
+            spellFactories.push((spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, particle, 30, 0.3))
         }
 
         this.handWeapon(new Staff(spellFactories))
