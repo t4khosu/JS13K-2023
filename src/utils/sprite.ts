@@ -1,4 +1,4 @@
-import {imageAssets, Sprite, SpriteSheet} from "kontra";
+import {Sprite, SpriteSheet} from "kontra";
 import {colorizeImage, PenColor} from "./colorize";
 import {img} from "./utils";
 
