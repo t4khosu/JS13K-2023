@@ -32,7 +32,7 @@ export class Character extends Entity implements StatusAttributes {
     weapon: Weapon | undefined = undefined;
     inbound: boolean = true;
 
-    protected rewards: Map<keyof StatusReward, Reward[]> = new Map<keyof StatusReward, Reward[]>()
+    rewards: Map<keyof StatusReward, Reward[]> = new Map<keyof StatusReward, Reward[]>()
 
     // hopping values
     z: number = 0;
@@ -99,7 +99,7 @@ export class Character extends Entity implements StatusAttributes {
         this.addChild(this.sprite);
     }
 
-    canMove(){
+    canMove() {
         return super.canMove() && !this.deathTimer.isActive
     }
 
@@ -153,7 +153,7 @@ export class Character extends Entity implements StatusAttributes {
                 this.zDir *= -1
                 if (this.z <= 0) this.playHopSound();
             }
-            
+
         } else {
             this.z = 0;
             this.zDir = 1;
@@ -179,7 +179,7 @@ export class Character extends Entity implements StatusAttributes {
     currentSpeed = () => this.dashing ? this.speed * this.dashSpeed : this.speed;
 
     handWeapon(weapon: Weapon) {
-        if(this.weapon) this.removeChild(this.weapon);
+        if (this.weapon) this.removeChild(this.weapon);
         this.weapon = weapon;
         this.weapon.setOwner(this);
         this.addChild(weapon);

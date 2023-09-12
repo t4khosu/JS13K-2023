@@ -11,6 +11,7 @@ import GameRoom from "./gameRoom";
 import Game from "../game";
 import CatharPerfect from "../entities/npcs/catharPerfect";
 import {getbgm} from "../utils/sound/catharian";
+import RewardDisplay from "../gui/reward-display";
 
 class StartRoom extends GameRoom {
     constructor() {
@@ -19,6 +20,9 @@ class StartRoom extends GameRoom {
         this.backgroundObjects.push(new Teleporter(getCanvasWidth() / 2, new BattleRoom(getRewards(0, 1)[0])));
         this.backgroundObjects.push(Text({x: 12, y: 72, text: "Move: WASD\n\nAttack: Leftclick\n\nDash: Space\n\nInteract: e", font: '16px Arial', color: "white"}))
         this.interactables.push(new Interactable(getCanvasWidth() / 2.5, getCanvasHeight() / 4, new CatharPerfect(0, 0, this)))
+
+        this.gui.push(new RewardDisplay(this.components.player[0]))
+
     }
 }
 

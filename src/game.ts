@@ -32,7 +32,7 @@ class Game extends GameObjectClass {
     goToStartRoom() {
         this.goToRoom(new StartRoom())
         if (!this.bgmStarted) {
-            playbgm(this.bgm)
+            // playbgm(this.bgm)
             this.bgmStarted = true
         }
     }
