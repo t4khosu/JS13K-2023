@@ -17,7 +17,7 @@ class GameRoom extends Room {
 
     init() {
         Player.getInstance().setRoom(this);
-        Player.getInstance().setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.8)
+        Player.getInstance().setPos(getCanvasWidth() / 2, getCanvasHeight() * 0.9)
     }
 }
 

@@ -114,7 +114,7 @@ class BattleRoom extends GameRoom {
 
     randomPosition = () => Vector(
         randInt(50, getCanvasWidth() - 50),
-        randInt(wallHeight + 20, getCanvasHeight() - 20)
+        randInt(wallHeight + 20, getCanvasHeight() * 0.8)
     )
 
     spawnEnemies() {
