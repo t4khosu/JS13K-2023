@@ -5,15 +5,14 @@ import IntroRoom from "./rooms/introRoom";
 import EndRoom from "./rooms/winRoom";
 import ChatBox from "./entities/chatBox";
 import {getbgm, playbgm, resumebgm} from "./utils/sound/catharian";
+import BattleRoom from "./rooms/battleRoom";
 
 class Game extends GameObjectClass {
     introRoom: IntroRoom;
     currentRoom!: Room;
     currentChatBox?: ChatBox;
     deaths: number = 0;
-
-    bgm
-    bgmStarted = false
+    audioBufferSourceNode?: AudioBufferSourceNode
 
 
     public static _game: Game;
@@ -31,13 +30,19 @@ class Game extends GameObjectClass {
 
     goToStartRoom() {
         this.goToRoom(new StartRoom())
-        if (!this.bgmStarted) {
-            playbgm(this.bgm)
-            this.bgmStarted = true
-        }
     }
 
     goToRoom(room: Room) {
+        if(room instanceof BattleRoom){
+            if (!this.audioBufferSourceNode) {
+                this.audioBufferSourceNode = playbgm(this.bgm)
+            }
+        }else{
+            if (this.audioBufferSourceNode) {
+                this.audioBufferSourceNode?.stop();
+                this.audioBufferSourceNode = undefined
+            }
+        }
         room.init();
         this.currentRoom = room;
     }
