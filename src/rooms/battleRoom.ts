@@ -55,10 +55,6 @@ class BattleRoom extends GameRoom {
                 name: 'ground',
                 data: getBackGroundTileMap(xDim, yDim)
             },
-                //     {
-                //     name: 'walls',
-                //     data: getWallTileMap().flat(),
-                // }
             ]
         });
     }
@@ -107,7 +103,7 @@ class BattleRoom extends GameRoom {
 
     randomPosition = () => Vector(
         randInt(50, getCanvasWidth() - 50),
-        randInt(wallHeight + 20, getCanvasHeight() * 0.8)
+        randInt(wallHeight + 20, getCanvasHeight() * 0.6)
     )
 
     spawnEnemies() {
