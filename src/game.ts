@@ -6,6 +6,7 @@ import EndRoom from "./rooms/winRoom";
 import ChatBox from "./entities/chatBox";
 import {getbgm, playbgm, resumebgm} from "./utils/sound/catharian";
 import BattleRoom from "./rooms/battleRoom";
+import {Timer} from "./entities/timer";
 
 class Game extends GameObjectClass {
     introRoom: IntroRoom;
@@ -13,6 +14,7 @@ class Game extends GameObjectClass {
     currentChatBox?: ChatBox;
     deaths: number = 0;
     audioBufferSourceNode?: AudioBufferSourceNode
+    interactTimeoutTimer: Timer = new Timer(15);
 
 
     public static _game: Game;
@@ -48,11 +50,14 @@ class Game extends GameObjectClass {
     }
 
     startChat(texts: string[]) {
-        this.currentChatBox = new ChatBox(texts)
+        if(!this.interactTimeoutTimer.isActive){
+            this.currentChatBox = new ChatBox(texts)
+        }
     }
 
     endChat() {
         this.currentChatBox = undefined;
+        this.interactTimeoutTimer.start();
         if (this.currentRoom instanceof EndRoom) {
             this.currentRoom.startEnd();
         }
@@ -62,8 +67,10 @@ class Game extends GameObjectClass {
         if (this.currentChatBox) {
             this.currentChatBox.update();
             return;
+        }else{
+            this.interactTimeoutTimer.update();
+            this.currentRoom.update();
         }
-        this.currentRoom.update();
         resumebgm()
     }
 
