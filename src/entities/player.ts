@@ -42,7 +42,7 @@ export class Player extends Character {
         this.removeFlag = false;
         this.speed = 2.7
         this.armCanRotate = true;
-        this.strength = 1;
+        this.strength = 2;
         this.attackSpeed = 30;
         this.dashTimeout = 60;
         this.dashDistance = 60;
