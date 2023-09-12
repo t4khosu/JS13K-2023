@@ -16,6 +16,7 @@ import {Villager} from "../entities/enemies/villager";
 import {Mage} from "../entities/enemies/mage";
 import RewardDisplay from "../gui/reward-display";
 import {spawningPattern} from "../entities/enemies/spawning-pattern";
+import {Player} from "../entities/player";
 
 // [villager num, mage num]
 
@@ -79,6 +80,7 @@ class BattleRoom extends GameRoom {
     }
 
     spawnReward() {
+        Player.getInstance().health += 2;
         if (this.reward) {
             const interactable = new Interactable(getCanvasWidth() / 2, getCanvasHeight() / 2, this.reward);
             interactable.setScale(2.5, 2.5);
