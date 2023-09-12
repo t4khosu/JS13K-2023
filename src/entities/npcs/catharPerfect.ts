@@ -30,6 +30,7 @@ class CatharPerfect extends Character{
     constructor(x: number, y: number, room?: Room) {
         super(x, y, getSpriteById(3, PenColor.Blue), room);
         this.inbound = false;
+        this.spawning = false;
     }
 
     talk(){

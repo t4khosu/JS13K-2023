@@ -28,7 +28,7 @@ export class Enemy extends Character {
 
     update() {
         super.update();
-        if(this.dashing) return;
+        if(this.dashing || this.spawning) return;
 
         if (this.aggro) this.updateAggro();
         else this.updateIdle();

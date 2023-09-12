@@ -29,11 +29,13 @@ export class Character extends Entity implements StatusAttributes {
     private _dashDistance: number = 60;
 
     dashSpeed: number = 4;
+    spawning: boolean = true;
+    spawningTimer: Timer = new Timer(60, () => this.spawning = false).start();
 
     dashing: boolean = false;
     dashRefillTimer: Timer = new Timer();
     invincibleTimer: Timer = new Timer(15);
-    deathTimer: Timer = new Timer(60, () => this.removeFlag = true)
+    deathTimer: Timer = new Timer(120, () => this.removeFlag = true)
     attackTimeoutTimer: Timer = new Timer();
     weapon: Weapon | undefined = undefined;
     inbound: boolean = true;
@@ -143,8 +145,13 @@ export class Character extends Entity implements StatusAttributes {
         this.dashRefillTimer.update();
         this.attackTimeoutTimer.update();
         this.deathTimer.update();
+        this.spawningTimer.update();
 
-        this.sprite.opacity = this.invincibleTimer.isActive ? 0.5 : 1;
+        if(this.spawning){
+            this.sprite.opacity = this.spawningTimer.time / this.spawningTimer.maxTime;
+        }else{
+            this.sprite.opacity = this.invincibleTimer.isActive ? 0.5 : 1;
+        }
 
         if (!this.moving && this.dashing) {
             this.dashing = false;
@@ -212,7 +219,7 @@ export class Character extends Entity implements StatusAttributes {
         if (this.health <= 0) this.die();
     }
 
-    isInvincible = () => this.invincibleTimer.isActive || this.dashing;
+    isInvincible = () => this.invincibleTimer.isActive || this.dashing || this.spawning;
 
     die() {
         this.rotation = -0.5 * Math.PI;
