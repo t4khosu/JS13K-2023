@@ -5,10 +5,10 @@ import Room from "../rooms/room";
 import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
-import {Reward, StatusReward} from "./reward";
+import {HealthReward, Reward} from "./reward";
 import {
     ATTACK_SPEED_REWARD, DASH_DISTANCE_REWARD,
-    DASH_TIMEOUT_REWARD, HEALTH_REWARD,
+    DASH_TIMEOUT_REWARD,
     MAX_HEALTH_REWARD,
     STRENGTH_REWARD,
     sumRewards
@@ -96,7 +96,6 @@ export class Character extends Entity implements StatusAttributes {
         this._dashDistance = number
     }
 
-
     constructor(x: number, y: number, sprite: Sprite, room?: Room) {
         super({width: 5, height: 8, x: x, y: y, scaleX: 5, scaleY: 5});
         this.sprite = sprite;
@@ -110,18 +109,18 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     collectReward(reward: Reward) {
-        const name = reward.status.name
-        if (name === HEALTH_REWARD) {
-            this.health = this.health + reward.status['health']
-        } else {
-            let list = this.rewards.get(name)
-            if (!list) {
-                list = []
-            }
-            list.push(reward)
-            this.rewards.set(name, list)
+        if(reward instanceof HealthReward){
+            reward.apply(this);
+            return;
         }
-        console.log(this.rewards)
+
+        const name = reward.status.name
+        let list = this.rewards.get(name)
+        if (!list) {
+            list = []
+        }
+        list.push(reward)
+        this.rewards.set(name, list)
     }
 
     isAlive = () => this.health > 0;

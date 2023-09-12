@@ -16,6 +16,7 @@ class Game extends GameObjectClass {
     audioBufferSourceNode?: AudioBufferSourceNode
     interactTimeoutTimer: Timer = new Timer(15);
     mute: boolean = false;
+    blockChat: boolean = false;
 
     canToggleMute: boolean = true;
     muteInputTimer: Timer = new Timer(15, () => {
@@ -29,8 +30,8 @@ class Game extends GameObjectClass {
         super();
         this.bgm = getbgm()
         this.introRoom = new IntroRoom();
-        // this.goToStartRoom()
-        this.goToRoom(this.introRoom)
+        this.goToStartRoom()
+        // this.goToRoom(this.introRoom)
     }
 
     public static getInstance(): Game {
@@ -42,6 +43,9 @@ class Game extends GameObjectClass {
     }
 
     goToRoom(room: Room) {
+        this.blockChat = false;
+        this.currentChatBox = undefined;
+
         if (room instanceof BattleRoom) {
             this.tryToActivateSoundInBattleRoom();
         }else{
@@ -73,13 +77,15 @@ class Game extends GameObjectClass {
         }
     }
 
-    startChat(texts: string[]) {
+    startChat(texts: string[], block: boolean = true) {
         if(!this.interactTimeoutTimer.isActive){
+            this.blockChat = block;
             this.currentChatBox = new ChatBox(texts)
         }
     }
 
     endChat() {
+        this.blockChat = false;
         this.currentChatBox = undefined;
         this.interactTimeoutTimer.start();
         if (this.currentRoom instanceof EndRoom) {
@@ -92,11 +98,15 @@ class Game extends GameObjectClass {
 
         if (this.currentChatBox) {
             this.currentChatBox.update();
-            return;
         }else{
             this.interactTimeoutTimer.update();
+        }
+
+        if(!this.blockChat){
             this.currentRoom.update();
         }
+
+
         resumebgm()
     }
 

@@ -17,8 +17,8 @@ export class Villager extends Enemy {
         this.armCanRotate = lvl >= 4;
 
         const weapon = lvl > 6 ? new BigDagger() : new SmallDagger();
-        weapon.holdingDistance = 3 + lvl * 0.2
-        weapon.stabbingDistance = 6 + lvl * 0.3
+        weapon.holdingDistance = 3 + Math.min(5, lvl) * 0.2
+        weapon.stabbingDistance = 6 + Math.min(5, lvl) * 0.3
         weapon.speed = 0.5 + lvl * 0.05
 
         this.dashSpeed = 3;

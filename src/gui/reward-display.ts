@@ -1,7 +1,7 @@
 import {GameObjectClass, Text} from "kontra";
 import {Player} from "../entities/player";
-import {HEALTH_REWARD, rewardFactory} from "../utils/reward-util";
-import {StatusReward} from "../entities/reward";
+import {rewardFactory} from "../utils/reward-util";
+import {HealthReward} from "../entities/reward";
 
 export default class RewardDisplay extends GameObjectClass {
 
@@ -14,16 +14,17 @@ export default class RewardDisplay extends GameObjectClass {
         let i = 0
         rewardFactory().forEach((func) => {
             const reward = func()
-            if (reward.status.name !== HEALTH_REWARD) {
-                reward.x = 40 * i
-                reward.y = 5
-                reward.setScale(1.5, 1.5);
-                this.addChild(reward)
-                const text = Text({text: `x 0`, font: '12px Verdana', color: "white", x: 10 + (40 * i)})
-                this.addChild(text)
-                i = i + 1
-                this.rewardMap.set(reward.status.name, text)
+            if(reward instanceof HealthReward){
+                return;
             }
+            reward.x = 40 * i
+            reward.y = 5
+            reward.setScale(1.5, 1.5);
+            this.addChild(reward)
+            const text = Text({text: `x 0`, font: '12px Verdana', color: "white", x: 10 + (40 * i)})
+            this.addChild(text)
+            i = i + 1
+            this.rewardMap.set(reward.status.name, text)
         })
     }
 

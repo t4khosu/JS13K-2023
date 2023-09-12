@@ -1,4 +1,4 @@
-import {Reward, StatusReward} from "../entities/reward";
+import {HealthReward, Reward, StatusReward} from "../entities/reward";
 import {randInt} from "kontra";
 
 
@@ -13,7 +13,6 @@ export interface RewardStatus {
 }
 
 export const MAX_HEALTH_REWARD = 'maxHealth'
-export const HEALTH_REWARD = 'health'
 export const STRENGTH_REWARD = 'strength'
 export const ATTACK_SPEED_REWARD = 'attackSpeed'
 export const DASH_TIMEOUT_REWARD = 'dashTimeout'
@@ -21,12 +20,12 @@ export const DASH_DISTANCE_REWARD = 'dashDistance'
 
 function rewardFactory() {
     return [
-        () => new Reward({maxHealth: 10, health: 5, name: MAX_HEALTH_REWARD}, 9),
-        () => new Reward({health: 50, name: HEALTH_REWARD}, 10),
-        () => new Reward({strength: 2, name: STRENGTH_REWARD}, 11),
-        () => new Reward({attackSpeed: 5, name: ATTACK_SPEED_REWARD}, 12),
-        () => new Reward({dashTimeout: 14, name: DASH_TIMEOUT_REWARD}, 13),
-        () => new Reward({dashDistance: 16, name: DASH_DISTANCE_REWARD}, 14),
+        () => new Reward({maxHealth: 10, health: 5, name: MAX_HEALTH_REWARD}, 9, "Increase Max Health"),
+        () => new HealthReward(),
+        () => new Reward({strength: 1.5, name: STRENGTH_REWARD}, 11, "Increase Strength", true),
+        () => new Reward({attackSpeed: 4, name: ATTACK_SPEED_REWARD}, 12, "Increase Attack Speed", true),
+        () => new Reward({dashTimeout: 14, name: DASH_TIMEOUT_REWARD}, 13, "Lower Dash Timeout"),
+        () => new Reward({dashDistance: 20, name: DASH_DISTANCE_REWARD}, 14, "Increase Dash Distance"),
     ]
 }
 
@@ -52,7 +51,6 @@ export function sumRewards(map: Map<string, Reward[]>, key: string) {
             }
         })
     }
-    console.log(sum)
     return sum
 }
 

@@ -33,6 +33,8 @@ class Interactable extends Entity {
             playSound(POWERUP)
             player.collectReward(this.gameObject)
             this.removeFlag = true;
+            Game.getInstance().startChat([this.gameObject.getText()], false);
+
         }
         if (this.gameObject instanceof CatharPerfect) {
             this.gameObject.talk();

@@ -3,16 +3,37 @@ import {centeredAnchor, getSpriteById} from "../utils/sprite";
 import {PenColor} from "../utils/colorize";
 import {StatusAttributes} from "./status-attributes";
 import {Entity} from "./entity";
-import {RewardStatus} from "../utils/reward-util";
+import {MAX_HEALTH_REWARD, RewardStatus} from "../utils/reward-util";
+import {Character} from "./character";
 
 export type StatusReward = Partial<StatusAttributes>;
 
 
-export class Reward extends GameObjectClass {
+class Reward extends GameObjectClass {
     sprite?: Sprite;
+    oldGod: boolean;
+    text?: string;
 
-    constructor(status: RewardStatus, iconId: number) {
-        super({status: status, iconId: iconId, anchor: centeredAnchor})
-        this.addChild(getSpriteById(this.iconId, PenColor.None));
+    constructor(status?: RewardStatus, iconId?: number, text?: string, oldGod: boolean = false) {
+        super({status: status, anchor: centeredAnchor})
+        this.addChild(getSpriteById(iconId!, PenColor.None));
+        this.text = text;
+        this.oldGod = oldGod;
+    }
+
+    getText(){
+        return `A Gift from the ${this.oldGod ? "old" : "new"} God.\n\n${this.text}`
     }
 }
+
+class HealthReward extends Reward{
+    constructor() {
+        super(undefined, 10)
+    }
+
+    apply(character: Character){
+        character.health += 50;
+    }
+}
+
+export { Reward, HealthReward }
