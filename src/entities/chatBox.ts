@@ -6,12 +6,12 @@ import Game from "../game";
 class ChatBox extends GameObjectClass {
     currentTextId: number = 0;
     text: Text
-    canContinue: boolean = true;
+    canContinue: boolean = false;
 
     keyPressTimer: Timer = new Timer(25, () => {
         this.canContinue = true;
     })
-
+.start()
     constructor(texts: string[]) {
         super({texts: texts, x: getCanvasWidth() / 2 - 200, y: getCanvasHeight() - 120})
         this.text = Text({
@@ -31,8 +31,8 @@ class ChatBox extends GameObjectClass {
 
     update() {
         this.keyPressTimer.update();
-        if (this.canContinue && keyPressed([keyMap.space, 'space'])) {
-            if (this.currentTextId < this.texts.length - 1) {
+        if(this.canContinue && keyPressed(["e"])){
+            if(this.currentTextId < this.texts.length - 1){
                 this.canContinue = false;
                 this.keyPressTimer.start();
                 this.text.text = this.texts[++this.currentTextId];
