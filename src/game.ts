@@ -1,4 +1,4 @@
-import {GameObjectClass} from "kontra";
+import {GameObjectClass, keyPressed} from "kontra";
 import Room from "./rooms/room";
 import StartRoom from "./rooms/startRoom";
 import IntroRoom from "./rooms/introRoom";
@@ -15,6 +15,12 @@ class Game extends GameObjectClass {
     deaths: number = 0;
     audioBufferSourceNode?: AudioBufferSourceNode
     interactTimeoutTimer: Timer = new Timer(15);
+    mute: boolean = false;
+
+    canToggleMute: boolean = true;
+    muteInputTimer: Timer = new Timer(15, () => {
+        this.canToggleMute = true;
+    })
 
 
     public static _game: Game;
@@ -36,17 +42,37 @@ class Game extends GameObjectClass {
 
     goToRoom(room: Room) {
         if(room instanceof BattleRoom){
-            if (!this.audioBufferSourceNode) {
-                this.audioBufferSourceNode = playbgm(this.bgm)
-            }
+            this.tryToActivateSoundInBattleRoom();
         }else{
-            if (this.audioBufferSourceNode) {
-                this.audioBufferSourceNode?.stop();
-                this.audioBufferSourceNode = undefined
-            }
+            this.tryToMuteSound();
         }
         room.init();
         this.currentRoom = room;
+    }
+
+    tryToActivateSoundInBattleRoom(){
+        if (!this.mute && !this.audioBufferSourceNode) {
+            this.audioBufferSourceNode = playbgm(this.bgm)
+        }
+    }
+
+    tryToMuteSound(){
+        if (this.audioBufferSourceNode) {
+            this.audioBufferSourceNode?.stop();
+            this.audioBufferSourceNode = undefined
+        }
+    }
+
+    toggleMute(){
+        this.mute = !this.mute;
+
+        if(this.mute){
+            this.tryToMuteSound()
+        }else{
+            if(this.currentRoom instanceof BattleRoom){
+                this.tryToActivateSoundInBattleRoom();
+            }
+        }
     }
 
     startChat(texts: string[]) {
@@ -64,6 +90,8 @@ class Game extends GameObjectClass {
     }
 
     update = () => {
+        this.updateMuteButton();
+
         if (this.currentChatBox) {
             this.currentChatBox.update();
             return;
@@ -72,6 +100,14 @@ class Game extends GameObjectClass {
             this.currentRoom.update();
         }
         resumebgm()
+    }
+
+    updateMuteButton(){
+        this.muteInputTimer.update();
+        if(!this.muteInputTimer.isActive && keyPressed("m")){
+            this.muteInputTimer.start();
+            this.toggleMute();
+        }
     }
 
     render = () => {
