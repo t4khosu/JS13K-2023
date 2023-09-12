@@ -1,5 +1,6 @@
 import {HealthReward, Reward, StatusReward} from "../entities/reward";
 import {randInt} from "kontra";
+import {Player} from "../entities/player";
 
 
 export interface RewardStatus {
@@ -57,10 +58,13 @@ export function sumRewards(map: Map<string, Reward[]>, key: string) {
 export function getRewards(level: number, num: number) {
     const rewards: Reward[] = []
     const rewardPool = [...rewardFactory()]
-    for (let i = 0; i < num; i++) {
+    while (rewards.length < num) {
         const reward = rewardPool.splice(randInt(0, rewardPool.length - 1), 1)[0]
-        //TODO modify reward based on level?
-        rewards.push(reward())
+        const r = reward();
+        if(r instanceof HealthReward && level == -1){
+            continue;
+        }
+        rewards.push(r)
     }
     return rewards
 }
