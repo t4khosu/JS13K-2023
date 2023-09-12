@@ -1,5 +1,6 @@
 import {GameObjectClass, Text} from "kontra";
 import BattleRoom from "../rooms/battleRoom";
+import {spawningPattern} from "../entities/enemies/spawning-pattern";
 
 export default class StageDisplay extends GameObjectClass {
     text: Text
@@ -13,6 +14,6 @@ export default class StageDisplay extends GameObjectClass {
 
     update() {
         super.update();
-        this.text.text = `Stage ${this.room.level}/12`
+        this.text.text = `Stage ${this.room.level}/${spawningPattern.length}`
     }
 }
