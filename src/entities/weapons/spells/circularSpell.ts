@@ -11,6 +11,7 @@ export class CircularSpell extends Spell {
     distance: number;
     numParticles: number;
     spawnSpeed: number;
+    lifeTime: number = 250;
 
     constructor(spellCaster: SpellCaster, particleType: ParticleType, distance: number, numParticles: number, spawnSpeed: number) {
         super(spellCaster, particleType);
