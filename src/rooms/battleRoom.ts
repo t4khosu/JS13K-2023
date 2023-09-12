@@ -18,9 +18,6 @@ import RewardDisplay from "../gui/reward-display";
 import {spawningPattern} from "../entities/enemies/spawning-pattern";
 import {Player} from "../entities/player";
 
-// [villager num, mage num]
-
-
 class BattleRoom extends GameRoom {
     level: number = 1
     inCombat = false
@@ -85,7 +82,7 @@ class BattleRoom extends GameRoom {
     }
 
     spawnPortals() {
-        if (this.level == spawningPattern.length) {
+        if (this.level == spawningPattern.length - 1) {
             const room = new BossRoom(new Pope(getCanvasWidth() / 2, getCanvasHeight() / 2, this))
             this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 2, room))
             return;
@@ -130,7 +127,7 @@ class BossRoom extends BattleRoom {
 
         boss.setRoom(this);
         this.gui.push(new BossHealthBar(50, boss))
-
+        this.level = spawningPattern.length
         this.boss = boss;
     }
 
