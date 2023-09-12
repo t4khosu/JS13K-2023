@@ -29,7 +29,8 @@ class Game extends GameObjectClass {
         super();
         this.bgm = getbgm()
         this.introRoom = new IntroRoom();
-        this.goToStartRoom()
+        // this.goToStartRoom()
+        this.goToRoom(this.introRoom)
     }
 
     public static getInstance(): Game {
@@ -41,7 +42,7 @@ class Game extends GameObjectClass {
     }
 
     goToRoom(room: Room) {
-        if(room instanceof BattleRoom){
+        if (room instanceof BattleRoom) {
             this.tryToActivateSoundInBattleRoom();
         }else{
             this.tryToMuteSound();
@@ -52,15 +53,12 @@ class Game extends GameObjectClass {
 
     tryToActivateSoundInBattleRoom(){
         if (!this.mute && !this.audioBufferSourceNode) {
-            this.audioBufferSourceNode = playbgm(this.bgm)
-        }
-    }
-
-    tryToMuteSound(){
-        if (this.audioBufferSourceNode) {
-            this.audioBufferSourceNode?.stop();
-            this.audioBufferSourceNode = undefined
-        }
+                this.audioBufferSourceNode = playbgm(this.bgm)
+            }
+        } tryToMuteSound() {
+            if (this.audioBufferSourceNode) {
+                this.audioBufferSourceNode?.stop();
+                this.audioBufferSourceNode = undefined}
     }
 
     toggleMute(){

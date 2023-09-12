@@ -6,7 +6,13 @@ import {Dagger} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
 import {Reward, StatusReward} from "./reward";
-import {sumRewards} from "../utils/reward-util";
+import {
+    ATTACK_SPEED_REWARD, DASH_DISTANCE_REWARD,
+    DASH_TIMEOUT_REWARD, HEALTH_REWARD,
+    MAX_HEALTH_REWARD,
+    STRENGTH_REWARD,
+    sumRewards
+} from "../utils/reward-util";
 import {Weapon} from "./weapons/weapon";
 
 
@@ -32,7 +38,7 @@ export class Character extends Entity implements StatusAttributes {
     weapon: Weapon | undefined = undefined;
     inbound: boolean = true;
 
-    rewards: Map<keyof StatusReward, Reward[]> = new Map<keyof StatusReward, Reward[]>()
+    rewards: Map<string, Reward[]> = new Map<string, Reward[]>()
 
     // hopping values
     z: number = 0;
@@ -40,7 +46,7 @@ export class Character extends Entity implements StatusAttributes {
 
     // accessors
     get maxHealth(): number {
-        return this._maxHealth + sumRewards(this.rewards, 'maxHealth')
+        return this._maxHealth + sumRewards(this.rewards, MAX_HEALTH_REWARD)
     }
 
     set maxHealth(number) {
@@ -59,7 +65,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get strength(): number {
-        return this._strength + sumRewards(this.rewards, 'strength')
+        return this._strength + sumRewards(this.rewards, STRENGTH_REWARD)
     }
 
     set strength(number) {
@@ -67,7 +73,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get attackSpeed(): number {
-        return this._attackSpeed - sumRewards(this.rewards, 'attackSpeed')
+        return this._attackSpeed - sumRewards(this.rewards, ATTACK_SPEED_REWARD)
     }
 
     set attackSpeed(number) {
@@ -75,7 +81,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get dashTimeout(): number {
-        return this._dashTimeout - sumRewards(this.rewards, 'dashTimeout')
+        return this._dashTimeout - sumRewards(this.rewards, DASH_TIMEOUT_REWARD)
     }
 
     set dashTimeout(number) {
@@ -83,7 +89,7 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     get dashDistance(): number {
-        return this._dashDistance + sumRewards(this.rewards, 'dashDistance')
+        return this._dashDistance + sumRewards(this.rewards, DASH_DISTANCE_REWARD)
     }
 
     set dashDistance(number) {
@@ -104,19 +110,18 @@ export class Character extends Entity implements StatusAttributes {
     }
 
     collectReward(reward: Reward) {
-        const keys = Object.keys(reward.status) as Array<keyof StatusAttributes>
-        keys.forEach((key) => {
-            if (key === 'health' && reward.status['health']) {
-                this.health = this.health + reward.status['health']
-            } else {
-                let list = this.rewards.get(key)
-                if (!list) {
-                    list = []
-                }
-                list.push(reward)
-                this.rewards.set(key, list)
+        const name = reward.status.name
+        if (name === HEALTH_REWARD) {
+            this.health = this.health + reward.status['health']
+        } else {
+            let list = this.rewards.get(name)
+            if (!list) {
+                list = []
             }
-        })
+            list.push(reward)
+            this.rewards.set(name, list)
+        }
+        console.log(this.rewards)
     }
 
     isAlive = () => this.health > 0;

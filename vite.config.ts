@@ -32,7 +32,7 @@ export default defineConfig({
                 group: true,
                 anchor: true,
                 rotation: true,
-                opacity: true,
+                opacity: true
             },
             sprite: {
                 animation: true,
