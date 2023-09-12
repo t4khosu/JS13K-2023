@@ -5,7 +5,7 @@ import {Timer} from "../entities/timer";
 import {Reward} from "../entities/reward";
 import {getRewards} from "../utils/reward-util";
 import Interactable from "../entities/interactable";
-import {getCanvasHeight, getCanvasWidth, wallHeight} from "../utils/utils";
+import {getCanvasHeight, getCanvasWidth, img, wallHeight} from "../utils/utils";
 import Teleporter from "../entities/teleporter";
 import StageDisplay from "../gui/stage-display";
 import Pope from "../entities/enemies/pope";
@@ -47,7 +47,7 @@ class BattleRoom extends GameRoom {
             // tileset object
             tilesets: [{
                 firstgid: 1,
-                image: imageAssets['tiles']
+                image: img
             }],
 
             // layer object

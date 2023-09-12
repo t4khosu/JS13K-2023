@@ -9,11 +9,8 @@ setCanvasBoundaries(canvas)
 initKeys()
 initMouse(canvas);
 
-load(
-    'characters.png', 'tiles.png', 'icons.png'
-).then(function () {
-    GameLoop({
-        update: () => Game.getInstance().update(),
-        render: () => Game.getInstance().render()
-    }).start()
-});
+
+GameLoop({
+    update: () => Game.getInstance().update(),
+    render: () => Game.getInstance().render()
+}).start()

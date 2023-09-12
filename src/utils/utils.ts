@@ -28,4 +28,8 @@ function levelToColor(lvl: number){
     return PenColor.Red;
 }
 
-export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, getCanvasCenter, wallHeight, levelToColor}
+const imageSrc = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAflBMVEUAAADw2LeKazjgrHebWTj3v4IfGhXbvadcXFxAQECzNjgJDizr5sJNTU2+OTv159Dr3saKLDLUrI7/6QCZiXWUVADe185CQWFXVYA+PGZwQQDEvrXRysC9t6////9jm/+sMjLZV2Puw5pfzeQyPDlmOTGPVjtSSySbrbfZoGaoLlLzAAAAAXRSTlMAQObYZgAAATdJREFUeNqVkAWCwyAURKdGqJC6GyXV+19w/58IrNmLDPJQJLRaIO023tERNLsC+3s02F4KpmM0M5MZjjc9E9sTMxMkbK+cwdbtfSv0gcFwlI0GUnfWth3grOBSIc9HeSVYCm7sVOio0AGyXMiAXt851xPBjScTFWD4YmqmU02ooCn9k+rYbXwL+2ezGb5gXgszMzP4ggUqZgIiy+Vq9U5YbzbbzRqR3X6/pxmFA4WUVJgdDvvDDD9gjkeDf3DCN5y9h7/gdDoxhRBwTvrP54v3angmBWlMZ2APfJkh0Egvxit1noIYKkXYEzMQfDCgnJhU/nTGoijSszZ5rUic2+2mx7qVZ24E6aRzv4uAs3pxhgdneNIphYa4xOv1VChQ8TxPFFA8oUSBgPMLINyDAHyeoSD4SCO8Ad51KMGPQVQGAAAAAElFTkSuQmCC\n"
+const img = document.createElement("img");
+img.src = imageSrc;
+
+export {getRandomVecDir, randNumber, setCanvasBoundaries, getCanvasWidth, getCanvasHeight, getCanvasCenter, wallHeight, levelToColor, img}
