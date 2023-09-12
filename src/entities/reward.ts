@@ -11,6 +11,6 @@ export class Reward extends GameObjectClass {
 
     constructor(status: StatusReward, iconId: number) {
         super({status: status, iconId: iconId, anchor: centeredAnchor})
-        this.addChild(getSpriteById(this.iconId, PenColor.None, {}, 'icons'));
+        this.addChild(getSpriteById(this.iconId, PenColor.None));
     }
 }
