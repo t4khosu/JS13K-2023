@@ -21,12 +21,12 @@ export const DASH_DISTANCE_REWARD = 'dashDistance'
 
 function rewardFactory() {
     return [
-        () => new MaxHealthReward({maxHealth: 10, name: MAX_HEALTH_REWARD}, 9, "Increase Max Health"),
+        () => new Reward({maxHealth: 10, name: MAX_HEALTH_REWARD}, 9, "Become as stout as an oak.", true),
         () => new HealthReward(),
-        () => new Reward({strength: 1.5, name: STRENGTH_REWARD}, 11, "Increase Strength", true),
-        () => new Reward({attackSpeed: 4, name: ATTACK_SPEED_REWARD}, 12, "Increase Attack Speed", true),
-        () => new Reward({dashTimeout: 14, name: DASH_TIMEOUT_REWARD}, 13, "Lower Dash Timeout"),
-        () => new Reward({dashDistance: 20, name: DASH_DISTANCE_REWARD}, 14, "Increase Dash Distance"),
+        () => new Reward({strength: 1.5, name: STRENGTH_REWARD}, 11, "Become as strong as an ox.", true),
+        () => new Reward({attackSpeed: 4, name: ATTACK_SPEED_REWARD}, 12, "Let your enemies meet a swifter end.", true),
+        () => new Reward({dashTimeout: 14, name: DASH_TIMEOUT_REWARD}, 13, "Become as nimble as the wind."),
+        () => new Reward({dashDistance: 20, name: DASH_DISTANCE_REWARD}, 14, "Leap as far as a gazelle."),
     ]
 }
 
@@ -61,7 +61,7 @@ export function getRewards(level: number, num: number) {
     while (rewards.length < num) {
         const reward = rewardPool.splice(randInt(0, rewardPool.length - 1), 1)[0]
         const r = reward();
-        if(r instanceof HealthReward && level == -1){
+        if (r instanceof HealthReward && level == -1) {
             continue;
         }
         rewards.push(r)
