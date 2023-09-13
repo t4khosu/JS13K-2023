@@ -92,6 +92,7 @@ class BattleRoom extends GameRoom {
         if(this.level == 4){
             const dagger = new BigDagger();
             dagger.stabbingDistance = 8;
+            dagger.standardDamage = 5;
             const battleRoom1 = new BattleRoom(new WeaponReward(dagger));
             battleRoom1.level = this.level + 1;
             this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 3, battleRoom1))

@@ -65,7 +65,7 @@ export class Sword extends Dagger {
         this.width = 5;
         this.height = 1;
         this.holdingDistance = 2;
-        this.standardDamage = 5;
+        this.standardDamage = 6;
     }
 }
 

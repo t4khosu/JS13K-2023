@@ -2,7 +2,7 @@ import {Sprite, Vector} from "kontra";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
 import Room from "../rooms/room";
-import {Dagger, Sword} from "./weapons/daggers";
+import {BigDagger, Dagger, Sword} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
 import {HealthReward, MaxHealthReward, Reward, WeaponReward} from "./reward";
@@ -120,7 +120,10 @@ export class Character extends Entity implements StatusAttributes {
         if(reward instanceof WeaponReward){
             this.handWeapon(reward.weapon);
             if(reward.weapon instanceof Sword){
-                this.attackSpeed *= 1.5;
+                this.attackSpeed *= 1.6;
+            }
+            else if(reward.weapon instanceof BigDagger){
+                this.attackSpeed *= 1.2;
             }
             return;
         }
