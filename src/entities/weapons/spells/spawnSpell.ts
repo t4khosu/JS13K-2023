@@ -16,6 +16,7 @@ class SpawnSpell extends Spell{
             const enemy = getEnemy();
             enemy.setPos(this.x, this.y)
             room.components.enemies.push(enemy)
+            this.castTime = 110;
         };
     }
 }
