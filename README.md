@@ -19,3 +19,16 @@ It is a brute force approach which works fine when the source directory/files ar
 
 ## License
 [LICENSE](LICENSE)
+
+## Submit Text
+1233, Toulouse.
+In the current inquisition the catholics try their best to kill all Cathars.
+In their eyes the cathar's belief is heresy. You were just killed by a catholig, however,
+without salvation you are forced to be reincarnated. Will you be able to stop the inquisition?
+
+Controls
+WASD - Move
+Space - Dash
+Left Click - Attack
+E - Interact and Take
+M - Mute Background Music
