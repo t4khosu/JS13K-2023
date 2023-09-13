@@ -4,16 +4,17 @@ import {Mage} from "./mage";
 import ShotgunSpell from "../weapons/spells/shotgunSpell";
 import SpellCaster from "../weapons/spells/spellCaster";
 import {
-    yellowParticleType,
     blueParticleType,
     orangeParticleType,
-    redParticleType
+    redParticleType,
+    yellowParticleType
 } from "../weapons/spells/particles/particleTypes";
 import {CircularSpell} from "../weapons/spells/circularSpell";
 import SpawnSpell from "../weapons/spells/spawnSpell";
 import {Villager} from "./villager";
 import BattleRoom from "../../rooms/battleRoom";
 import {randInt} from "kontra";
+import {PenColor} from "../../utils/colorize";
 
 class Pope extends Mage {
     name: string = "Pope Innocent III"
@@ -21,7 +22,7 @@ class Pope extends Mage {
     phase: number = 1;
 
     constructor(x: number, y: number, room: BattleRoom) {
-        super(x, y, room, getSpriteById(1));
+        super(x, y, room, getSpriteById(1, PenColor.RealRed));
         this.attackTimeoutTimer.setMax(80);
         this.seeDistance = 9999;
         this.handWeapon(new Staff([
@@ -39,6 +40,9 @@ class Pope extends Mage {
             this.phase = 2;
             this.speed = 2.3;
             this.attackTimeoutTimer.setMax(60);
+            this.removeChild(this.sprite);
+            this.sprite = getSpriteById(1, PenColor.RealPurple)
+            this.addChild(this.sprite);
             this.handWeapon(new Staff([
                 (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, blueParticleType, 10, 0.15, 300),
                 (spellCaster: SpellCaster) => new ShotgunSpell(spellCaster, orangeParticleType, 7, 0.5, 300),
@@ -55,7 +59,13 @@ class Pope extends Mage {
                     });
                 }
             ]))
+            this.room?.deleteSpells();
         }
+    }
+
+    die(){
+        super.die();
+        this.room?.deleteEnemies();
     }
 
     inAttackRange = () => this.distanceToPlayer() <= 300;

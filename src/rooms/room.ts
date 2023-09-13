@@ -46,6 +46,14 @@ export default class Room {
         return this.components.enemies;
     }
 
+    deleteSpells(){
+        this.components.spells.forEach(s => s.lifeTime = 0);
+    }
+
+    deleteEnemies(){
+        this.enemies.forEach(e => e.removeFlag = true);
+    }
+
     addInteractable(interactable: Interactable){
         interactable.setRoom(this);
         this.interactables.push(interactable);

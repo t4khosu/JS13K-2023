@@ -5,6 +5,8 @@ export enum PenColor {
     Green,
     Blue,
     None,
+    RealRed,
+    RealPurple
 }
 
 class Color{
@@ -32,6 +34,10 @@ class Color{
                 return [insig, 1, insig]
             case PenColor.Blue:
                 return [insig, insig, 1]
+            case PenColor.RealRed:
+                return [1, 0.2, 0.2]
+            case PenColor.RealPurple:
+                return [0.8, 0.3, 1]
             default:
                 return [1, 1, 1]
         }
