@@ -68,7 +68,7 @@ class Pope extends Mage {
         this.room?.deleteEnemies();
     }
 
-    inAttackRange = () => this.distanceToPlayer() <= 300;
+    inAttackRange = () => true;
 }
 
 export default Pope;
