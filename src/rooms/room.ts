@@ -47,7 +47,10 @@ export default class Room {
     }
 
     deleteSpells(){
-        this.components.spells.forEach(s => s.lifeTime = 0);
+        this.components.spells.forEach(s => {
+            s.lifeTime = 0
+            s.isCasting = false;
+        });
     }
 
     deleteEnemies(){
