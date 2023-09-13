@@ -83,7 +83,7 @@ class BattleRoom extends GameRoom {
     }
 
     spawnPortals() {
-        if (this.level == spawningPattern.length - 1) {
+        if (1) {
             const room = new BossRoom(new Pope(getCanvasWidth() / 2, getCanvasHeight() / 2, this))
             this.components.backgroundObjects.push(new Teleporter(getCanvasWidth() / 2, room))
             return;
