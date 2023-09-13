@@ -21,9 +21,11 @@ It is a brute force approach which works fine when the source directory/files ar
 [LICENSE](LICENSE)
 
 ## Submit Text
-1233, Toulouse.
-In the current inquisition the catholics try their best to kill all Cathars.
-In their eyes the cathar's belief is heresy. You were just killed by a catholig, however,
+1233, Toulouse, time of the inquisition.
+The catholics and their soldiers try their best to slaughter the Cathars.
+In their eyes the cathars' belief testifies to heresy. 
+
+You are one of the cathars and sadly just killed by a soldier. However,
 without salvation you are forced to be reincarnated. Will you be able to stop the inquisition?
 
 Controls
