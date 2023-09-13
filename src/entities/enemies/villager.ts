@@ -14,7 +14,7 @@ export class Villager extends Enemy {
         this.seeDistance = 100 + Math.min(10, lvl) * 12;
         this.attackTimeoutTimer.setMax(100 - Math.min(7, lvl) * 6);
         this.initHealth(6 + lvl * 9);
-        this.armCanRotate = lvl >= 4;
+        this.armCanRotate = lvl >= 3;
 
         const weapon = lvl > 6 ? new BigDagger() : new SmallDagger();
         weapon.holdingDistance = 3 + Math.min(5, lvl) * 0.2
