@@ -8,14 +8,14 @@ import Game from "../game";
 class IntroRoom extends Room{
     text: Text
     texts: string[] = [
-        "Inquisition in Toulouse, 1233",
-        "By the order of Pope Innocent III, all Cathars must die",
-        "Their belief in two gods",
+        "Toulouse 1233, Year of Inquisition",
+        "By the order of Pope Innocent III, all Cathars must die.",
+        "Their belief in two gods,",
         "A cruel god of the old testament",
-        "A good god of the new testament",
-        "Is considered heresy",
+        "And a benevolent god of the new testament",
+        "Is considered heresy.",
         "Your life as a Cathar",
-        "Just ended"
+        "Was just taken."
     ]
     textId: number = 0
 

@@ -9,22 +9,23 @@ import {PenColor} from "../../utils/colorize";
 class CatharPerfect extends Character{
     startMonologs: string[][] = [
         [
-        "Brave Cathar. It seems like Catholic Soldiers killed you",
-        "Without consolamentum you must be reborn",
-        "Go through the door next to me and re-enter the field of war",
-        "Otherwise you may never receive salvation",
+        "Fellow Cathar, meet me, a Cathar Perfect.",
+        "It seems like you were slaughtered in the crusade.",
+        "Without a consolamentum you are forced to be reborn in this world.",
+        "Walk through the door next to me and re-enter this war.",
+        "Otherwise, you may never receive salvation",
         ],
         [
-            "Both gods will grant you their help on your way",
-            "Choose wisely what help you accept",
+            "Both gods will grant you their help.",
+            "Choose wisely what help you accept.",
         ]
     ]
 
     endMonolog: string[] = [
-        "I seems like the catholics fled Toulouse seeing their leader die",
-        "With the might bestowed upon me as a Cathar Perfect",
-        "I will make a great exception and hold a consolamentum for you",
-        "May you achieve your deserved salvation"
+        "Seeing the pope die, all catholic soldiers fled Toulouse.",
+        "With the might bestowed upon me as Cathar Perfect",
+        "We will hold your consolamentum far before your death.",
+        "May you achieve your deserved salvation as our holy warrior."
     ]
 
     constructor(x: number, y: number, room?: Room) {
