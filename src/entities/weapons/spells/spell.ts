@@ -15,7 +15,7 @@ export class Spell extends GameObjectClass{
     isCasting: boolean = true;
     removeFlag: boolean = false;
     lifeTime: number = 50;
-    castTime: number = 50;
+    castTime: number = 80;
     followsCaster: boolean = true;
     castTimer: Timer;
     particleType: ParticleType;
