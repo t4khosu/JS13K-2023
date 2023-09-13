@@ -11,8 +11,8 @@ export class Villager extends Enemy {
 
         this.strength = 0.5 + lvl * 0.3
         this.speed = randNumber(2 + Math.min(7, lvl) * 0.18);
-        this.seeDistance = 100 + lvl * 12;
-        this.attackTimeoutTimer.setMax(100 - lvl * 6);
+        this.seeDistance = 100 + Math.min(10, lvl) * 12;
+        this.attackTimeoutTimer.setMax(100 - Math.min(7, lvl) * 6);
         this.initHealth(6 + lvl * 9);
         this.armCanRotate = lvl >= 4;
 
