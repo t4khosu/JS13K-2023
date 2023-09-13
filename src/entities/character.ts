@@ -120,10 +120,10 @@ export class Character extends Entity implements StatusAttributes {
         if(reward instanceof WeaponReward){
             this.handWeapon(reward.weapon);
             if(reward.weapon instanceof Sword){
-                this.attackSpeed *= 1.6;
+                this.attackSpeed = 40;
             }
             else if(reward.weapon instanceof BigDagger){
-                this.attackSpeed *= 1.2;
+                this.attackSpeed = 45;
             }
             return;
         }
