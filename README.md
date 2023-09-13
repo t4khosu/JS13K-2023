@@ -21,12 +21,15 @@ It is a brute force approach which works fine when the source directory/files ar
 [LICENSE](LICENSE)
 
 ## Submit Text
-1233, Toulouse, time of the inquisition.
-The catholics and their soldiers try their best to slaughter the Cathars.
-In their eyes the cathars' belief testifies to heresy. 
+1233, Toulouse.
+In the current inquisition the catholics try their best to kill all Cathars.
+In their eyes the Cathars belief in two gods is heresy and must be punished.
 
-You are one of the cathars and sadly just killed by a soldier. However,
-without salvation you are forced to be reincarnated. Will you be able to stop the inquisition?
+You are a Cathar!
+Tragically killed by a catholic inquisitor.
+Without salvation you are trapped in an endless cycle of reincarnation in the material realm of the evil god.
+With the guidance of your gods you embark on a quest to stop the inquisition.
+Will you be able to stop theyr Crusade and break the cycle?
 
 Controls
 WASD - Move
