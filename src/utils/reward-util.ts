@@ -21,12 +21,12 @@ export const DASH_DISTANCE_REWARD = 'dashDistance'
 
 function rewardFactory() {
     return [
-        () => new Reward({maxHealth: 10, name: MAX_HEALTH_REWARD}, 9, "Become as stout as an oak", true),
+        () => new Reward({maxHealth: 10, name: MAX_HEALTH_REWARD}, 9, "Become as stout as an oak.", true),
         () => new HealthReward(),
-        () => new Reward({strength: 1.5, name: STRENGTH_REWARD}, 11, "Become as strong as an ox", true),
-        () => new Reward({attackSpeed: 4, name: ATTACK_SPEED_REWARD}, 12, "Let your enemies meet a swifter end", true),
-        () => new Reward({dashTimeout: 14, name: DASH_TIMEOUT_REWARD}, 13, "Become as nimble as the wind"),
-        () => new Reward({dashDistance: 20, name: DASH_DISTANCE_REWARD}, 14, "Leap as far as a gazelle"),
+        () => new Reward({strength: 1.5, name: STRENGTH_REWARD}, 11, "Become as strong as an ox.", true),
+        () => new Reward({attackSpeed: 4, name: ATTACK_SPEED_REWARD}, 12, "Let your enemies meet a swifter end.", true),
+        () => new Reward({dashTimeout: 14, name: DASH_TIMEOUT_REWARD}, 13, "Become as nimble as the wind."),
+        () => new Reward({dashDistance: 20, name: DASH_DISTANCE_REWARD}, 14, "Leap as far as a gazelle."),
     ]
 }
 
