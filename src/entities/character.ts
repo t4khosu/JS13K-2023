@@ -103,6 +103,7 @@ export class Character extends Entity implements StatusAttributes {
         this.sprite = sprite;
         this.sprite.x += 0.5;
         this.room = room
+        this.sprite.opacity = 0;
         this.addChild(this.sprite);
     }
 
