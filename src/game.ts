@@ -30,8 +30,8 @@ class Game extends GameObjectClass {
         super();
         this.bgm = getbgm()
         this.introRoom = new IntroRoom();
-        this.goToStartRoom()
-        // this.goToRoom(this.introRoom)
+        // this.goToStartRoom()
+        this.goToRoom(this.introRoom)
     }
 
     public static getInstance(): Game {
