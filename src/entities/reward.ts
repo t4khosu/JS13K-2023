@@ -29,6 +29,10 @@ class Reward extends GameObjectClass {
     }
 }
 
+class MaxHealthReward extends Reward{
+
+}
+
 class HealthReward extends Reward{
     constructor() {
         super(undefined, 10)
@@ -56,4 +60,4 @@ class WeaponReward extends Reward{
     }
 }
 
-export { Reward, HealthReward, WeaponReward }
+export { Reward, HealthReward, WeaponReward, MaxHealthReward }

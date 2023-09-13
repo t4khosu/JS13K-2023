@@ -1,4 +1,4 @@
-import {HealthReward, Reward, StatusReward} from "../entities/reward";
+import {HealthReward, MaxHealthReward, Reward, StatusReward} from "../entities/reward";
 import {randInt} from "kontra";
 import {Player} from "../entities/player";
 
@@ -21,7 +21,7 @@ export const DASH_DISTANCE_REWARD = 'dashDistance'
 
 function rewardFactory() {
     return [
-        () => new Reward({maxHealth: 10, health: 5, name: MAX_HEALTH_REWARD}, 9, "Increase Max Health"),
+        () => new MaxHealthReward({maxHealth: 10, name: MAX_HEALTH_REWARD}, 9, "Increase Max Health"),
         () => new HealthReward(),
         () => new Reward({strength: 1.5, name: STRENGTH_REWARD}, 11, "Increase Strength", true),
         () => new Reward({attackSpeed: 4, name: ATTACK_SPEED_REWARD}, 12, "Increase Attack Speed", true),
