@@ -2,10 +2,10 @@ import {Sprite, Vector} from "kontra";
 import {Timer} from "./timer";
 import {Entity} from "./entity";
 import Room from "../rooms/room";
-import {Dagger} from "./weapons/daggers";
+import {Dagger, Sword} from "./weapons/daggers";
 import {playSound, TAKE_DAMAGE} from "../utils/sound";
 import {StatusAttributes} from "./status-attributes";
-import {HealthReward, Reward, WeaponReward} from "./reward";
+import {HealthReward, MaxHealthReward, Reward, WeaponReward} from "./reward";
 import {
     ATTACK_SPEED_REWARD, DASH_DISTANCE_REWARD,
     DASH_TIMEOUT_REWARD,
@@ -119,7 +119,14 @@ export class Character extends Entity implements StatusAttributes {
 
         if(reward instanceof WeaponReward){
             this.handWeapon(reward.weapon);
+            if(reward.weapon instanceof Sword){
+                this.attackSpeed *= 1.5;
+            }
             return;
+        }
+
+        if(reward instanceof  MaxHealthReward){
+            this.health += 5;
         }
 
         const name = reward.status.name
